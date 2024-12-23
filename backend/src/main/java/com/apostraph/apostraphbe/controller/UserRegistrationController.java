@@ -1,0 +1,29 @@
+package com.apostraph.apostraphbe.controller;
+
+import com.apostraph.apostraphbe.dto.RegistrationRequest;
+import com.apostraph.apostraphbe.service.UserRegistrationService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/registration")
+public class UserRegistrationController {
+
+    private final UserRegistrationService userRegistrationService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void processRegistrationRequest(RegistrationRequest registrationRequest) {
+
+        log.info("Processing registration request.");
+        userRegistrationService.processRegistrationRequest(registrationRequest);
+    }
+
+}

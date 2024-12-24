@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/registration")
+@RequestMapping("/auth/registration")
 public class UserRegistrationController {
 
     private final UserRegistrationService userRegistrationService;

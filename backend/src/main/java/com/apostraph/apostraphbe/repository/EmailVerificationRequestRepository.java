@@ -10,4 +10,6 @@ public interface EmailVerificationRequestRepository extends JpaRepository<EmailV
 
     Optional<EmailVerificationRequestEntity> findByUserId(UUID userId);
 
+    Optional<EmailVerificationRequestEntity> findByHash(String hash);
+
 }

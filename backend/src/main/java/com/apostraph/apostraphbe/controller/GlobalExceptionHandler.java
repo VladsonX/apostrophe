@@ -1,6 +1,7 @@
 package com.apostraph.apostraphbe.controller;
 
 import com.apostraph.apostraphbe.dto.ErrorMessage;
+import com.apostraph.apostraphbe.exception.InvalidTargetSystemException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,13 @@ public class GlobalExceptionHandler {
     public ErrorMessage handle400Exception(Exception exception) {
 
         return handleException(exception, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidTargetSystemException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorMessage handleInvalidTargetSystemException(InvalidTargetSystemException e) {
+
+        return handleException(e, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)

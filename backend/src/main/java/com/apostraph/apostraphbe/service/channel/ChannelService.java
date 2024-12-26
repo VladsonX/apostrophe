@@ -9,6 +9,7 @@ import com.apostraph.apostraphbe.mapper.ChannelMapper;
 import com.apostraph.apostraphbe.repository.ChannelRepository;
 import com.apostraph.apostraphbe.security.AuthenticatedRequestProperties;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,17 +51,48 @@ public class ChannelService {
 
     public Channel getChannelById(UUID channelId, AuthenticatedRequestProperties properties) {
 
-        ChannelEntity channelEntity = channelRepository.findById(channelId)
+        ChannelEntity channelEntity = findChannelEntityById(channelId);
+
+        if (properties.getLoginTargetSystem() == LoginTargetSystem.STUDIO) {
+            validateUserHasAccessToChannel(channelEntity, properties.getUserId());
+        }
+
+        return channelMapper.mapToDto(channelEntity);
+    }
+
+    public Channel updateChannel(UUID channelId, Channel updatedChannel, AuthenticatedRequestProperties properties) {
+
+        validateTargetSystem(properties, LoginTargetSystem.STUDIO);
+
+        ChannelEntity channelEntity = findChannelEntityById(channelId);
+
+
+        if (!StringUtils.isBlank(updatedChannel.getName())) {
+            channelEntity.setName(updatedChannel.getName());
+        }
+
+        if (!StringUtils.isBlank(updatedChannel.getDescription())) {
+            channelEntity.setDescription(updatedChannel.getDescription());
+        }
+
+        ChannelEntity savedChannelEntity = channelRepository.save(channelEntity);
+        return channelMapper.mapToDto(savedChannelEntity);
+    }
+
+    private ChannelEntity findChannelEntityById(UUID channelId) {
+
+        return channelRepository.findById(channelId)
                 .orElseThrow(() -> {
                     String message = format("Could not find channel by id: [%s].", channelId);
                     return new NotFoundException(message);
                 });
+    }
 
-        if (!properties.getUserId().equals(channelEntity.getOwnerId())) {
+    private void validateUserHasAccessToChannel(ChannelEntity channelEntity, UUID currentUser) {
+
+        if (!currentUser.equals(channelEntity.getOwnerId())) {
             throw new UnauthorizedAccessException("Access denied.");
         }
-
-        return channelMapper.mapToDto(channelEntity);
     }
 
 }

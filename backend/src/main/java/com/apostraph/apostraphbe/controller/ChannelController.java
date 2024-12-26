@@ -6,6 +6,7 @@ import com.apostraph.apostraphbe.service.channel.ChannelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
@@ -49,5 +50,15 @@ public class ChannelController {
 
         log.info("Getting channel by id: [{}].", channelId);
         return channelService.getChannelById(channelId, properties);
+    }
+
+    @PatchMapping("/{channelId}")
+    public Channel updateChannel(
+            @PathVariable UUID channelId,
+            @RequestBody Channel channel,
+            @RequestAttribute("properties") AuthenticatedRequestProperties properties) {
+
+        log.info("Updating channel: [{}].", channelId);
+        return channelService.updateChannel(channelId, channel, properties);
     }
 }

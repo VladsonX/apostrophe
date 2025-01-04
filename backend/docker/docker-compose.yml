@@ -1,0 +1,12 @@
+services:
+  app:
+    extends:
+      file: docker-compose.build.yml
+      service: mvn
+    container_name: apostrophebe
+    ports:
+      - "9090:8080"
+    mem_limit: 500m
+    mem_reservation: 450m
+    command: spring-boot:run
+    env_file: .env

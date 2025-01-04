@@ -23,7 +23,7 @@ public class MediaController {
     private final MediaService mediaService;
 
     @PostMapping
-    public UUID createMedia(@RequestParam("file") MultipartFile file) {
+    public String createMedia(@RequestParam("file") MultipartFile file) {
 
         log.info("Putting media.");
         return mediaService.createMedia(file);

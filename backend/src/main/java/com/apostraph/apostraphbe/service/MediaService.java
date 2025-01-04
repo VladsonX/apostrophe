@@ -27,11 +27,11 @@ public class MediaService {
     @Value("${s3.bucket.name}")
     private String s3BucketName;
 
-    public UUID createMedia(MultipartFile file) {
+    public String createMedia(MultipartFile file) {
 
         UUID key = UUID.randomUUID();
         s3Client.putObject(buildPutRequest(key, file), RequestBody.fromBytes(getBytes(file)));
-        return key;
+        return key.toString();
     }
 
     public ResponseEntity<byte[]> getMedia(UUID key) {

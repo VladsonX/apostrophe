@@ -1,4 +1,4 @@
 Start:
 
 docker build -t apostrophe-studio
-docker run -p 8081:3000 apostrophe-studio
+docker run -p 80:80 apostrophe-studio

@@ -5,7 +5,7 @@ DOCKER ?= docker
 MVN ?= ${DOCKER_COMPOSE} run --rm mvn -B
 
 run:
-	${DOCKER_COMPOSE} -f ./docker/docker-compose.yml up --force-recreate app
+	${DOCKER_COMPOSE} -f ./docker/docker-compose.yml up -d --force-recreate app
 
 unit-tests:
 	${MVN} test

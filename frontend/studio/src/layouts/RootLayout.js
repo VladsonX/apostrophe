@@ -1,34 +1,35 @@
 import { Outlet, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import NavigationBar from "../components/navigation/NavigationBar";
-import './RootLayout.css'
+import "./RootLayout.css";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 
 const RootLayout = () => {
+  // test
 
-    const [isAuthenticated, setIsAuthenticated] = useState();
-    const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = getCurrentJwtToken();
-        setIsAuthenticated(!!token);
-    }, [])
+  useEffect(() => {
+    const token = getCurrentJwtToken();
+    setIsAuthenticated(!!token);
+  }, []);
 
-    if (isAuthenticated === null) {
-        // TODO: return loading page instead
-        return null;
-    }
+  if (isAuthenticated === null) {
+    // TODO: return loading page instead
+    return null;
+  }
 
-    if (!isAuthenticated) {
-        navigate("/welcome");
-    }
+  if (!isAuthenticated) {
+    navigate("/welcome");
+  }
 
-    return (
-        <main className="root-layout">
-            <NavigationBar />
-            <Outlet />
-        </main>
-    );
-}
+  return (
+    <main className="root-layout">
+      <NavigationBar />
+      <Outlet />
+    </main>
+  );
+};
 
 export default RootLayout;

@@ -1,4 +1,4 @@
 Start:
 
-docker build -t apostrophe-studio
-docker run -p 80:80 apostrophe-studio
+docker build -t apostrophe-studio .
+docker run -d -p 80:80 apostrophe-studio

@@ -1,0 +1,43 @@
+@use "./variables" as *;
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap");
+// @import '~bootstrap/scss/bootstrap';
+
+:root {
+
+// Color variables
+  --soft-gray: #{$soft-gray};
+  --deep-brown: #{$deep-brown};
+  --main-gradient: #{$main-gradient};
+  --project-black: #{$project-black};
+  --white: #{$white};
+  --soft-purple: #{$soft-purple};
+  --settings: #{$settings};
+  --link: #{$link};
+  --glassy-gray: #{$glassy-gray};
+  --fading: #{$fading};
+  --transparent: #{$transparent};
+  --placeholder: #{$placeholder};
+
+  // Size variables:
+  --radius: #{$radius};
+}
+
+* {
+  padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  border: none;
+  transition: .3s all ease;
+}
+
+
+body {
+  font-family: "Lexend", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  font-style: normal;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--deep-brown);
+}

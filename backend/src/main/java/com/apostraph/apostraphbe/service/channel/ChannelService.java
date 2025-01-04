@@ -75,6 +75,10 @@ public class ChannelService {
             channelEntity.setDescription(updatedChannel.getDescription());
         }
 
+        if (updatedChannel.getAvatar() != null) {
+            channelEntity.setAvatar(updatedChannel.getAvatar());
+        }
+
         ChannelEntity savedChannelEntity = channelRepository.save(channelEntity);
         return channelMapper.mapToDto(savedChannelEntity);
     }

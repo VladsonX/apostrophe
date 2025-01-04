@@ -17,6 +17,7 @@ public class Channel {
     private UUID channelId;
     private String name;
     private String description;
+    private UUID avatar;
     private UUID ownerId;
     private List<Topic> topics;
 

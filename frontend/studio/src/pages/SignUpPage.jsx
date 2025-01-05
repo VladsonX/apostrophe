@@ -55,7 +55,7 @@ const SignUpPage = () => {
     <section className="signUp">
       <h1 className="logo signUp__logo">Sign up!</h1>
       <div className="signUp__card">
-        <form onSubmit={handleSubmit} className="signUp__form">
+        <form id ='signUpForm' onSubmit={handleSubmit} className="signUp__form">
           <label htmlFor="emailInput" className="signUp__label">
             Your email:
           </label>
@@ -100,7 +100,7 @@ const SignUpPage = () => {
             className="signUp__input"
             placeholder="Johnson"
           />
-          <SubmitButton type='submit' text="Sign up" />
+          <SubmitButton type='submit' form="signUpForm" text="Sign up" />
         </form>
       </div>
     </section>

@@ -10,7 +10,7 @@ import "./WelcomePage.scss";
 const WelcomePage = () => {
   const [emailInput, setEmalInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const [isAuthenticated, setIsAuthenticated] = useState();
 
@@ -28,12 +28,13 @@ const WelcomePage = () => {
   }
 
   const handleLogin = async (e) => {
+    e.preventDefault();
     const formData = {
       email: emailInput,
       password: passwordInput,
-      targetSystem: "STUDIO"
+      targetSystem: "STUDIO",
     };
-  
+
     try {
       const response = await fetch(`${serverURL}/auth/login`, {
         method: "POST",
@@ -42,13 +43,13 @@ const WelcomePage = () => {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log("Login successful:", data);
         if (data.jwt) {
           putCurrentJwtToken(data.jwt);
-          navigate("/"); 
+          navigate("/");
         }
       } else {
         const errorData = await response.json();
@@ -66,7 +67,7 @@ const WelcomePage = () => {
       <div className="welcome__wrapper">
         <h1 className="logo">Apostrophe</h1>
         <div className="welcome__card">
-          <form className="welcome__form">
+          <form onSubmit={handleLogin} id="logInForm" className="welcome__form">
             <label className="welcome__form-label" htmlFor="emailInput">
               Your email:
             </label>
@@ -94,10 +95,18 @@ const WelcomePage = () => {
           </form>
         </div>
         <div className="welcome__buttons-wrapper">
-          <button onClick={handleLogin} className="welcome__logIn">
+          <button
+            type="submit"
+            form="logInForm"
+            value="Submit"
+            className="welcome__logIn"
+          >
             Log In
           </button>
-          <button onClick={() => navigate("/signup")} className="welcome__signUp">
+          <button
+            onClick={() => navigate("/signup")}
+            className="welcome__signUp"
+          >
             Sign Up
           </button>
         </div>

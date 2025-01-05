@@ -1,8 +1,13 @@
-function MainPage() {
+import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
+import "./MainPage.scss";
 
-    return (
-        <div>I'm main page.</div>
-    );
+function MainPage() {
+  return (
+      <section className="mainPage">
+      <TopNavigationBar />
+
+      </section>
+  );
 }
 
 export default MainPage;

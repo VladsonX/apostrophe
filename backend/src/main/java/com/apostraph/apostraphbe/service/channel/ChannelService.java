@@ -2,16 +2,23 @@ package com.apostraph.apostraphbe.service.channel;
 
 import com.apostraph.apostraphbe.dto.Channel;
 import com.apostraph.apostraphbe.dto.LoginTargetSystem;
+import com.apostraph.apostraphbe.dto.Topic;
 import com.apostraph.apostraphbe.entity.ChannelEntity;
+import com.apostraph.apostraphbe.entity.PostEntity;
 import com.apostraph.apostraphbe.exception.NotFoundException;
 import com.apostraph.apostraphbe.exception.UnauthorizedAccessException;
 import com.apostraph.apostraphbe.mapper.ChannelMapper;
+import com.apostraph.apostraphbe.mapper.TopicMapper;
 import com.apostraph.apostraphbe.repository.ChannelRepository;
+import com.apostraph.apostraphbe.repository.PostRepository;
 import com.apostraph.apostraphbe.security.AuthenticatedRequestProperties;
+import com.apostraph.apostraphbe.util.TargetSystemUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,7 +31,10 @@ public class ChannelService {
 
     private final ChannelRepository channelRepository;
     private final ChannelValidator channelValidator;
+    private final TopicValidator topicValidator;
     private final ChannelMapper channelMapper;
+    private final TopicMapper topicMapper;
+    private final PostRepository postRepository;
 
     public Channel createChannel(Channel channel, AuthenticatedRequestProperties properties) {
 
@@ -66,6 +76,9 @@ public class ChannelService {
 
         ChannelEntity channelEntity = findChannelEntityById(channelId);
 
+        if (!properties.getUserId().equals(channelEntity.getOwnerId())) {
+            throw new UnauthorizedAccessException("Access denied.");
+        }
 
         if (!StringUtils.isBlank(updatedChannel.getName())) {
             channelEntity.setName(updatedChannel.getName());
@@ -81,6 +94,35 @@ public class ChannelService {
 
         ChannelEntity savedChannelEntity = channelRepository.save(channelEntity);
         return channelMapper.mapToDto(savedChannelEntity);
+    }
+
+    @Transactional
+    public void enableTopics(UUID channelId, Topic defaultTopic, AuthenticatedRequestProperties properties) {
+
+        TargetSystemUtils.validateTargetSystem(properties, LoginTargetSystem.STUDIO);
+
+        ChannelEntity channelEntity = findChannelEntityById(channelId);
+
+        if (!properties.getUserId().equals(channelEntity.getOwnerId())) {
+            throw new UnauthorizedAccessException("Access denied.");
+        }
+
+        if (channelEntity.getTopicsEnabled()) {
+            throw new IllegalArgumentException("Topics have been already created.");
+        }
+
+        topicValidator.validateTopic(defaultTopic);
+        topicValidator.validateTopicNameIsAvailable(defaultTopic, channelEntity.getTopics());
+
+        channelEntity.setTopicsEnabled(true);
+        channelEntity.setTopics(Collections.singletonList(topicMapper.mapToEntity(defaultTopic)));
+
+        ChannelEntity savedChannelEntity = channelRepository.save(channelEntity);
+
+        List<PostEntity> postEntities = postRepository.findAllByChannel(savedChannelEntity);
+        postEntities.forEach(post -> post.setTopic(savedChannelEntity.getTopics().getFirst()));
+
+        postRepository.saveAll(postEntities);
     }
 
     private ChannelEntity findChannelEntityById(UUID channelId) {

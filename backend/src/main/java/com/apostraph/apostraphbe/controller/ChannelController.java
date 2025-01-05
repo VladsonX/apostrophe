@@ -1,6 +1,7 @@
 package com.apostraph.apostraphbe.controller;
 
 import com.apostraph.apostraphbe.dto.Channel;
+import com.apostraph.apostraphbe.dto.Topic;
 import com.apostraph.apostraphbe.security.AuthenticatedRequestProperties;
 import com.apostraph.apostraphbe.service.channel.ChannelService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,5 +62,16 @@ public class ChannelController {
 
         log.info("Updating channel: [{}].", channelId);
         return channelService.updateChannel(channelId, channel, properties);
+    }
+
+    @PutMapping("/{channelId}/topics/enable")
+    public void enableTopics(
+            @PathVariable UUID channelId,
+            @RequestBody Topic defaultTopic,
+            @RequestAttribute("properties") AuthenticatedRequestProperties properties
+    ) {
+
+        log.info("Enabling topic mode for channel: [{}].", channelId);
+        channelService.enableTopics(channelId, defaultTopic, properties);
     }
 }

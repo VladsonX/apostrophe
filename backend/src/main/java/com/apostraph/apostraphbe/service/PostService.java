@@ -43,6 +43,10 @@ public class PostService {
         ChannelEntity channel = getChannel(post, properties.getUserId());
         TopicEntity topic = channel.getTopicsEnabled() ? getTopic(post, channel) : null;
 
+        if (channel.getTopicsEnabled() && topic == null) {
+            throw new IllegalArgumentException("Post must be assigned to topic.");
+        }
+
         postValidator.validate(post);
 
         PostEntity postEntity = postMapper.mapToEntity(post);

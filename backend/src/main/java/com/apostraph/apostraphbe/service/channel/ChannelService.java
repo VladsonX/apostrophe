@@ -120,7 +120,7 @@ public class ChannelService {
         ChannelEntity savedChannelEntity = channelRepository.save(channelEntity);
 
         List<PostEntity> postEntities = postRepository.findAllByChannel(savedChannelEntity);
-        postEntities.forEach(post -> post.setTopic(savedChannelEntity.getTopics().getFirst()));
+        postEntities.forEach(post -> post.setTopic(savedChannelEntity.getTopics().get(0)));
 
         postRepository.saveAll(postEntities);
     }

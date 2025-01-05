@@ -41,7 +41,7 @@ public class PostService {
         TargetSystemUtils.validateTargetSystem(properties, LoginTargetSystem.STUDIO);
 
         ChannelEntity channel = getChannel(post, properties.getUserId());
-        TopicEntity topic = getTopic(post, channel);
+        TopicEntity topic = channel.getTopicsEnabled() ? getTopic(post, channel) : null;
 
         postValidator.validate(post);
 

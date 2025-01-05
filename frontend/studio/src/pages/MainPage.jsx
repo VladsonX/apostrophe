@@ -8,8 +8,10 @@ import { serverURL } from "../server";
 import { useEffect, useState } from "react";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import CreateChannelListItem from "../components/CreateChannelListItem";
+import { useNavigate } from "react-router";
 
 function MainPage() {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [channels, setChannels] = useState([]);
   const [error, setError] = useState(null);
@@ -20,6 +22,7 @@ function MainPage() {
       if (!token) {
         setError("User is not authenticated");
         setLoading(false);
+        navigate("welcome");
         return;
       }
 
@@ -36,7 +39,6 @@ function MainPage() {
         }
         const data = await res.json();
         setChannels(data);
-        console.log(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -51,17 +53,12 @@ function MainPage() {
       <TopNavigationBar icon={<FaHome />} name="My Channels" />
       <MainContainer>
         <ChannelsList>
-          {channels.map((channel) => {
-            console.log(channel.avatar);
-            return (
-              <ChannelListItem
-                key={channel.channelId}
-                name={channel.name}
-                logo={channel.avatar}
-                path={channel.channelId}
-              />
-            );
-          })}
+          {channels.map((channel) => (
+            <ChannelListItem
+              channel={channel}
+              key={channel.channelId}
+            />
+          ))}
           <CreateChannelListItem />
         </ChannelsList>
       </MainContainer>

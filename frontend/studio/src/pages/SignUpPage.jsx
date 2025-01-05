@@ -25,21 +25,16 @@ const SignUpPage = () => {
     };
 
     try {
-      const response = await fetch(
-        `${serverURL}/auth/registration`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${serverURL}/auth/registration`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       if (response.ok) {
-
-
-        navigate('/checkMailBox', {state: {email: userEmail}});
+        navigate("/checkMailBox", { state: { email: userEmail } });
       } else {
         const errorData = await response.json();
         console.error("Registration failed:", errorData);
@@ -55,7 +50,7 @@ const SignUpPage = () => {
     <section className="signUp">
       <h1 className="logo signUp__logo">Sign up!</h1>
       <div className="signUp__card">
-        <form id ='signUpForm' onSubmit={handleSubmit} className="signUp__form">
+        <form id="signUpForm" onSubmit={handleSubmit} className="signUp__form">
           <label htmlFor="emailInput" className="signUp__label">
             Your email:
           </label>
@@ -100,7 +95,7 @@ const SignUpPage = () => {
             className="signUp__input"
             placeholder="Johnson"
           />
-          <SubmitButton type='submit' form="signUpForm" text="Sign up" />
+          <SubmitButton type="submit" form="signUpForm" text="Sign up" />
         </form>
       </div>
     </section>

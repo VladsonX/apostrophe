@@ -3,7 +3,7 @@ services:
     image: maven:3.8.5-openjdk-17
     volumes:
       - ${PWD}:${PWD}
-      - /tmp/mediacache:/home/ec2-user/mediacache
+      - /home/ec2-user/mediacache:/tmp/mediacache
     working_dir: ${PWD}
 
   mvn:

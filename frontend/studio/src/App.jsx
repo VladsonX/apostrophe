@@ -21,7 +21,7 @@ function App() {
         </Route>
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/signup" element={<CheckMailBoxPage />} />
+        <Route path="/checkMailBox" element={<CheckMailBoxPage />} />
       </Route>
     )
   );

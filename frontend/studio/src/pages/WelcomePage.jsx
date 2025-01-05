@@ -10,7 +10,7 @@ import "./WelcomePage.scss";
 const WelcomePage = () => {
   const [emailInput, setEmalInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const navigate = useNavigate(); // Call useNavigate at the top level
+  const navigate = useNavigate(); 
 
   const [isAuthenticated, setIsAuthenticated] = useState();
 
@@ -47,8 +47,8 @@ const WelcomePage = () => {
         const data = await response.json();
         console.log("Login successful:", data);
         if (data.jwt) {
-          putCurrentJwtToken(data.jwt); // Сохраняем токен в localStorage
-          navigate("/"); // Перенаправляем на главную страницу
+          putCurrentJwtToken(data.jwt);
+          navigate("/"); 
         }
       } else {
         const errorData = await response.json();

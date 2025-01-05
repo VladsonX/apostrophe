@@ -37,13 +37,9 @@ const SignUpPage = () => {
       );
 
       if (response.ok) {
-        // const data = await response.json();
-        // console.log("Registration successful:", data);
-        // putCurrentJwtToken(data.token);
-        // navigate("welcome"); 
-        
 
-        // navigate to check your mail box page
+
+        navigate('/checkMailBox', {state: {email: userEmail}});
       } else {
         const errorData = await response.json();
         console.error("Registration failed:", errorData);
@@ -99,7 +95,6 @@ const SignUpPage = () => {
           </label>
           <input
             onChange={(e) => setUserLastName(e.target.value)}
-            required
             type="text"
             id="lastNameInput"
             className="signUp__input"

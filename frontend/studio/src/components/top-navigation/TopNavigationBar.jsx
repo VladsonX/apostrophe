@@ -1,15 +1,18 @@
-import { NavLink } from 'react-router'
-import './TopNavigationBar.scss'
+import "./TopNavigationBar.scss";
+import { IconContext } from "react-icons";
 
-const TopNavigationBar = () => {
+const TopNavigationBar = ({ name, icon }) => {
   return (
-    <section className='top-navigation-bar'>
-        <div className="top-path">
-            <NavLink icon='' title='' path='' />
-        </div>
-        <hr className="top-divider" />
+    <section className="top-nav">
+      <div className="top-nav-path">
+        <IconContext.Provider value={{ color: "white" }}>
+          <div className="top-nav-icon">{icon}</div>
+        </IconContext.Provider>
+        <span className="top-nav-title">{name}</span>
+      </div>
+      <hr className="top-nav-divider" />
     </section>
-  )
-}
+  );
+};
 
-export default TopNavigationBar
+export default TopNavigationBar;

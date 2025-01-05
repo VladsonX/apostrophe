@@ -1,0 +1,34 @@
+@use "../index.scss";
+
+.channel-list-item_create {
+  &-text {
+    font-weight: 300;
+    font-size: 1.25rem;
+    color: var(--white);
+    // &:hover {
+    //     color: var(--soft-purple);
+    // }
+  }
+  &-add {
+    margin-right: .5rem;
+    cursor: pointer;
+    // &:hover {
+    //   fill: var(--soft-purple);
+    // }
+  }
+  &-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: var(--radius);
+    height: 40px;
+    &:hover {
+        .channel-list-item_create-text, .channel-list-item_create-add {
+            transition: .3s all ease;
+            color: var(--soft-purple);
+            fill: var(--soft-purple);
+        }
+    }
+  }
+}

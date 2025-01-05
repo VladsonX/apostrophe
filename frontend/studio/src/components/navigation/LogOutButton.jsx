@@ -16,7 +16,7 @@ const LogOutButton = ({ icon, title }) => {
       <IconContext.Provider value={{ color: "white" }}>
         <div className="page-button-icon">{icon}</div>
       </IconContext.Provider>
-      <span className="page-button-title">{title}</span>
+      <span className="page-button-title log-out-button__title">{title}</span>
     </button>
   );
 };

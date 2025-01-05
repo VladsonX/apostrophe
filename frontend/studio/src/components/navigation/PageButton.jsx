@@ -5,8 +5,8 @@ import { IconContext } from "react-icons";
 const PageButton = ({ title, path, icon }) => {
   return (
     <NavLink className="page-button" key={title} to={path}>
-      <IconContext.Provider value={{ color: 'white'}}>
-        <div className="page-button-icon">{icon}</div>
+      <IconContext.Provider value={{ color: 'white', className: 'page-button-icon'}}>
+        <div className>{icon}</div>
       </IconContext.Provider>
       <span className="page-button-title">{title}</span>
     </NavLink>

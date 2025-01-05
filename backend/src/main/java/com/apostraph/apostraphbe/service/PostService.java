@@ -77,6 +77,11 @@ public class PostService {
         postValidator.validate(post);
         postMapper.updateEntityFromDto(post, postEntity);
 
+        if (postEntity.getChannel().getTopicsEnabled() && post.getTopic() != null) {
+            TopicEntity topicEntity = getTopic(post, postEntity.getChannel());
+            postEntity.setTopic(topicEntity);
+        }
+
         long estimatedReadingTime = postEstimatedReadTimeCalculator.calculate(postEntity.getContent());
         postEntity.setEstimatedReadingTime(estimatedReadingTime);
 

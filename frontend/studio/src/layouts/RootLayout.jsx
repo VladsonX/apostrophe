@@ -1,11 +1,10 @@
 import { Outlet, useNavigate } from "react-router";
 import { useEffect, useState } from "react";
 import NavigationBar from "../components/navigation/NavigationBar";
-import "./RootLayout.css";
+import "./RootLayout.scss";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 
 const RootLayout = () => {
-  // test
 
   const [isAuthenticated, setIsAuthenticated] = useState();
   const navigate = useNavigate();

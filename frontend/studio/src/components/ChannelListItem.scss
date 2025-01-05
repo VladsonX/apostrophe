@@ -1,0 +1,45 @@
+@use '../index.scss';
+
+.channel-list-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    height: 60px;
+    width: 100%;
+    border-bottom: 1px solid transparent;
+    border-image: var(--glassy-gray);
+    border-image-slice: 1;
+    border-radius: var(--radius);
+    &:hover {
+        background: var(--glassy-gray);
+    }
+    &__link {
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        border-radius: var(--radius);
+        height: 40px;
+    }
+    &__logo {
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius);
+        display: inline-block;
+        margin-right: 0.75rem;
+    }
+    &__name {
+        font-weight: 300;
+        font-size: 1.25rem;
+        color: var(--white);
+    }
+    &__edit {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        &:hover {
+            fill: var(--soft-purple);
+        }
+    }
+}

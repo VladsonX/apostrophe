@@ -18,6 +18,7 @@ public class Channel {
     private String name;
     private String description;
     private UUID avatar;
+    private Boolean topicsEnabled;
     private UUID ownerId;
     private List<Topic> topics;
 

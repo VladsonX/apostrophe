@@ -32,6 +32,8 @@ public class ChannelEntity {
     @Column(nullable = false)
     private String description;
 
+    private Boolean topicsEnabled;
+
     private UUID avatar;
 
     @Column(nullable = false)

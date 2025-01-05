@@ -33,6 +33,8 @@ public class TopicService {
         ChannelEntity channelEntity = findChannelEntityById(channelId);
         validateUserCanAccessChannel(channelEntity, properties.getUserId());
 
+        validateTopicModeIsEnabled(channelEntity);
+
         validateTopic(topic);
         validateTopicNameIsAvailable(topic, channelEntity.getTopics());
 
@@ -72,6 +74,13 @@ public class TopicService {
 
         if (existingTopics.stream().anyMatch(t -> topicName.equals(t.getName()))) {
             throw new NameConflictException("Topic with this name already exist.");
+        }
+    }
+
+    private void validateTopicModeIsEnabled(ChannelEntity channelEntity) {
+
+        if (!channelEntity.getTopicsEnabled()) {
+            throw new IllegalArgumentException("Topics are not enabled in parent channel.");
         }
     }
 

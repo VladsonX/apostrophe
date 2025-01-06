@@ -9,6 +9,7 @@ import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import CreateChannelListItem from "../components/create-channel-items/CreateChannelListItem";
 import { useNavigate } from "react-router";
 import MainSection from "../components/main-components/MainSection";
+import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -34,11 +35,15 @@ function MainPage() {
             Authorization: `Bearer ${token}`,
           },
         });
+
         if (!res.ok) {
           throw new Error("Failed to fetch channels");
         }
-        const data = await res.json();
-        setChannels(data);
+
+        const channels = await res.json();
+        enrichChannelsWithLogoPlaceholderBackground(channels);
+        setChannels(channels);
+
       } catch (err) {
         setError(err.message);
       } finally {

@@ -16,7 +16,21 @@ const ChannelListItem = ({ channel }) => {
         key={channel.name}
         to={channel.channelId}
       >
-        <img className="channel-list-item__logo" src={serverURL + "/api/v1/media/" +  channel.avatar} alt={channel.name} />
+        {
+          channel.avatar
+            ? <img
+              className="channel-list-item__logo"
+              src={serverURL + "/api/v1/media/" + channel.avatar}
+              alt={channel.name}
+            />
+            : <div
+              className="channel-list-item__logo channel-list-item__logo-placeholder"
+              style={{ backgroundColor: channel.logoPlaceholderColor }}
+            >
+              <span>{channel.name.charAt(0).toUpperCase()}</span>
+            </div>
+        }
+
         <span className="channel-list-item__name">{channel.name}</span>
         <IconContext.Provider
           value={{

@@ -34,7 +34,7 @@ public class SubscriptionService {
 
         TargetSystemUtils.validateTargetSystem(properties, LoginTargetSystem.READER);
         validateSubscription(subscription);
-        validateNotAlreadyCreate(subscription, properties.getUserId());
+        validateNotAlreadyCreated(subscription, properties.getUserId());
 
         ChannelEntity channelEntity = channelRepository.findById(subscription.getChannel().getChannelId())
                 .orElseThrow(() -> new NotFoundException("Could not find channel."));
@@ -66,6 +66,25 @@ public class SubscriptionService {
                 .toList();
     }
 
+    @Transactional
+    public void deleteSubscription(UUID channelId, UUID topicId, AuthenticatedRequestProperties properties) {
+
+        TargetSystemUtils.validateTargetSystem(properties, LoginTargetSystem.READER);
+
+        List<SubscriptionEntity> subscriptionEntities = subscriptionRepository.findByUserEntity(
+                UserEntity.builder().userId(properties.getUserId()).build()
+        );
+
+        List<SubscriptionEntity> subscriptionEntitiesToDelete = subscriptionEntities.stream()
+                .filter(s -> channelId.equals(s.getChannelEntity().getChannelId()))
+                .filter(topicId == null
+                        ? s -> true
+                        : s -> topicId.equals(s.getTopicEntity().getTopicId()))
+                .toList();
+
+        subscriptionRepository.deleteAll(subscriptionEntitiesToDelete);
+    }
+
     private void validateSubscription(Subscription subscription) {
 
         if (subscription.getChannel() == null || subscription.getChannel().getChannelId() == null) {
@@ -73,7 +92,7 @@ public class SubscriptionService {
         }
     }
 
-    private void validateNotAlreadyCreate(Subscription subscription, UUID currentUser) {
+    private void validateNotAlreadyCreated(Subscription subscription, UUID currentUser) {
 
         Topic topic = subscription.getTopic();
 

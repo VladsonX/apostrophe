@@ -2,6 +2,7 @@ package com.apostraph.apostraphbe.controller;
 
 import com.apostraph.apostraphbe.dto.Post;
 import com.apostraph.apostraphbe.security.AuthenticatedRequestProperties;
+import com.apostraph.apostraphbe.service.LatestPostsService;
 import com.apostraph.apostraphbe.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import java.util.UUID;
 public class PostController {
 
     private final PostService postService;
+    private final LatestPostsService latestPostsService;
 
     @PostMapping
     public Post createPost(
@@ -69,6 +71,17 @@ public class PostController {
 
         log.info("Getting post by id: [{}].", postId);
         return postService.getPost(postId);
+    }
+
+    @GetMapping("/latest")
+    public List<Post> getLatestPosts(
+            @RequestParam Integer from,
+            @RequestParam Integer to,
+            @RequestAttribute("properties") AuthenticatedRequestProperties properties
+    ) {
+
+        log.info("Getting latest posts.");
+        return latestPostsService.getLatestPosts(from, to, properties);
     }
 
 }

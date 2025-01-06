@@ -1,12 +1,12 @@
 @use "../../index.scss";
 
 .channel-settings {
-  &__element {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
-  }
+  // &__element {
+  //   width: 100%;
+  //   display: flex;
+  //   flex-direction: column;
+  //   margin-bottom: 2rem;
+  // }
 
   &__input {
     transition: 0.1s all ease;
@@ -36,9 +36,6 @@
       justify-self: flex-end;
     }
     &-wrapper {
-    //   display: flex;
-    //   flex-direction: column;
-    //   align-items: flex-end;
       gap: 0.5rem;
     }
   }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./CreateChannelInput.scss";
 import CreateChannelTitle from "./CreateChannelTitle";
 
-const ChannelSettingsInput = ({ name, placeholder, maxCharCount, type }) => {
+const ChannelSettingsInput = ({ name, placeholder, maxCharCount, type, description }) => {
   const [charCount, setCharCount] = useState();
   const [value, setValue] = useState("");
 
@@ -13,8 +13,7 @@ const ChannelSettingsInput = ({ name, placeholder, maxCharCount, type }) => {
     setValue(textarea.value);
   };
   return (
-    <div className="channel-settings__element">
-        <CreateChannelTitle name={name} />
+    <>
       <div className="channel-settings__input-wrapper">
         {type === "description" ? (
           <textarea
@@ -26,6 +25,7 @@ const ChannelSettingsInput = ({ name, placeholder, maxCharCount, type }) => {
             placeholder={placeholder}
             className="channel-settings__input"
             type="text"
+            value={description ? description : placeholder}
           ></textarea>
         ) : (
           <input
@@ -34,6 +34,7 @@ const ChannelSettingsInput = ({ name, placeholder, maxCharCount, type }) => {
             placeholder={placeholder}
             className="channel-settings__input"
             type="text"
+            value={name ? name : placeholder}
           />
         )}
 
@@ -41,7 +42,7 @@ const ChannelSettingsInput = ({ name, placeholder, maxCharCount, type }) => {
           {charCount ? charCount : 0}/{maxCharCount}
         </span>
       </div>
-    </div>
+    </>
   );
 };
 

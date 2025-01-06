@@ -19,7 +19,8 @@ function App() {
         <Route path="/" element={<RootLayout />}>
           <Route index element={<MainPage />} />
           <Route path="settings" element={<SettingsPage />} /> */ TODO */
-          <Route path="createchannel" element={<CreateChannelPage/>}></Route>
+          <Route path="channel/createchannel/:id" element={<CreateChannelPage/>}></Route>
+          <Route path="channel/createchannel" element={<CreateChannelPage/>}></Route>
         </Route>
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/signup" element={<SignUpPage />} />

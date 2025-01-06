@@ -1,6 +1,10 @@
-@use '../../index.scss';
+@use "../../index.scss";
 
 .channels-list {
+  list-style-type: none;
+  width: 100%;
+  &_small {
     list-style-type: none;
-    width: 100%;
+    width: 30%;
+  }
 }

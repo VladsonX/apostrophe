@@ -1,2 +1,11 @@
 @use '../../index.scss';
 
+.create-channel-topics{
+    &__wrapper{
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        gap: 2rem;
+    }
+}
+

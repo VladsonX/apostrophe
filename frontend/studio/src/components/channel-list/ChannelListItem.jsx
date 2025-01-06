@@ -4,19 +4,21 @@ import { IconContext } from "react-icons";
 import { NavLink } from "react-router";
 import { serverURL } from "../../server";
 
-const ChannelListItem = ({ channel }) => {
+const ChannelListItem = ({ channel, type }) => {
   return (
-    <li className="channel-list-item">
-      <NavLink
-        className={({ isActive }) =>
-          isActive
-            ? "channel-list-item__link active"
-            : "channel-list-item__link"
-        }
-        key={channel.name}
-        to={channel.channelId}
-      >
-        {
+    <li 
+    className={type === 'topic' ? "channel-list-item channel-list-item_topic" : "channel-list-item"}>
+      {type !== 'topic' ? (
+        <NavLink
+          className={({ isActive }) =>
+            isActive
+              ? "channel-list-item__link active"
+              : "channel-list-item__link"
+          }
+          key={channel.name}
+          to={"channel/createchannel/" + channel.channelId}
+        >
+                  {
           channel.avatar
             ? <img
               className="channel-list-item__logo"
@@ -30,18 +32,36 @@ const ChannelListItem = ({ channel }) => {
               <span>{channel.name.charAt(0).toUpperCase()}</span>
             </div>
         }
-
-        <span className="channel-list-item__name">{channel.name}</span>
-        <IconContext.Provider
-          value={{
-            color: "white",
-            size: "1.25rem",
-            className: "channel-list-item__edit",
-          }}
-        >
-          <MdModeEdit />
-        </IconContext.Provider>
-      </NavLink>
+          <span className="channel-list-item__name">{channel.name}</span>
+          <IconContext.Provider
+            value={{
+              color: "white",
+              size: "1.25rem",
+              className: "channel-list-item__edit",
+            }}
+          >
+            <MdModeEdit />
+          </IconContext.Provider>
+        </NavLink>
+      ) : (
+        <>
+          <img
+            className="channel-list-item__logo channel-list-item_topic__logo"
+            src={serverURL + "/api/v1/media/" + channel.avatar}
+            alt={channel.name}
+          />
+          <span className="channel-list-item__name channel-list-item_topic__name">{channel.name}</span>
+          <IconContext.Provider
+            value={{
+              color: "white",
+              size: "1.25rem",
+              className: "channel-list-item__edit",
+            }}
+          >
+            <MdModeEdit />
+          </IconContext.Provider>
+        </>
+      )}
     </li>
   );
 };

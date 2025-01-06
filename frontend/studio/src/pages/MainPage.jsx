@@ -1,14 +1,14 @@
 import ChannelListItem from "../components/ChannelListItem";
 import ChannelsList from "../components/ChannelsList";
-import MainContainer from "../components/MainContainer";
+import MainContainer from "../components/main-components/MainContainer";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
 import { FaHome } from "react-icons/fa";
 import { serverURL } from "../server";
 import { useEffect, useState } from "react";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
-import CreateChannelListItem from "../components/CreateChannelListItem";
+import CreateChannelListItem from "../components/create-channel-items/CreateChannelListItem";
 import { useNavigate } from "react-router";
-import MainSection from "../components/MainSection";
+import MainSection from "../components/main-components/MainSection";
 
 function MainPage() {
   const navigate = useNavigate();

@@ -26,6 +26,7 @@ const RootLayout = () => {
   return (
     <main className="root-layout">
       <NavigationBar />
+      <div style={{width: '20%'}}></div>
       <Outlet />
     </main>
   );

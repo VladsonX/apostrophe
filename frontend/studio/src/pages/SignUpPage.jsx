@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import SubmitButton from "../components/SubmitButton";
+import SubmitButton from "../components/main-components/SubmitButton";
 
 import "./SignUpPage.scss";
 

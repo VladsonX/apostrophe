@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./ChannelSettingsInput.scss";
+import "./CreateChannelInput.scss";
 import CreateChannelTitle from "./CreateChannelTitle";
 
 const ChannelSettingsInput = ({ name, placeholder, maxCharCount, type }) => {

@@ -1,6 +1,6 @@
 import { useNavigate, useLocation, Link } from "react-router";
 import "./CheckMailBoxPage.scss";
-import SubmitButton from "../components/SubmitButton";
+import SubmitButton from "../components/main-components/SubmitButton";
 
 const CheckMailBoxPage = () => {
   const navigate = useNavigate();

@@ -1,15 +1,15 @@
 import "./CreateChannelPage.scss";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
 import { FaHome } from "react-icons/fa";
-import MainContainer from "../components/MainContainer";
-import MainSection from "../components/MainSection";
-import SmallSubmitButton from "../components/SmallSubmitButton";
+import MainContainer from "../components/main-components/MainContainer";
+import MainSection from "../components/main-components/MainSection";
+import SmallSubmitButton from "../components/main-components/SmallSubmitButton";
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa6";
 import { IconContext } from "react-icons";
-import ChannelSettingsInput from "../components/ChannelSettingsInput";
-import CreateChannelTopics from "../components/CreateChannelTopics";
-import CreateChannelTitle from "../components/CreateChannelTitle";
+import ChannelSettingsInput from "../components/create-channel-items/CreateChannelInput";
+import CreateChannelTopics from "../components/create-channel-items/CreateChannelTopics";
+import CreateChannelTitle from "../components/create-channel-items/CreateChannelTitle";
 
 const CreateChannelPage = () => {
   const [isLoading, SetIsLoading] = useState(true);

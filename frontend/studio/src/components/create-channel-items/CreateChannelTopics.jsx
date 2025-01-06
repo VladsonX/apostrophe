@@ -3,9 +3,7 @@ import './CreateChannelTopics.scss';
 const CreateChannelTopics = () => {
   return (
     
-    <div className="create-topics-wrapper">
-
-    </div>
+    <div className="create-topics-wrapper"></div>
   )
 }
 

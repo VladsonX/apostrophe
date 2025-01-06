@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -71,18 +72,46 @@ public class SubscriptionService {
 
         TargetSystemUtils.validateTargetSystem(properties, LoginTargetSystem.READER);
 
-        List<SubscriptionEntity> subscriptionEntities = subscriptionRepository.findByUserEntity(
-                UserEntity.builder().userId(properties.getUserId()).build()
-        );
+        UserEntity userEntity = UserEntity.builder()
+                .userId(properties.getUserId())
+                .build();
 
-        List<SubscriptionEntity> subscriptionEntitiesToDelete = subscriptionEntities.stream()
+        List<SubscriptionEntity> subscriptionEntities = subscriptionRepository.findByUserEntity(userEntity)
+                .stream()
                 .filter(s -> channelId.equals(s.getChannelEntity().getChannelId()))
-                .filter(topicId == null
-                        ? s -> true
-                        : s -> topicId.equals(s.getTopicEntity().getTopicId()))
                 .toList();
 
-        subscriptionRepository.deleteAll(subscriptionEntitiesToDelete);
+        if (subscriptionEntities.size() == 1
+                && subscriptionEntities.get(0).getTopicEntity() == null
+                && topicId != null) {
+
+            ChannelEntity channelEntity = subscriptionEntities.get(0).getChannelEntity();
+
+            List<SubscriptionEntity> subscriptionEntitiesToCreate = channelEntity.getTopics()
+                    .stream()
+                    .filter(topicEntity -> !topicId.equals(topicEntity.getTopicId()))
+                    .map(topicEntity -> SubscriptionEntity.builder()
+                            .userEntity(userEntity)
+                            .channelEntity(channelEntity)
+                            .topicEntity(topicEntity)
+                            .build())
+                    .collect(Collectors.toList());
+
+            subscriptionRepository.delete(subscriptionEntities.get(0));
+            subscriptionRepository.saveAll(subscriptionEntitiesToCreate);
+
+        } else if (topicId == null) {
+
+            subscriptionRepository.deleteAll(subscriptionEntities);
+
+        } else {
+
+            List<SubscriptionEntity> subscriptionEntitiesToDelete = subscriptionEntities.stream()
+                    .filter(s -> topicId.equals(s.getTopicEntity().getTopicId()))
+                    .collect(Collectors.toList());
+
+            subscriptionRepository.deleteAll(subscriptionEntitiesToDelete);
+        }
     }
 
     private void validateSubscription(Subscription subscription) {

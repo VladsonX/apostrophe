@@ -18,7 +18,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -115,7 +114,7 @@ public class ChannelService {
         topicValidator.validateTopicNameIsAvailable(defaultTopic, channelEntity.getTopics());
 
         channelEntity.setTopicsEnabled(true);
-        channelEntity.setTopics(new ArrayList<>(List.of(topicMapper.mapToEntity(defaultTopic))));
+        channelEntity.getTopics().add(topicMapper.mapToEntity(defaultTopic));
 
         ChannelEntity savedChannelEntity = channelRepository.save(channelEntity);
 

@@ -4,7 +4,7 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . .
-RUN npm run build -- --no-source-map
+RUN npm run build
 
 FROM nginx:1.21 AS production-stage
 COPY --from=build-stage /app/build /usr/share/nginx/html

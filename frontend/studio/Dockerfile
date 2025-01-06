@@ -4,10 +4,10 @@ COPY package.json package-lock.json ./
 RUN npm install
 
 # Increase memory allocation for Node.js
-ENV NODE_OPTIONS="--max-old-space-size=512"
+ENV NODE_OPTIONS="--max-old-space-size=2048"
 
 COPY . .
-RUN npm run build
+RUN npm run build -- --no-source-map
 
 FROM nginx:1.21 AS production-stage
 COPY --from=build-stage /app/build /usr/share/nginx/html

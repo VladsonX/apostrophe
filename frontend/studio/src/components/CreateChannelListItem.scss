@@ -10,7 +10,7 @@
     // }
   }
   &-add {
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     cursor: pointer;
     // &:hover {
     //   fill: var(--soft-purple);
@@ -24,11 +24,15 @@
     border-radius: var(--radius);
     height: 40px;
     &:hover {
-        .channel-list-item_create-text, .channel-list-item_create-add {
-            transition: .3s all ease;
-            color: var(--soft-purple);
-            fill: var(--soft-purple);
-        }
+      .channel-list-item_create-text,
+      .channel-list-item_create-add {
+        transition: 0.3s all ease;
+        // color: var(--soft-purple);
+        background: var(--main-gradient);
+        fill: var(--soft-purple);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
   }
 }

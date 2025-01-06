@@ -1,0 +1,50 @@
+@use "../index.scss";
+
+.channel-settings {
+  &__element {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
+//   &__title {
+//     color: var(--white);
+//     font-size: 1.5rem;
+//     margin-bottom: 1rem;
+//   }
+
+  &__input {
+    transition: 0.1s all ease;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    color: var(--white);
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 2.5rem;
+    resize: none; 
+    overflow: hidden; 
+    background-color: var(--transparent);
+    border-radius: var(--radius);
+    border: 2px solid var(--settings);
+    margin-bottom: .5rem;
+    &:focus {
+      outline: 1px solid var(--soft-purple);
+    }
+    &::placeholder {
+      color: var(--settings);
+    }
+    &-counter {
+      display: flex;
+      color: var(--settings);
+      font-size: 1rem;
+      justify-self: flex-end;
+    }
+    &-wrapper {
+    //   display: flex;
+    //   flex-direction: column;
+    //   align-items: flex-end;
+      gap: 0.5rem;
+    }
+  }
+}

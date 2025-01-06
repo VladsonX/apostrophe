@@ -1,10 +1,7 @@
-@use '../../index.scss';
+@use "../../index.scss";
 
 .top-nav {
   padding: 0.5rem 1rem;
-  // position: absolute;
-  // left: 0;
-  // top: 0;
   height: 70px;
   display: flex;
   width: 100%;
@@ -25,6 +22,8 @@
     color: var(--white);
   }
   &-path {
+    position: relative;
+
     display: inline-flex;
     align-items: center;
     margin-bottom: 0.5rem;
@@ -35,4 +34,3 @@
     background: var(--glassy-gray);
   }
 }
-

@@ -1,10 +1,7 @@
-FROM node:18-alpine AS build-stage
+FROM node:18 AS build-stage
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
-
-# Increase memory allocation for Node.js
-ENV NODE_OPTIONS="--max-old-space-size=2048"
 
 COPY . .
 RUN npm run build -- --no-source-map

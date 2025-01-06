@@ -1,9 +1,11 @@
-import './SubmitButton.scss';
+import "./SubmitButton.scss";
 
-const SubmitButton = ( {onClick, text} ) => {
+const SubmitButton = ({ onClick, text }) => {
   return (
-    <button onClick={onClick} className="SubmitButton">{text}</button>
-  )
-}
+    <button onClick={onClick} className="SubmitButton">
+      {text}
+    </button>
+  );
+};
 
-export default SubmitButton
+export default SubmitButton;

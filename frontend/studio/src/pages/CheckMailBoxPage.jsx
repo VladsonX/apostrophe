@@ -21,7 +21,7 @@ const CheckMailBoxPage = () => {
         )}
         <SubmitButton
           onClick={() => navigate('/welcome')}
-          className="SubmitButton"
+          className="checkMailBox__button"
           text="Log in"
         />
       </div>

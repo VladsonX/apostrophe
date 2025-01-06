@@ -2,13 +2,13 @@ import ChannelListItem from "../components/ChannelListItem";
 import ChannelsList from "../components/ChannelsList";
 import MainContainer from "../components/MainContainer";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
-import "./MainPage.scss";
 import { FaHome } from "react-icons/fa";
 import { serverURL } from "../server";
 import { useEffect, useState } from "react";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import CreateChannelListItem from "../components/CreateChannelListItem";
 import { useNavigate } from "react-router";
+import MainSection from "../components/MainSection";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ function MainPage() {
   }, []);
 
   return (
-    <section className="mainPage">
+    <MainSection>
       <TopNavigationBar icon={<FaHome />} name="My Channels" />
       <MainContainer>
         <ChannelsList>
@@ -62,7 +62,10 @@ function MainPage() {
           <CreateChannelListItem />
         </ChannelsList>
       </MainContainer>
-    </section>
+    </MainSection>
+
+
+
   );
 }
 

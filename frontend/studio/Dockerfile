@@ -1,12 +1,13 @@
-FROM node:18 AS build-stage
+FROM node:18-alpine AS build-stage
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
-COPY . .
-RUN npm run build
 
 # Increase memory allocation for Node.js
-ENV NODE_OPTIONS="--max-old-space-size=2048"
+ENV NODE_OPTIONS="--max-old-space-size=512"
+
+COPY . .
+RUN npm run build
 
 FROM nginx:1.21 AS production-stage
 COPY --from=build-stage /app/build /usr/share/nginx/html

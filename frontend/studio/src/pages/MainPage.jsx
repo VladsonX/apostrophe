@@ -1,5 +1,5 @@
-import ChannelListItem from "../components/ChannelListItem";
-import ChannelsList from "../components/ChannelsList";
+import ChannelListItem from "../components/channel-list/ChannelListItem";
+import ChannelsList from "../components/channel-list/ChannelsList";
 import MainContainer from "../components/main-components/MainContainer";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
 import { FaHome } from "react-icons/fa";

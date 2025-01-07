@@ -1,9 +1,9 @@
 
 import "./ChannelsList.scss";
 
-const ChannelsList = ({ children, type }) => {
+const ChannelsList = ({ children }) => {
   return <ul 
-  className={type ==='small' ? 'channels-list_small' : "channels-list"}>{children}</ul>;
+  className="channels-list">{children}</ul>;
 };
 
 export default ChannelsList;

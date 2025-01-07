@@ -1,0 +1,22 @@
+@use '../../index.scss';
+
+.topic-text-area {
+    &__textarea {
+        width: 100%;
+        background-color: var(--deep-brown);
+        border-radius: var(--radius);
+        height: 2rem;
+        resize: none;
+        font-size: 0.75rem;
+        color: var(--white);
+        padding: .3rem .5rem;
+        margin-bottom: .5rem;
+        &::placeholder {
+            color: var(--settings);
+        }
+        &:focus {
+            outline: 1px solid var(--soft-purple);
+        }
+    }
+}
+

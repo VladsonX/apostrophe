@@ -19,6 +19,7 @@ const RootLayout = () => {
     return null;
   }
 
+
   if (!isAuthenticated) {
     navigate("/welcome");
   }

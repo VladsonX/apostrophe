@@ -1,28 +1,22 @@
 @use "../../index.scss";
 
 .channel-settings {
-  // &__element {
-  //   width: 100%;
-  //   display: flex;
-  //   flex-direction: column;
-  //   margin-bottom: 2rem;
-  // }
-
   &__input {
     transition: 0.1s all ease;
     font-size: 1rem;
-    padding: 0.25rem 0.5rem;
+    padding: .75rem;
     color: var(--white);
     width: 100%;
     min-width: 100%;
     max-width: 100%;
-    min-height: 2.5rem;
-    resize: none; 
-    overflow: hidden; 
+    min-height: 2rem;
+    resize: none;
+    overflow: hidden;
     background-color: var(--transparent);
     border-radius: var(--radius);
     border: 2px solid var(--settings);
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.5rem;
     &:focus {
       outline: 1px solid var(--soft-purple);
     }

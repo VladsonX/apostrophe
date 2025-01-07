@@ -6,7 +6,7 @@ const PageButton = ({ title, path, icon }) => {
   return (
     <NavLink className="page-button" key={title} to={path}>
       <IconContext.Provider value={{ color: 'white', className: 'page-button-icon'}}>
-        <div className>{icon}</div>
+        <div>{icon}</div>
       </IconContext.Provider>
       <span className="page-button-title">{title}</span>
     </NavLink>

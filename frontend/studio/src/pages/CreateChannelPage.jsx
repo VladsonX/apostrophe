@@ -6,17 +6,18 @@ import MainSection from "../components/main-components/MainSection";
 import SmallSubmitButton from "../components/main-components/SmallSubmitButton";
 import { useState, useEffect } from "react";
 import ChannelSettingsInput from "../components/create-channel-items/CreateChannelInput";
-import CreateChannelTopics from "../components/create-channel-items/CreateChannelTopics";
+import CreateChannelTopics from "../components/create-topic-items/CreateChannelTopics";
 import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
 import CreateChannelLogo from "../components/create-channel-items/CreateChannelLogo";
 import { useParams, useNavigate } from "react-router";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { serverURL } from "../server";
+import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 
 const CreateChannelPage = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-  const [channels, setChannels] = useState([]);
+  const [channel, setChannel] = useState([]);
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
@@ -31,18 +32,20 @@ const CreateChannelPage = () => {
       }
 
       try {
-        const res = await fetch(`${serverURL}/api/v1/channels`, {
+        const response = await fetch(`${serverURL}/api/v1/channels/${id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         });
-        if (!res.ok) {
+        if (!response.ok) {
           throw new Error("Failed to fetch channels");
         }
-        const data = await res.json();
-        setChannels(data);
+
+        const channel = await response.json();
+        enrichChannelsWithLogoPlaceholderBackground([channel]);
+        setChannel(channel);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -50,29 +53,23 @@ const CreateChannelPage = () => {
       }
     };
     fetchChannels();
-  }, []);
-
-  const channel = channels.find((channel) => (channel.channelId = id));
-  console.log(channels);
+  }, [id, navigate]);
 
   return (
     <MainSection>
       <TopNavigationBar
         button={<SmallSubmitButton text="Save" position="absolute" />}
         icon={<FaHome />}
-        name="Create new channel: "
+        name={`Edit your channel: ${channel.name}`}
       />
       <MainContainer>
         <CreateChannelElement name="Channel Logo">
-          <CreateChannelLogo
-            name={channels ? channels.name : null}
-            logo={channels ? channels.avatar : null}
-            isLoading={loading}
-          />
+          <CreateChannelLogo channel={channel} isLoading={loading} />
         </CreateChannelElement>
         <CreateChannelElement name="Channel Name">
           <ChannelSettingsInput
-            name={channels ? channels.name : null}
+            key={channel.name}
+            channel={channel}
             type="name"
             placeholder="My Lovely Channel"
             maxCharCount="64"
@@ -80,14 +77,15 @@ const CreateChannelPage = () => {
         </CreateChannelElement>
         <CreateChannelElement name="Channel Description">
           <ChannelSettingsInput
-            description={channels ? channels.description : null}
+            key={channel.name}
+            channel={channel}
             type="description"
             placeholder="I really love my lovely channel"
             maxCharCount="500"
           />
         </CreateChannelElement>
         <CreateChannelElement name="Channel Topics">
-          <CreateChannelTopics topics = {channels ? channels.topics : null}/>
+          <CreateChannelTopics channel={channel} />
         </CreateChannelElement>
       </MainContainer>
     </MainSection>

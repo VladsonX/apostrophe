@@ -1,48 +1,61 @@
 import { useState } from "react";
 import "./CreateChannelInput.scss";
-import CreateChannelTitle from "./CreateChannelTitle";
 
-const ChannelSettingsInput = ({ name, placeholder, maxCharCount, type, description }) => {
-  const [charCount, setCharCount] = useState();
-  const [value, setValue] = useState("");
+const ChannelSettingsInput = ({ channel, placeholder, maxCharCount, type }) => {
+  const [areaValue, setAreaValue] = useState("");
+  const [descriptionValue, setDescriptionValue] = useState(
+    channel.description || ""
+  );
+  const [nameValue, setNameValue] = useState(channel.name || "");
+  const [charCount, setCharCount] = useState(
+    type === "description" ? descriptionValue.length : nameValue.length
+  );
 
-  const handleInput = (e) => {
+  const handleInputHeight = (e) => {
     const textarea = e.target;
     textarea.style.height = "auto";
     textarea.style.height = `${textarea.scrollHeight}px`;
-    setValue(textarea.value);
+    setAreaValue(textarea.value);
   };
-  return (
-    <>
-      <div className="channel-settings__input-wrapper">
-        {type === "description" ? (
-          <textarea
-            onChange={(e) => {
-              setCharCount(e.target.value.length);
-            }}
-            onInput={handleInput}
-            maxlength={maxCharCount}
-            placeholder={placeholder}
-            className="channel-settings__input"
-            type="text"
-            value={description ? description : placeholder}
-          ></textarea>
-        ) : (
-          <input
-            onChange={(e) => setCharCount(e.target.value.length)}
-            maxlength={maxCharCount}
-            placeholder={placeholder}
-            className="channel-settings__input"
-            type="text"
-            value={name ? name : placeholder}
-          />
-        )}
+  const handleTextArea = (e) => {
+    setDescriptionValue(e.target.value);
+  };
+  const handleInput = (e) => {
+    setNameValue(e.target.value);
+  };
 
-        <span className="channel-settings__input-counter">
-          {charCount ? charCount : 0}/{maxCharCount}
-        </span>
-      </div>
-    </>
+  return (
+    <div className="channel-settings__input-wrapper">
+      {type === "description" ? (
+        <textarea
+          onChange={(e) => {
+            setCharCount(e.target.value.length);
+          }}
+          onInput={(e) => {
+            handleInputHeight(e);
+            handleTextArea(e);
+          }}
+          maxLength={maxCharCount}
+          placeholder={placeholder}
+          className="channel-settings__input"
+          type="text"
+          value={descriptionValue}
+        ></textarea>
+      ) : (
+        <input
+          onChange={(e) => setCharCount(e.target.value.length)}
+          onInput={(e) => handleInput(e)}
+          maxLength={maxCharCount}
+          placeholder={placeholder}
+          className="channel-settings__input"
+          type="text"
+          value={nameValue}
+        />
+      )}
+      <span className="channel-settings__input-counter">
+        {charCount ? charCount : 0}/{maxCharCount}
+      </span>
+    </div>
   );
 };
 

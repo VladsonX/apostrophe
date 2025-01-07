@@ -1,20 +1,15 @@
 @use "../../index.scss";
 
 .channel-list-item_create {
+  height: 40px;
   &-text {
     font-weight: 300;
     font-size: 1.25rem;
     color: var(--white);
-    // &:hover {
-    //     color: var(--soft-purple);
-    // }
   }
   &-add {
     margin-right: 0.5rem;
     cursor: pointer;
-    // &:hover {
-    //   fill: var(--soft-purple);
-    // }
   }
   &-link {
     text-decoration: none;

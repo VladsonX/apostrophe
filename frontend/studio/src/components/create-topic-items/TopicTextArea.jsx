@@ -1,7 +1,7 @@
 import "./TopicTextArea.scss";
 import { useState } from "react";
 
-const TopicTextArea = ({ maxcharCount, topicDescription }) => {
+const TopicTextArea = ({ maxcharCount, topicDescription, updateTopicDescription }) => {
   const handleInput = (e) => {
     const textarea = e.target;
     textarea.style.height = "auto";
@@ -16,7 +16,8 @@ const TopicTextArea = ({ maxcharCount, topicDescription }) => {
         onChange={(e) => setCharCount(e.target.value.length)}
         onInput={(e) => {
           handleInput(e);
-          setValue(e.target.value)
+          setValue(e.target.value);
+          updateTopicDescription(e.target.value);
         }}
         placeholder="I really like this topic of my lovely channel"
         className="topic-text-area__textarea"

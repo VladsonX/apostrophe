@@ -1,10 +1,20 @@
 import "./TopicsListItem.scss";
 
-const TopicsListItem = ({ channel, name, onClick }) => {
+const TopicsListItem = ({ channel, name, onClick, userImg, className }) => {
   return (
-    <li onClick={onClick} className="topics-list-item">
+    <li onClick={onClick} className={className}>
       {channel.avatar ? (
-        <img src={channel.avatar} alt={channel.name} />
+        <img
+          className="topics-list-item__img"
+          src={channel.avatar}
+          alt={channel.name}
+        />
+      ) : userImg ? (
+        <img
+          className="topics-list-item__img"
+          src={userImg}
+          alt={channel.name}
+        />
       ) : (
         <div
           className="channel-list-item__logo channel-list-item__logo-placeholder"

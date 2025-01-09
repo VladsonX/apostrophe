@@ -19,6 +19,11 @@ const CreateChannelPage = () => {
   const [loading, setLoading] = useState(true);
   const [channel, setChannel] = useState([]);
   const [error, setError] = useState(null);
+  const [customImg, setCustomImg] = useState(null);
+  const [customChannelName, setCustomChannelName] = useState("");
+  const [customChannelDescr, setCustomChannelDescr] = useState("");
+  const [customTopics, setCustomTopics] = useState([]);
+  const [customChannel, setCustomChannel] = useState({});
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -55,19 +60,52 @@ const CreateChannelPage = () => {
     fetchChannels();
   }, [id, navigate]);
 
+  useEffect(() => {
+    if (channel) {
+      setCustomChannelName(channel.name || "");
+      setCustomChannelDescr(channel.description || "");
+      setCustomTopics(channel.topics || []);
+      setCustomChannel(channel || {});
+    }
+  }, [channel]);
+
+  const handleSaveButton = () => {
+    const newCustomChannel = {
+      channelId: channel.channelId,
+      name: customChannelName,
+      description: customChannelDescr,
+      avatar: customImg,
+      ownerId: channel.ownerId,
+      topic: customTopics,
+    };
+    setCustomChannel(newCustomChannel);
+    console.log(newCustomChannel);
+  };
   return (
     <MainSection>
       <TopNavigationBar
-        button={<SmallSubmitButton text="Save" position="absolute" />}
+        button={
+          <SmallSubmitButton
+            onClick={handleSaveButton}
+            text="Save"
+            position="absolute"
+          />
+        }
         icon={<FaHome />}
         name={`Edit your channel: ${channel.name}`}
       />
       <MainContainer>
         <CreateChannelElement name="Channel Logo">
-          <CreateChannelLogo channel={channel} isLoading={loading} />
+          <CreateChannelLogo
+            customImg={setCustomImg}
+            channel={channel}
+            isLoading={loading}
+          />
         </CreateChannelElement>
         <CreateChannelElement name="Channel Name">
           <ChannelSettingsInput
+            name={setCustomChannelName}
+            descr={setCustomChannelDescr}
             key={channel.name}
             channel={channel}
             type="name"
@@ -77,6 +115,8 @@ const CreateChannelPage = () => {
         </CreateChannelElement>
         <CreateChannelElement name="Channel Description">
           <ChannelSettingsInput
+            name={setCustomChannelName}
+            descr={setCustomChannelDescr}
             key={channel.name}
             channel={channel}
             type="description"
@@ -85,7 +125,11 @@ const CreateChannelPage = () => {
           />
         </CreateChannelElement>
         <CreateChannelElement name="Channel Topics">
-          <CreateChannelTopics channel={channel} />
+          <CreateChannelTopics
+            updateTopics={setCustomTopics}
+            customImg={customImg}
+            channel={channel}
+          />
         </CreateChannelElement>
       </MainContainer>
     </MainSection>

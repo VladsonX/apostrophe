@@ -7,6 +7,28 @@
   justify-content: flex-start;
   align-items: center;
   gap: 0.3rem;
+  cursor: pointer;
+  &::after {
+    transition: .3s all ease;
+    content: "";
+    position: absolute;
+    display: block;
+    width: 4px;
+    height: 1.5rem;
+    border-radius: var(--radius);
+    right: calc(-1rem - 2.5px);
+    background-color: var(--soft-purple);
+    opacity: 0;
+  }
+  &_active {
+    position: relative;
+    background-color: var(--project-black);
+    color: var(--white);
+    &::after {
+      opacity: 100%;
+    }
+  }
+
   &:not(:last-child) {
     margin-bottom: 0.5rem;
   }
@@ -17,10 +39,19 @@
     display: inline-block;
     font-size: 1rem;
     color: var(--soft-gray);
+    &_add {
+      color: var(--soft-purple);
+    }
   }
   &__divider {
     display: inline-block;
     color: var(--soft-purple);
     font-size: 1rem;
+  }
+  &__img {
+    width: 2.5rem; //40px
+    height: 2.5rem;
+    object-fit: fill;
+    border-radius: var(--radius);
   }
 }

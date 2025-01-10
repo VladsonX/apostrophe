@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +44,13 @@ public class ChannelService {
 
         ChannelEntity channelEntity = channelMapper.mapToEntity(channel);
         channelEntity.setOwnerId(properties.getUserId());
+
+        if (channel.getTopicsEnabled()) {
+            channel.getTopics().forEach(topicValidator::validateTopic);
+        } else {
+            channel.setTopics(new ArrayList<>());
+        }
+
 
         ChannelEntity savedChannelEntity = channelRepository.save(channelEntity);
         return channelMapper.mapToDto(savedChannelEntity);

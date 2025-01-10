@@ -15,6 +15,15 @@
   }
   &__add-icon {
     fill: var(--settings);
+    & > div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--deep-brown);
+      width: 2rem;
+      height: 2rem;
+      border-radius: var(--radius);
+    }
   }
   &__placeholder {
     display: flex;
@@ -34,6 +43,19 @@
       height: 96px;
       border-radius: var(--radius);
     }
-
+    &_small {
+      padding: 1px;
+      width: 2rem; 
+      height: 2rem;
+      & > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--deep-brown);
+        width: calc(2rem - 2px);
+        height: calc(2rem - 2px);
+        border-radius: var(--radius);
+      }
+    }
   }
 }

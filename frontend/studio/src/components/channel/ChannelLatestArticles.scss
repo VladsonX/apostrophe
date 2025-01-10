@@ -1,0 +1,10 @@
+@use "../../index.scss";
+
+.channel-latest-articles {
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 23.625rem;
+    gap: 2rem;
+  }
+}

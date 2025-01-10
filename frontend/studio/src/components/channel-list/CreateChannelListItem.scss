@@ -18,23 +18,20 @@
     width: 100%;
     border-radius: var(--radius);
     height: 40px;
+    background-color: var(--transparent);
     &:hover {
-      .channel-list-item_create-text,
-      .channel-list-item_create-add {
-        transition: 0.3s all ease;
-        // color: var(--soft-purple);
-        background: var(--main-gradient);
+      .channel-list-item_create-add,
+      .channel-list-item_create-text {
         fill: var(--soft-purple);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: var(--soft-purple);
       }
     }
   }
-  &_topic{
-    &-add{
+  &_topic {
+    &-add {
       font-size: 1rem;
     }
-    &-text{
+    &-text {
       font-size: 1rem;
     }
   }

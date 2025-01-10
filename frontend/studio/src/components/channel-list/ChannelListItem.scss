@@ -1,59 +1,84 @@
-@use '../../index.scss';
+@use "../../index.scss";
 
 .channel-list-item {
-    position: relative;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  justify-content: space-between;
+  height: 60px;
+  width: 100%;
+  border-bottom: 1px solid transparent;
+  border-image: var(--glassy-gray);
+  border-image-slice: 1;
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+
+  &__link {
+    text-decoration: none;
     display: flex;
     align-items: center;
-    padding: 5px 10px;
-    height: 60px;
-    width: 100%;
-    border-bottom: 1px solid transparent;
-    border-image: var(--glassy-gray);
-    border-image-slice: 1;
+    width: 95%;
     border-radius: var(--radius);
-    margin-bottom: .5rem;
+    height: 40px;
+    background-color: var(--transparent);
+
     &:hover {
-        background: var(--glassy-gray);
+      background-color: var(--project-black);
     }
-    &__link {
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        border-radius: var(--radius);
-        height: 40px;
+    &_icon {
+      display: flex;
+      justify-content: center;
+      width: 5%;
+      background-color: var(--transparent);
+
+      &:hover {
+        background-color: var(--project-black);
+      }
     }
-    &__logo {
-        width: 40px;
-        height: 40px;
-        border-radius: var(--radius);
-        display: inline-block;
-        margin-right: 0.75rem;
+  }
+  &__logo {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    display: inline-block;
+    margin-right: 0.75rem;
+  }
+  &__logo-placeholder {
+    transition: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--white);
+    &_big {
+      width: 100px;
+      height: 100px;
+      font-size: 3rem;
     }
-    &__logo-placeholder {
-        transition: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 1rem;
-        color: var(--white);
-        &_big {
-            width: 100px;
-            height: 100px;
-            font-size: 3rem;
-        }
+    &_xxl {
+      width: 135px;
+      height: 135px;
+      font-size: 5rem;
+      margin-right: 0;
     }
-    &__name {
-        font-weight: 300;
-        font-size: 1.25rem;
-        color: var(--white);
+    &_article {
+      width: 40px;
+      height: 40px;
+      margin-right: 0;
     }
-    &__edit {
-        cursor: pointer;
-        position: absolute;
-        right: 0.75rem;
-        &:hover {
-            fill: var(--soft-purple);
-        }
+  }
+  &__name {
+    font-weight: 300;
+    font-size: 1.25rem;
+    color: var(--white);
+  }
+  &__edit {
+    cursor: pointer;
+    // position: absolute;
+    // right: 0.75rem;
+    &:hover {
+      fill: var(--soft-purple);
     }
+  }
 }

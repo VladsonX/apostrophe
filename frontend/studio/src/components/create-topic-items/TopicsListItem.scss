@@ -8,8 +8,14 @@
   align-items: center;
   gap: 0.3rem;
   cursor: pointer;
+  &_channel-view {
+    height: 3rem;
+    &:not(:last-child) {
+      margin-bottom: 0;
+    }
+  }
   &::after {
-    transition: .3s all ease;
+    transition: 0.3s all ease;
     content: "";
     position: absolute;
     display: block;

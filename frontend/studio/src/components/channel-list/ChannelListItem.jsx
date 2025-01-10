@@ -14,7 +14,7 @@ const ChannelListItem = ({ channel }) => {
             : "channel-list-item__link"
         }
         key={channel.name}
-        to={"channel/createchannel/" + channel.channelId}
+        to={"channel/" + channel.channelId}
       >
         {channel.avatar ? (
           <img
@@ -31,6 +31,17 @@ const ChannelListItem = ({ channel }) => {
           </div>
         )}
         <span className="channel-list-item__name">{channel.name}</span>
+      </NavLink>
+
+      <NavLink
+        className={({ isActive }) =>
+          isActive
+            ? "channel-list-item__link channel-list-item__link_icon active"
+            : "channel-list-item__link channel-list-item__link_icon"
+        }
+        key={channel.channelId}
+        to={"channel/editchannel/" + channel.channelId}
+      >
         <IconContext.Provider
           value={{
             color: "white",

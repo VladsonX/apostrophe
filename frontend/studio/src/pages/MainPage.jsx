@@ -6,10 +6,10 @@ import { FaHome } from "react-icons/fa";
 import { serverURL } from "../server";
 import { useEffect, useState } from "react";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
-import CreateChannelListItem from "../components/create-channel-items/CreateChannelListItem";
+import CreateChannelListItem from "../components/channel-list/CreateChannelListItem";
 import { useNavigate } from "react-router";
 import MainSection from "../components/main-components/MainSection";
-import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher"
+import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
  
 function MainPage() {
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ function MainPage() {
               key={channel.channelId}
             />
           ))}
-          <CreateChannelListItem />
+          <CreateChannelListItem/>
         </ChannelsList>
       </MainContainer>
     </MainSection>

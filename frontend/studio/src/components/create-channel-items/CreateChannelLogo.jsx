@@ -2,6 +2,7 @@ import "./CreateChannelLogo.scss";
 import SmallSubmitButton from "../main-components/SmallSubmitButton";
 import { CiImageOn } from "react-icons/ci";
 import { useState } from "react";
+import { serverURL } from "../../server";
 
 import { IconContext } from "react-icons";
 
@@ -61,14 +62,25 @@ const CreateChannelLogo = ({ isLoading, channel, customImg }) => {
           <img className="create-channel-logo__img" src={image} alt={channel.name} />
         ) : image ? (
           <img className="create-channel-logo__img" src={image} alt={channel.name} />
-        ) : (
+        ) : channel.name ? (
           <div
             className="channel-list-item__logo channel-list-item__logo-placeholder channel-list-item__logo-placeholder_big"
             style={{ backgroundColor: channel.logoPlaceholderColor }}
           >
             <span>{channel.name.charAt(0).toUpperCase()}</span>
           </div>
-        )}
+        ) : (<div className="create-channel-logo__placeholder">
+          <div>
+            <IconContext.Provider
+              value={{
+                size: "4.5rem",
+                className: "create-channel-logo__add-icon",
+              }}
+            >
+              <CiImageOn />
+            </IconContext.Provider>
+          </div>
+        </div>)}
         <SmallSubmitButton onClick={handleFileChange} text="Add" />
       </div>
     </>

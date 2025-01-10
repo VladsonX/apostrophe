@@ -5,6 +5,7 @@ import com.apostraph.apostraphbe.dto.LoginTargetSystem;
 import com.apostraph.apostraphbe.dto.Topic;
 import com.apostraph.apostraphbe.entity.ChannelEntity;
 import com.apostraph.apostraphbe.entity.PostEntity;
+import com.apostraph.apostraphbe.entity.TopicEntity;
 import com.apostraph.apostraphbe.exception.NotFoundException;
 import com.apostraph.apostraphbe.exception.UnauthorizedAccessException;
 import com.apostraph.apostraphbe.mapper.ChannelMapper;
@@ -20,7 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.apostraph.apostraphbe.util.TargetSystemUtils.validateTargetSystem;
 import static java.lang.String.format;
@@ -99,6 +103,10 @@ public class ChannelService {
             channelEntity.setAvatar(updatedChannel.getAvatar());
         }
 
+        if (channelEntity.getTopicsEnabled()) {
+            mergeTopics(updatedChannel, channelEntity);
+        }
+
         ChannelEntity savedChannelEntity = channelRepository.save(channelEntity);
         return channelMapper.mapToDto(savedChannelEntity);
     }
@@ -146,6 +154,49 @@ public class ChannelService {
         if (!currentUser.equals(channelEntity.getOwnerId())) {
             throw new UnauthorizedAccessException("Access denied.");
         }
+    }
+
+    private void mergeTopics(Channel updatedChannel, ChannelEntity originalChannel) {
+
+        List<TopicEntity> existingTopics = originalChannel.getTopics();
+
+        for (Topic updatedTopic : updatedChannel.getTopics()) {
+            mergeTopic(updatedTopic, existingTopics);
+        }
+
+        Set<String> topicNamesSet = existingTopics.stream().map(TopicEntity::getName).collect(Collectors.toSet());
+        if (topicNamesSet.size() != existingTopics.size()) {
+            throw new IllegalArgumentException("Topic names must be unique.");
+        }
+    }
+
+    private void mergeTopic(Topic updatedTopic, List<TopicEntity> existingTopics) {
+
+        topicValidator.validateTopic(updatedTopic);
+
+        Optional<TopicEntity> existingTopicOpt = findExistingTopic(updatedTopic.getTopicId(), existingTopics);
+
+        existingTopicOpt.ifPresentOrElse(existingTopic -> {
+
+            existingTopic.setName(updatedTopic.getName());
+            existingTopic.setDescription(updatedTopic.getDescription());
+
+        }, () -> {
+
+            TopicEntity createdTopic = TopicEntity.builder()
+                    .name(updatedTopic.getName())
+                    .description(updatedTopic.getDescription())
+                    .build();
+
+            existingTopics.add(createdTopic);
+        });
+    }
+
+    private Optional<TopicEntity> findExistingTopic(UUID topicId, List<TopicEntity> existingTopics) {
+
+        return topicId == null ? Optional.empty() : existingTopics.stream()
+                .filter(existingTopic -> existingTopic.getTopicId().equals(topicId))
+                .findFirst();
     }
 
 }

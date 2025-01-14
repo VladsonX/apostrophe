@@ -9,11 +9,12 @@
     color: var(--white);
     padding: .3rem .5rem;
     font-size: 0.75rem;
+    border: 2px solid var(--deep-brown);
     &::placeholder {
         color: var(--settings);
     }
     &:focus {
-        outline: 1px solid var(--soft-purple);
+        outline: 2px solid var(--soft-purple);
     }
     &__wrapper {
         width: 100%;

@@ -1,10 +1,10 @@
 import './CreateChannelElement.scss';
 import CreateChannelTitle from './CreateChannelTitle';
 
-const CreateChannelElement = ( {children, name} ) => {
+const CreateChannelElement = ( {children, name, id, number} ) => {
   return (
-    <div className="create-channel-element">
-      <CreateChannelTitle name={name} />
+    <div id={id} className="create-channel-element">
+      <CreateChannelTitle number={number} name={name} />
 
       {children}
       </div>

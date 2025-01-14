@@ -1,7 +1,7 @@
 import Divider from "../main-components/Divider";
 import "./ChannelTitleElement.scss";
 
-const ChannelTitleElement = ({ channel }) => {
+const ChannelTitleElement = ({ channel, topic }) => {
   return (
     <section className="channel-title-element">
       <div className="channel-title-element__wrapper channel-title-element__wrapper_small">
@@ -21,8 +21,9 @@ const ChannelTitleElement = ({ channel }) => {
         )}
       </div>
       <div className="channel-title-element__wrapper channel-title-element__wrapper_large">
-        <h1 className="channel-title-element__title">The British Broadcasting Corporation (BBC)</h1>
-        <span className="channel-title-element__subtitle">News</span>
+        <h1 className="channel-title-element__title">{channel.name}</h1>
+        {topic? (<span className="channel-title-element__subtitle">{topic.name}</span>) : (<></>)}
+        
         <Divider />
       </div>
     </section>

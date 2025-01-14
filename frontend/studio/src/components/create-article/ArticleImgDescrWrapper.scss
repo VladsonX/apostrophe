@@ -1,0 +1,15 @@
+.article-img-descr {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  &__counter {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: .5rem;
+    font-size: 1rem;
+    color: var(--settings);
+}
+}

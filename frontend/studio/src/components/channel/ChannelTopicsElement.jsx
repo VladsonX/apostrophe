@@ -1,9 +1,13 @@
+import { useNavigate } from "react-router";
 import TopicsListItem from "../create-topic-items/TopicsListItem";
 import ChannelHeading2 from "./ChannelHeading2";
 import "./ChannelTopicsElement.scss";
-import Topic from "./Topic";
 
 const ChannelTopicsElement = ({ name, topics, channel }) => {
+  const navigate = useNavigate();
+  const handleTopicClick = (topic) => {
+    navigate(`topic/${topic.topicId}`)
+  }
   return (
     <div className="channel-topics-element">
       <ChannelHeading2 name={name} />
@@ -11,7 +15,7 @@ const ChannelTopicsElement = ({ name, topics, channel }) => {
         {topics.map((topic) => (
           <TopicsListItem 
           userImg={channel.avatar}
-          // onClick={() => handleTopicClick(topic)}
+          onClick={() => handleTopicClick(topic)}
           key={topic.topicId}
           name={topic.name}
           channel={channel}

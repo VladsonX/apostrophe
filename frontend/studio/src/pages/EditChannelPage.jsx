@@ -124,7 +124,7 @@ const CreateChannelPage = () => {
             maxCharCount="500"
           />
         </CreateChannelElement>
-        <CreateChannelElement name="Channel Topics">
+        <CreateChannelElement name="Channel Topics" number={customTopics.length}>
           <CreateChannelTopics
             updateTopics={setCustomTopics}
             customImg={customImg}

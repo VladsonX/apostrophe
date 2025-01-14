@@ -3,7 +3,7 @@ import './AddChannelArticle.scss';
 
 const AddChannelArticle = () => {
   return (
-    <NavLink className='add-channel-article__border'>
+    <NavLink to={`article/createarticle`} className='add-channel-article__border'>
         <p className='add-channel-article__text'>Add new article +</p>
     </NavLink>
   )

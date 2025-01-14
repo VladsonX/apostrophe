@@ -1,0 +1,14 @@
+.article-text-editor {
+    width: 100%;
+    background-color: var(--transparent);
+    border: 2px solid var(--project-black);
+    border-radius: var(--radius);
+    min-height: 20rem;
+    padding: 1rem;
+    color: var(--soft-gray);
+    &:focus {
+        outline: 2px solid var(--soft-purple);
+        color: var(--white);
+    }
+}
+

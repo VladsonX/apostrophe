@@ -1,0 +1,37 @@
+.article-img {
+  cursor: pointer;
+  position: relative;
+  width: 25%;
+  height: 10.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius);
+  background: var(--main-gradient);
+  padding: 2px;
+  &:hover {
+    box-shadow: 0px 0px 1rem 0 var(--soft-purple);
+  }
+  &::before {
+    display: block;
+    margin: auto;
+    width: calc(100% - 4px);
+    height: calc(10.75rem - 4px);
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    inset: 0;
+    background: var(--deep-brown);
+    border-radius: var(--radius);
+  }
+  &__text {
+    position: relative;
+    font-size: 1rem;
+    font-weight: bold;
+    background: var(--main-gradient);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+  }
+}

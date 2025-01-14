@@ -10,6 +10,7 @@ import CreateChannelListItem from "../components/channel-list/CreateChannelListI
 import { useNavigate } from "react-router";
 import MainSection from "../components/main-components/MainSection";
 import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
+import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
  
 function MainPage() {
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ function MainPage() {
     <MainSection>
       <TopNavigationBar icon={<FaHome />} name="My Channels" />
       <MainContainer>
+        <CreateChannelElement name='My channels' number={channels.length}>
         <ChannelsList>
           {channels.map((channel) => (
             <ChannelListItem
@@ -65,6 +67,8 @@ function MainPage() {
           ))}
           <CreateChannelListItem/>
         </ChannelsList>
+        </CreateChannelElement>
+
       </MainContainer>
     </MainSection>
 

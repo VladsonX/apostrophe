@@ -45,6 +45,7 @@ const ChannelPage = () => {
         const channel = await response.json();
         enrichChannelsWithLogoPlaceholderBackground([channel]);
         setChannel(channel);
+        console.log(channel);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -68,12 +69,11 @@ const ChannelPage = () => {
           />
         }
         icon={<FaHome />}
-        // name={`Your Channel: ${channel.name}`}
-        name=' British Broadcasting Corporation (BBC)'
+        name={`Your Channel: ${channel.name}`}
       />
       <MainContainer>
         <ChannelTitleElement channel={channel} />
-        <p className="channel-page__description">The British Broadcasting Corporation (BBC) is a British public service broadcaster headquartered at Broadcasting House in London, England. Originally established in 1922 as the British Broadcasting Company, it evolved into its current state with its current name on New Year's Day 1927. The oldest and largest local and global broadcaster by stature and by number of employees, the BBC employs over 21,000 staff in total, of whom approximately 17,200 are in public-sector broadcasting.</p>
+        <p className="channel-page__description">{channel.description}</p>
         {channel.topics && (
           <ChannelTopicsElement
             topics={channel.topics}

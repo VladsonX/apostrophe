@@ -1,0 +1,15 @@
+.article-snippet {
+    width: 100%;
+    min-height: 6rem;
+    background-color: var(--transparent);
+    border-radius: var(--radius);
+    border: 2px solid var(--project-black);
+    resize: none;
+    padding: 1rem;
+    color: var(--soft-gray);
+    font-size: 1rem;
+    &:focus {
+        outline: 2px solid var(--soft-purple);
+        color: var(--white);
+    }
+}

@@ -14,11 +14,11 @@
     overflow: hidden;
     background-color: var(--transparent);
     border-radius: var(--radius);
-    border: 2px solid var(--settings);
+    border: 2px solid var(--project-black);
     margin-bottom: 0.5rem;
     line-height: 1.5rem;
     &:focus {
-      outline: 1px solid var(--soft-purple);
+      outline: 2px solid var(--soft-purple);
     }
     &::placeholder {
       color: var(--settings);

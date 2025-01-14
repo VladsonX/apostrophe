@@ -24,12 +24,12 @@ const CreateChannelPage = () => {
   const navigate = useNavigate();
 
   const token = getCurrentJwtToken();
-        if (!token) {
-          setError("User is not authenticated");
-          setLoading(false);
-          navigate("welcome");
-          return;
-        }
+  if (!token) {
+    setError("User is not authenticated");
+    setLoading(false);
+    navigate("welcome");
+    return;
+  }
 
   const handleSaveButton = () => {
     const newCustomChannel = {

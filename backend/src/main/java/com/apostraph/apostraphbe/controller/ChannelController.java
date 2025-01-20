@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -62,6 +63,13 @@ public class ChannelController {
 
         log.info("Updating channel: [{}].", channelId);
         return channelService.updateChannel(channelId, channel, properties);
+    }
+
+    @GetMapping("/search")
+    public List<Channel> searchChannels(@RequestParam String query, @RequestAttribute("properties") AuthenticatedRequestProperties properties) {
+
+        log.info("Searching channels by query: [{}].", query);
+        return channelService.searchChannels(query, properties);
     }
 
     @PutMapping("/{channelId}/topics/enable")

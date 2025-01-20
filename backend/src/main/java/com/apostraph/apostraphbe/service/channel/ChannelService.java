@@ -140,6 +140,17 @@ public class ChannelService {
         postRepository.saveAll(postEntities);
     }
 
+    public List<Channel> searchChannels(String query, AuthenticatedRequestProperties properties) {
+
+        TargetSystemUtils.validateTargetSystem(properties, LoginTargetSystem.READER);
+
+        return channelRepository.findAll()
+                .stream()
+                .filter(channelEntity -> channelEntity.getName().contains(query))
+                .map(channelMapper::mapToDto)
+                .toList();
+    }
+
     private ChannelEntity findChannelEntityById(UUID channelId) {
 
         return channelRepository.findById(channelId)

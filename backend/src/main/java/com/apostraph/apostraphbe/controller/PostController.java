@@ -84,4 +84,11 @@ public class PostController {
         return latestPostsService.getLatestPosts(from, to, properties);
     }
 
+    @GetMapping("/explore")
+    public List<Post> getExplorePosts(@RequestParam Integer limit, @RequestAttribute("properties") AuthenticatedRequestProperties properties) {
+
+        log.info("Getting explore posts.");
+        return latestPostsService.getExplorePosts(limit, properties);
+    }
+
 }

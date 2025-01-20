@@ -1,0 +1,99 @@
+import MainSection from "../components/main-components/MainSection";
+import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
+import "./ChannelPage.scss";
+import SmalSubmitButton from "../components/main-components/SmallSubmitButton";
+import { FaHome } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { getCurrentJwtToken } from "../script/LocalStorageUtils";
+import { serverURL } from "../server";
+import { useParams } from "react-router";
+import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
+import MainContainer from "../components/main-components/MainContainer";
+import ChannelTitleElement from "../components/channel/ChannelTitleElement";
+import ChannelTopicsElement from "../components/channel/ChannelTopicsElement";
+import ChannelLatestArticles from "../components/channel/ChannelLatestArticles";
+import Loader from "../components/main-components/Loader";
+import Footer from "../components/main-components/Footer";
+
+const ChannelPage = () => {
+  const { channelId } = useParams();
+  const [channel, setChannel] = useState({});
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  useEffect(() => {
+    const fetchChannels = async () => {
+      const token = getCurrentJwtToken();
+      if (!token) {
+        setError("User is not authenticated");
+        setLoading(false);
+        navigate("welcome");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${serverURL}/api/v1/channels/${channelId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Failed to fetch channels");
+        }
+
+        const channel = await response.json();
+        enrichChannelsWithLogoPlaceholderBackground([channel]);
+        setChannel(channel);
+        console.log(channel);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchChannels();
+  }, [channelId, navigate]);
+
+  // const handleSubmitButton = () => {
+  //   navigate(`/channel/editchannel/${id}`);
+  // };
+  return (
+    <MainSection>
+      <TopNavigationBar
+        button={
+          <SmalSubmitButton
+            // onClick={handleSubmitButton}
+            text="Follow"
+            position="absolute"
+          />
+        }
+        icon={<FaHome />}
+        name={`${channel.name}`}
+      />
+      <MainContainer>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <ChannelTitleElement channel={channel} />
+            <p className="channel-page__description">{channel.description}</p>
+            {channel.topics && (
+              <ChannelTopicsElement
+                topics={channel.topics}
+                name="Topics"
+                channel={channel}
+              />
+            )}
+            <ChannelLatestArticles channel={channel} name="Latest Articles" />
+          </>
+        )}
+      </MainContainer>
+      <Footer />
+    </MainSection>
+  );
+};
+
+export default ChannelPage;

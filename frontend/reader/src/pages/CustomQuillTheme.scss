@@ -1,0 +1,115 @@
+div.ql-toolbar.ql-snow {
+  position: sticky;
+  z-index: 10;
+  top: 2px;
+  background: var(--deep-brown);
+  border-radius: var(--radius);
+  border: 1px solid var(--settings);
+  .ql-formats button {
+    &:hover > svg > .ql-fill {
+      fill: var(--soft-purple);
+    }
+  }
+  .ql-formats button {
+    &:hover > svg > .ql-stroke {
+      stroke: var(--soft-purple);
+    }
+  }
+}
+div.quill {
+  min-height: 3rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+div.quill div.ql-container.ql-snow {
+  overflow: visible;
+  margin-top: 0.5rem;
+  border: none;
+  .ql-editor {
+    padding: 2rem;
+    color: var(--soft-gray);
+    width: 100%;
+    border-radius: var(--radius);
+    background-color: var(--transparent);
+    border: 2px solid var(--project-black);
+    &:focus {
+      color: var(--white);
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+    h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    a {
+      color: var(--link);
+    }
+    p {
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      font-weight: 400;
+      &.ql-align-right {
+        font-size: 1.25rem;
+        width: 50%;
+        margin: 0 auto;
+        text-align: right;
+      }
+      &:has(img) {
+        word-wrap: break-word;
+      }
+    }
+    strong {
+      color: var(--soft-purple);
+      font-weight: 700;
+    }
+    s {
+      text-decoration-color: var(--discard);
+    }
+    u {
+      text-decoration-color: var(--soft-purple);
+    }
+    ul {
+      li {
+        font-size: 1rem;
+        &::before {
+          color: var(--soft-purple);
+        }
+      }
+    }
+    ol {
+      li {
+        font-size: 1rem;
+        &::before {
+          color: var(--soft-purple);
+        }
+      }
+    }
+    img {
+      object-fit: fill;
+      margin: 0 1rem 1rem 0;
+      min-width: 50%;
+      max-width: 50%;
+      min-height: 18.75rem;
+      float: left;
+      &::after {
+        content: "This is a paragraph.";
+        display: block; /* Make it a block element */
+        width: auto; /* Adjust width as needed */
+        padding: 10px; /* Add padding */
+        margin: 10px; /* Add margin */
+        background-color: #f0f0f0; /* Add background color */
+      }
+    }
+  }
+  blockquote {
+    // font-style: italic;
+    width: 50%;
+    font-size: 1.25rem;
+    border-left: 2px solid var(--soft-purple);
+    display: block;
+    justify-self: center;
+    margin: 2rem 0 0;
+  }
+}

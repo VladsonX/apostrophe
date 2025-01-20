@@ -1,0 +1,10 @@
+@use '../../index.scss';
+
+.main-section {
+    overflow: visible;
+    position: relative;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

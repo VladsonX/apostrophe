@@ -1,0 +1,58 @@
+.hot-topics-slider {
+  border-radius: var(--radius);
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  transform: translateX(0);
+  align-items: center;
+
+  &__slide {
+    border-radius: var(--radius);
+    flex: 0 0 100%;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    &.active  {
+        transition: .3s all ease;
+        opacity: 1;
+        &:hover {
+            background-color: black;
+        }
+
+    }
+    &.inactive {
+        opacity: 0;
+    }
+  }
+  &-container {
+    border-radius: var(--radius);
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    
+  }
+  &__chevron {
+    fill: var(--white);
+  }
+  &__button {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--transparent);
+    border-radius: var(--radius);
+    border: 1px solid var(--white);
+    &:hover {
+      background-color: var(--soft-purple);
+      border: 2px solid var(--soft-purple);
+    }
+  }
+  &__buttons-wrapper {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 5rem;
+    justify-self: flex-end;
+  }
+}

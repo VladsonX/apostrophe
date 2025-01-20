@@ -1,0 +1,40 @@
+// Color variables
+$soft-gray: #d4d4d4;
+$deep-brown: #252323;
+$project-black: #2c2b2b;
+$main-gradient: conic-gradient(
+  from 0deg,
+  #d4d4d4 0%,
+  #b1b0e5 26%,
+  #e9a885 50%,
+  #b0e5da 75%,
+  #d4d4d4ff 100%
+);
+$article: linear-gradient(-5deg, rgba(26, 25, 25, 0.99) 0%, rgba(47, 46, 46, 0.45) 25%, rgba(45, 44, 44, 0.98) 50%, rgba(17, 17, 17, 0.61) 75%, rgba(21, 21, 21, 0.91) 100%);
+
+$white: #fff;
+// $soft-purple: #b1b0e5;
+$soft-purple: #8584d2;
+$settings: #858484;
+$link: #4ca5e9;
+$transparent: #ffffff00;
+$placeholder: #B2B2B2;
+$discard: #E9A885;
+
+$glassy-gray: linear-gradient(
+  45deg,
+  rgba(90, 90, 90, 0.35) 0%,
+  rgba(115, 115, 115, 0.25) 33%,
+  rgba(132, 132, 132, 0.35) 60%
+);
+
+$fading: linear-gradient(
+  0deg,
+  $deep-brown 0%,
+  $deep-brown 50%,
+  $deep-brown 100%
+);
+
+// Size variables:
+
+$radius: 10px;

@@ -1,0 +1,9 @@
+.create-article-page {
+    &__context {
+        width: 100%;
+        display: block;
+        font-size: 1rem;
+        color: var(--settings);
+        margin-bottom: 1rem;
+    }
+}

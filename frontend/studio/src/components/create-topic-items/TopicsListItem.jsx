@@ -1,20 +1,17 @@
 import "./TopicsListItem.scss";
 import { CiImageOn } from "react-icons/ci";
 import { IconContext } from "react-icons";
+import { serverURL } from "../../server";
 
 const TopicsListItem = ({ channel, name, onClick, userImg, className }) => {
+  const imageUrl = `${serverURL}/api/v1/media/${userImg}`
+  console.log('Topic List Item IMG: ',userImg)
   return (
     <li onClick={onClick} className={className}>
-      {channel.avatar ? (
+      {userImg ? (
         <img
           className="topics-list-item__img"
-          src={channel.avatar}
-          alt={channel.name}
-        />
-      ) : userImg ? (
-        <img
-          className="topics-list-item__img"
-          src={userImg}
+          src={imageUrl}
           alt={channel.name}
         />
       ) : channel.name ? (

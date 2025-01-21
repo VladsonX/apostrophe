@@ -10,6 +10,8 @@ import SmalSubmitButton from '../components/main-components/SmallSubmitButton';
 import MainContainer from '../components/main-components/MainContainer';
 import CreateChannelElement from '../components/create-channel-items/CreateChannelElement';
 import ChannelSettingsInput from '../components/create-channel-items/CreateChannelInput';
+import Loader from '../components/main-components/Loader';
+
 
 const EditTopicPage = () => {
     const [channel, setChannel] = useState({});
@@ -78,7 +80,9 @@ const EditTopicPage = () => {
           name={`Edit your channel's topic: ${channel.name}/${topic.name}`}
         />
         <MainContainer>
-        <CreateChannelElement name="Topic Name">
+          {loading ? <Loader /> : (
+            <>
+             <CreateChannelElement name="Topic Name">
           <ChannelSettingsInput
             name={setTopicName}
             descr={setTopicDescr}
@@ -100,6 +104,9 @@ const EditTopicPage = () => {
             maxCharCount="500"
           />
         </CreateChannelElement>
+            </>
+          )}
+       
         </MainContainer>
     </MainSection>
   )

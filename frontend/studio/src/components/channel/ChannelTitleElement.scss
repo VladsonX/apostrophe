@@ -6,6 +6,12 @@
   align-items: center;
   height: 135px;
   margin-bottom: 2rem;
+  &__img {
+    width: 135px;
+    height: 135px;
+    object-fit: fill;
+    border-radius: var(--radius);
+  }
   &__wrapper {
     display: flex;
     align-items: center;

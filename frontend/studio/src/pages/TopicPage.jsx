@@ -12,6 +12,7 @@ import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPl
 import MainContainer from "../components/main-components/MainContainer";
 import ChannelTitleElement from "../components/channel/ChannelTitleElement";
 import ChannelLatestArticles from "../components/channel/ChannelLatestArticles";
+import Loader from '../components/main-components/Loader'
 
 const ChannelPage = () => {
   const { channelId, topicId } = useParams();
@@ -51,7 +52,9 @@ const ChannelPage = () => {
         enrichChannelsWithLogoPlaceholderBackground([channel]);
         setChannel(channel);
         console.log(channel);
-        const topicFound = channel.topics.find(element => element.topicId === topicId)
+        const topicFound = channel.topics.find(
+          (element) => element.topicId === topicId
+        );
         setTopic(topicFound);
         console.log(topic);
       } catch (err) {
@@ -80,9 +83,15 @@ const ChannelPage = () => {
         name={`Your Channel: ${channel.name}/${topic.name}`}
       />
       <MainContainer>
-        <ChannelTitleElement channel={channel} topic={topic} />
-        <p className="channel-page__description">{topic.description}</p>
-        <ChannelLatestArticles channel={channel} name="Latest Articles" />
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <ChannelTitleElement channel={channel} topic={topic} />
+            <p className="channel-page__description">{topic.description}</p>
+            <ChannelLatestArticles channel={channel} name="Latest Articles" />
+          </>
+        )}
       </MainContainer>
     </MainSection>
   );

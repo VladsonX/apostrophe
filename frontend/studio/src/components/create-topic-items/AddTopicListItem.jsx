@@ -1,20 +1,16 @@
 import "./TopicsListItem.scss";
 import { CiImageOn } from "react-icons/ci";
 import { IconContext } from "react-icons";
+import { serverURL } from "../../server";
 
 const AddTopicListItem = ({ channel, name, onClick, userImg }) => {
+  const imageUrl = `${serverURL}/api/v1/media/${userImg}`;
   return (
     <li onClick={onClick} className="topics-list-item">
-      {channel.avatar ? (
+      {userImg ? (
         <img
           className="topics-list-item__img"
-          src={channel.avatar}
-          alt={channel.name}
-        />
-      ) : userImg ? (
-        <img
-          className="topics-list-item__img"
-          src={userImg}
+          src={imageUrl}
           alt={channel.name}
         />
       ) : channel.name ? (
@@ -30,7 +26,8 @@ const AddTopicListItem = ({ channel, name, onClick, userImg }) => {
             <IconContext.Provider
               value={{
                 size: "2.5rem",
-                className: "create-channel-logo__add-icon create-channel-logo__add-icon_topic",
+                className:
+                  "create-channel-logo__add-icon create-channel-logo__add-icon_topic",
               }}
             >
               <CiImageOn />

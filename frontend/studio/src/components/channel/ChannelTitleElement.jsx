@@ -1,14 +1,16 @@
 import Divider from "../main-components/Divider";
 import "./ChannelTitleElement.scss";
+import { serverURL } from "../../server";
 
 const ChannelTitleElement = ({ channel, topic }) => {
+  const imageUrl = channel.avatar ? `${serverURL}/api/v1/media/${channel.avatar}` : null;
   return (
     <section className="channel-title-element">
       <div className="channel-title-element__wrapper channel-title-element__wrapper_small">
         {channel.avatar ? (
           <img
             className="channel-title-element__img"
-            src={channel.avatar}
+            src={imageUrl}
             alt={channel.name}
           />
         ) : (

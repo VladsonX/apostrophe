@@ -47,6 +47,7 @@ const SignUpPage = () => {
   };
 
   return (
+    
     <section className="signUp">
       <h1 className="logo signUp__logo">Sign up!</h1>
       <div className="signUp__card">

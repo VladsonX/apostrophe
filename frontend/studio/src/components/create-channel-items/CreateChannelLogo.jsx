@@ -6,8 +6,9 @@ import { serverURL } from "../../server";
 
 import { IconContext } from "react-icons";
 
-const CreateChannelLogo = ({ isLoading, channel, customImg }) => {
-  const [image, setImage] = useState(channel.avatar || "");
+const CreateChannelLogo = ({ isLoading, channel = {}, customImg }) => {
+  const imageUrl = channel.avatar ? `${serverURL}/api/v1/media/${channel.avatar}` : null;
+  const [image, setImage] = useState(imageUrl || "");
 
   const handleFileChange = () => {
     const input = document.createElement("input");
@@ -21,7 +22,7 @@ const CreateChannelLogo = ({ isLoading, channel, customImg }) => {
       formData.append("file", file);
 
       try {
-        const response = await fetch("http://54.165.53.22:9090/api/v1/media", {
+        const response = await fetch(`${serverURL}/api/v1/media`, {
           method: "POST",
           body: formData,
         });
@@ -32,10 +33,10 @@ const CreateChannelLogo = ({ isLoading, channel, customImg }) => {
 
         const uuid = await response.text();
         console.log("uuid:", uuid);
-        const imageUrl = `http://54.165.53.22:9090/api/v1/media/${uuid}`;
+        const imageUrl = `${serverURL}/api/v1/media/${uuid}`;
         setImage(imageUrl);
-        customImg(imageUrl)
-        console.log(image);
+        customImg(uuid)
+
       } catch (error) {
         console.error(error);
       }

@@ -1,5 +1,6 @@
 import "./ArticleImg.scss";
 import { useState } from "react";
+import { serverURL } from "../../server";
 
 const ArticleImg = ({ customImg }) => {
   const [image, setImage] = useState(null);
@@ -20,7 +21,7 @@ const ArticleImg = ({ customImg }) => {
       formData.append("file", file);
 
       try {
-        const response = await fetch("http://54.165.53.22:9090/api/v1/media", {
+        const response = await fetch(`${serverURL}/api/v1/media`, {
           method: "POST",
           body: formData,
         });
@@ -30,7 +31,7 @@ const ArticleImg = ({ customImg }) => {
         }
 
         const uuid = await response.text();
-        const imageUrl = `http://54.165.53.22:9090/api/v1/media/${uuid}`;
+        const imageUrl = `${serverURL}/api/v1/media/${uuid}`;
         setImage(imageUrl);
         customImg(imageUrl);
       } catch (error) {

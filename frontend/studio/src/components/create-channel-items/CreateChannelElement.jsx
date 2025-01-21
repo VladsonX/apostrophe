@@ -1,14 +1,14 @@
-import './CreateChannelElement.scss';
-import CreateChannelTitle from './CreateChannelTitle';
+import "./CreateChannelElement.scss";
+import CreateChannelTitle from "./CreateChannelTitle";
 
-const CreateChannelElement = ( {children, name, id, number} ) => {
+const CreateChannelElement = ({ children, name, id, number }) => {
   return (
     <div id={id} className="create-channel-element">
       <CreateChannelTitle number={number} name={name} />
 
       {children}
-      </div>
-  )
-}
+    </div>
+  );
+};
 
-export default CreateChannelElement
+export default CreateChannelElement;

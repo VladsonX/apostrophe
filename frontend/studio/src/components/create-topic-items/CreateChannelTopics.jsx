@@ -6,12 +6,14 @@ import TopicsListItem from "./TopicsListItem";
 import AddTopicListItem from "./AddTopicListItem";
 import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import { serverURL } from "../../server";
 
-const CreateChannelTopics = ({ channel, customImg, updateTopics }) => {
+const CreateChannelTopics = ({ channel, customImg, updateTopics, newTopics }) => {
+  console.log(customImg);
   const [topicChosen, setTopicChosen] = useState();
-  const [updatedTopics, setUpdatedTopics] = useState([]);
+  const [updatedTopics, setUpdatedTopics] = useState(newTopics);
   useEffect(() => {
-    if (channel && channel.topics) {
+    if (channel && channel.topicsEnabled) {
       setUpdatedTopics(channel.topics);
       console.log("Topics loaded:", channel.topics);
     }
@@ -19,7 +21,8 @@ const CreateChannelTopics = ({ channel, customImg, updateTopics }) => {
 
   const handleTopicChanges = (updatedTopic) => {
     const newTopics = updatedTopics.map((topic) =>
-      topic.topicId === updatedTopic.topicId ? { ...updatedTopic } : { ...topic }
+      topic.topicId === updatedTopic.topicId ? { ...updatedTopic } : { ...topic },
+    
     );
     setUpdatedTopics(newTopics);
     console.log("Create Channel Topics: updated topics:", newTopics);

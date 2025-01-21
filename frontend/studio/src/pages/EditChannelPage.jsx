@@ -13,17 +13,23 @@ import { useParams, useNavigate } from "react-router";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { serverURL } from "../server";
 import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
+import Loader from "../components/main-components/Loader";
+import TopicModeToggle from "../components/create-channel-items/TopicModeToggle";
 
 const CreateChannelPage = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [channel, setChannel] = useState([]);
   const [error, setError] = useState(null);
-  const [customImg, setCustomImg] = useState(null);
+
   const [customChannelName, setCustomChannelName] = useState("");
   const [customChannelDescr, setCustomChannelDescr] = useState("");
-  const [customTopics, setCustomTopics] = useState([]);
+  const [customTopics, setCustomTopics] = useState(channel.topics || []);
   const [customChannel, setCustomChannel] = useState({});
+  const [enableTopicMode, setEnableTopicMode] = useState(
+    channel?.topicsEnabled
+  );
+  const [customImg, setCustomImg] = useState(null);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -62,24 +68,48 @@ const CreateChannelPage = () => {
 
   useEffect(() => {
     if (channel) {
+      setCustomChannel(channel || {});
       setCustomChannelName(channel.name || "");
       setCustomChannelDescr(channel.description || "");
       setCustomTopics(channel.topics || []);
-      setCustomChannel(channel || {});
+      // setCustomImg(`${serverURL}/api/v1/media/${channel.avatar}`);
+      setCustomImg(channel.avatar);
     }
   }, [channel]);
 
-  const handleSaveButton = () => {
+
+  const handleSaveButton = async () => {
+    const token = getCurrentJwtToken();
+    if (!token) {
+      setError("User is not authenticated");
+      navigate("welcome");
+      return;
+    }
+    setLoading(false);
     const newCustomChannel = {
       channelId: channel.channelId,
       name: customChannelName,
       description: customChannelDescr,
-      avatar: customImg,
-      ownerId: channel.ownerId,
-      topic: customTopics,
+      avatar: customImg ? customImg : null,
+      topicsEnabled: enableTopicMode,
+      topics: customTopics,
     };
     setCustomChannel(newCustomChannel);
     console.log(newCustomChannel);
+    console.log("Update channel:", JSON.stringify(newCustomChannel));
+    try {
+      const res = await fetch(`${serverURL}/api/v1/channels/${channel.channelId}`, {
+        method: "PATCH",
+          body: JSON.stringify(newCustomChannel),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+      });
+      if (!res.ok) {
+        throw new Error("Failed to fetch channels");
+      }
+    } catch (error) {}
   };
   return (
     <MainSection>
@@ -95,42 +125,79 @@ const CreateChannelPage = () => {
         name={`Edit your channel: ${channel.name}`}
       />
       <MainContainer>
-        <CreateChannelElement name="Channel Logo">
-          <CreateChannelLogo
-            customImg={setCustomImg}
-            channel={channel}
-            isLoading={loading}
-          />
-        </CreateChannelElement>
-        <CreateChannelElement name="Channel Name">
-          <ChannelSettingsInput
-            name={setCustomChannelName}
-            descr={setCustomChannelDescr}
-            key={channel.name}
-            channel={channel}
-            type="name"
-            placeholder="My Lovely Channel"
-            maxCharCount="64"
-          />
-        </CreateChannelElement>
-        <CreateChannelElement name="Channel Description">
-          <ChannelSettingsInput
-            name={setCustomChannelName}
-            descr={setCustomChannelDescr}
-            key={channel.name}
-            channel={channel}
-            type="description"
-            placeholder="I really love my lovely channel"
-            maxCharCount="500"
-          />
-        </CreateChannelElement>
-        <CreateChannelElement name="Channel Topics" number={customTopics.length}>
-          <CreateChannelTopics
-            updateTopics={setCustomTopics}
-            customImg={customImg}
-            channel={channel}
-          />
-        </CreateChannelElement>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <CreateChannelElement name="Channel Logo">
+              <CreateChannelLogo
+                customImg={setCustomImg}
+                channel={channel}
+                isLoading={loading}
+              />
+            </CreateChannelElement>
+            <CreateChannelElement name="Channel Name">
+              <ChannelSettingsInput
+                name={setCustomChannelName}
+                descr={setCustomChannelDescr}
+                key={channel.name}
+                channel={channel}
+                type="name"
+                placeholder="My Lovely Channel"
+                maxCharCount="64"
+              />
+            </CreateChannelElement>
+            <CreateChannelElement name="Channel Description">
+              <ChannelSettingsInput
+                name={setCustomChannelName}
+                descr={setCustomChannelDescr}
+                key={channel.name}
+                channel={channel}
+                type="description"
+                placeholder="I really love my lovely channel"
+                maxCharCount="500"
+              />
+            </CreateChannelElement>
+            <CreateChannelElement name="Topic Mode">
+              <div className="topic-mode-wrapper">
+                <TopicModeToggle
+                  topics={setCustomTopics}
+                  setTopicMode={setEnableTopicMode}
+                />
+                <p className="topic-mode-description">
+                  Choose if you want to enable{" "}
+                  <span className="topic-mode-description_mode">
+                    Topic Mode
+                  </span>{" "}
+                  for your channel. Once{" "}
+                  <span className="topic-mode-description_mode">
+                    Topic Mode
+                  </span>{" "}
+                  is enabled -{" "}
+                  <span className="topic-mode-description_bold">
+                    at least one topic should be created. All the articles you
+                    create further should be added to certain topic.
+                  </span>
+                </p>
+              </div>
+            </CreateChannelElement>
+            {enableTopicMode ? (
+              <CreateChannelElement
+                name="Channel Topics"
+                number={customTopics.length}
+              >
+                <CreateChannelTopics
+                  newTopics={customTopics}
+                  updateTopics={setCustomTopics}
+                  customImg={customImg}
+                  channel={channel}
+                />
+              </CreateChannelElement>
+            ) : (
+              <></>
+            )}
+          </>
+        )}
       </MainContainer>
     </MainSection>
   );

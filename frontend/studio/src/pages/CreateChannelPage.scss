@@ -3,3 +3,25 @@
 .create-channel-page {
   width: 75%;
 }
+
+.topic-mode-description {
+  width: 90%;
+  font-size: 1rem;
+  color: var(--settings);
+  font-weight: 400;
+  &_mode {
+    color: var(--soft-purple);
+    font-weight: 700;
+  }
+  &_bold {
+    color: var(--discard);
+
+  }
+}
+
+.topic-mode-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}

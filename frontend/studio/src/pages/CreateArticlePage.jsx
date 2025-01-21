@@ -17,9 +17,10 @@ import "./CustomQuillTheme.scss";
 import "../components/create-article/ArticleText.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import Loader from "../components/main-components/Loader";
 
 const CreateArticlePage = () => {
-  const { id } = useParams();
+  const { channelId, topicId } = useParams();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
   const [channel, setChannel] = useState({});
@@ -33,8 +34,6 @@ const CreateArticlePage = () => {
   const navigate = useNavigate();
   const token = getCurrentJwtToken();
 
-  
-
   const imageHandler = async () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
@@ -46,7 +45,7 @@ const CreateArticlePage = () => {
       formData.append("file", file);
 
       try {
-        const response = await fetch("http://54.165.53.22:9090/api/v1/media", {
+        const response = await fetch(`${serverURL}/api/v1/media`, {
           method: "POST",
           body: formData,
         });
@@ -56,7 +55,7 @@ const CreateArticlePage = () => {
         }
 
         const uuid = await response.text();
-        const imageUrl = `http://54.165.53.22:9090/api/v1/media/${uuid}`;
+        const imageUrl = `${serverURL}/api/v1/media/${uuid}`;
 
         // Insert image URL in the editor
         const quill = quillRef.current.getEditor();
@@ -79,12 +78,13 @@ const CreateArticlePage = () => {
     const range = quill.getSelection();
     const quote = `
     <blockquote> 
+
     </blockquote>
-    <p class='ql-align-right'>Author</p>`;
+        <p class='ql-align-right'>Author</p>
+    `;
     quill.clipboard.dangerouslyPasteHTML(range.index, quote);
     quill.setSelection(range.index + 10);
   };
-
 
   const modules = {
     toolbar: [
@@ -102,7 +102,6 @@ const CreateArticlePage = () => {
     ],
   };
 
-
   const formats = [
     "header",
     "bold",
@@ -117,13 +116,18 @@ const CreateArticlePage = () => {
   ];
 
   useEffect(() => {
-    const quill = quillRef.current.getEditor();
-    const toolbar = quill.getModule("toolbar");
-    toolbar.addHandler("image", imageHandler);
-    toolbar.addHandler("blockquote", blockQuoteHandler);
+    if (quillRef.current) {
+      const quill = quillRef.current.getEditor();
+      const toolbar = quill.getModule("toolbar");
+
+      if (toolbar) {
+        toolbar.addHandler("image", imageHandler);
+        toolbar.addHandler("blockquote", blockQuoteHandler);
+      }
+    }
   }, []);
 
-  const handleSubmit = () => {
+  const handleSubmitButton = () => {
     console.log("SUBMIT");
     console.log(editorContent);
   };
@@ -145,7 +149,7 @@ const CreateArticlePage = () => {
       }
 
       try {
-        const response = await fetch(`${serverURL}/api/v1/channels/${id}`, {
+        const response = await fetch(`${serverURL}/api/v1/channels/${channelId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -166,7 +170,7 @@ const CreateArticlePage = () => {
       }
     };
     fetchChannels();
-  }, [id, navigate, token]);
+  }, [channelId, navigate, token]);
 
   return (
     <MainSection>
@@ -182,36 +186,47 @@ const CreateArticlePage = () => {
         name={`Your Channel: ${channel.name}`}
       />
       <MainContainer>
-        <CreateChannelElement name="Article Image">
-          <span className="create-article-page__context">
-            The image of your article will be shown to readers in preview mode
-          </span>
-          <ArticleImgDescrWrapper
-            setValue={setArticleImgDescr}
-            maxCharCount="155"
-          />
-        </CreateChannelElement>
-        <CreateChannelElement name="Article Name">
-          <div className="create-article-name__wrapper">
-            <ArticleInput setValue={setArticleName} maxCharCount="90" />
-          </div>
-        </CreateChannelElement>
-        <CreateChannelElement name="Article Snippet">
-          <span className="create-article-page__context">
-            Article Snippet will be shown to readers as a preview text{" "}
-          </span>
-          <ArticleSnippet maxCharCount="255" setValue={setArticleSnippet} />
-        </CreateChannelElement>
-        <CreateChannelElement id="articleToolbar" name="Article Text">
-          <ReactQuill
-            value={editorContent}
-            onChange={setEditorContent}
-            ref={quillRef}
-            modules={modules}
-            formats={formats}
-          />
-          <SmalSubmitButton align="flex-end" text="Save" />
-        </CreateChannelElement>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <CreateChannelElement name="Article Image">
+              <span className="create-article-page__context">
+                The image of your article will be shown to readers in preview
+                mode
+              </span>
+              <ArticleImgDescrWrapper
+                setValue={setArticleImgDescr}
+                maxCharCount="155"
+              />
+            </CreateChannelElement>
+            <CreateChannelElement name="Article Name">
+              <div className="create-article-name__wrapper">
+                <ArticleInput setValue={setArticleName} maxCharCount="90" />
+              </div>
+            </CreateChannelElement>
+            <CreateChannelElement name="Article Snippet">
+              <span className="create-article-page__context">
+                Article Snippet will be shown to readers as a preview text{" "}
+              </span>
+              <ArticleSnippet maxCharCount="255" setValue={setArticleSnippet} />
+            </CreateChannelElement>
+            <CreateChannelElement id="articleToolbar" name="Article Text">
+              <ReactQuill
+                value={editorContent}
+                onChange={setEditorContent}
+                ref={quillRef}
+                modules={modules}
+                formats={formats}
+              />
+              <SmalSubmitButton
+                align="flex-end"
+                text="Save"
+                onClick={handleSubmitButton}
+              />
+            </CreateChannelElement>
+          </>
+        )}
       </MainContainer>
     </MainSection>
   );

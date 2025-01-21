@@ -11,7 +11,8 @@ import { useNavigate } from "react-router";
 import MainSection from "../components/main-components/MainSection";
 import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
- 
+import Loader from "../components/main-components/Loader";
+
 function MainPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -39,11 +40,10 @@ function MainPage() {
         if (!res.ok) {
           throw new Error("Failed to fetch channels");
         }
-        
+
         const channels = await res.json();
         enrichChannelsWithLogoPlaceholderBackground(channels);
         setChannels(channels);
-
       } catch (err) {
         setError(err.message);
       } finally {
@@ -57,23 +57,20 @@ function MainPage() {
     <MainSection>
       <TopNavigationBar icon={<FaHome />} name="My Channels" />
       <MainContainer>
-        <CreateChannelElement name='My channels' number={channels.length}>
-        <ChannelsList>
-          {channels.map((channel) => (
-            <ChannelListItem
-              channel={channel}
-              key={channel.channelId}
-            />
-          ))}
-          <CreateChannelListItem/>
-        </ChannelsList>
-        </CreateChannelElement>
-
+        {loading ? (
+          <Loader />
+        ) : (
+          <CreateChannelElement name="My channels" number={channels.length}>
+            <ChannelsList>
+              {channels.map((channel) => (
+                <ChannelListItem channel={channel} key={channel.channelId} />
+              ))}
+              <CreateChannelListItem />
+            </ChannelsList>
+          </CreateChannelElement>
+        )}
       </MainContainer>
     </MainSection>
-
-
-
   );
 }
 

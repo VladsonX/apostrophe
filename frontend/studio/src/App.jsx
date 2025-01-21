@@ -11,7 +11,7 @@ import WelcomePage from "./pages/WelcomePage";
 import SignUpPage from "./pages/SignUpPage";
 import CheckMailBoxPage from "./pages/CheckMailBoxPage";
 import EditChannelPage from "./pages/EditChannelPage";
-import CreateChannelPage from "./pages/EditChannelPage";
+import CreateChannelPage from "./pages/CreateChannelPage";
 import ChannelPage from "./pages/ChannelPage";
 import CreateArticlePage from "./pages/CreateArticlePage";
 import TopicPage from './pages/TopicPage'
@@ -23,12 +23,13 @@ function App() {
       <Route>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<MainPage />} />
-          <Route path="settings" element={<SettingsPage />} /> */ TODO */
+          <Route path="settings" element={<SettingsPage />} /> 
           <Route path="channel/editchannel/:id" element={<EditChannelPage/>}></Route>
           <Route path="channel/editchannel" element={<EditChannelPage/>}></Route>
           <Route path="channel/createchannel" element={<CreateChannelPage/>}></Route>
           <Route path="channel/:id" element={<ChannelPage />}></Route>
-          <Route path="channel/:id/article/createarticle" element={<CreateArticlePage />}></Route>
+          <Route path="channel/:id/createarticle" element={<CreateArticlePage />}></Route>
+          <Route path="channel/:channelId/topic/:topicId/createarticle" element={<CreateArticlePage />}></Route>
           <Route path="channel/:channelId/topic/:topicId" element={<TopicPage />}></Route>
           <Route path="channel/:channelId/topic/:topicId/edit" element={<EditTopicPage />}></Route>
         </Route>

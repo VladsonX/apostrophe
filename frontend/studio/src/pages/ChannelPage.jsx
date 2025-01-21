@@ -13,6 +13,7 @@ import MainContainer from "../components/main-components/MainContainer";
 import ChannelTitleElement from "../components/channel/ChannelTitleElement";
 import ChannelTopicsElement from "../components/channel/ChannelTopicsElement";
 import ChannelLatestArticles from "../components/channel/ChannelLatestArticles";
+import Loader from "../components/main-components/Loader";
 
 const ChannelPage = () => {
   const { id } = useParams();
@@ -57,7 +58,7 @@ const ChannelPage = () => {
 
   const handleSubmitButton = () => {
     navigate(`/channel/editchannel/${id}`);
-  }
+  };
   return (
     <MainSection>
       <TopNavigationBar
@@ -72,16 +73,22 @@ const ChannelPage = () => {
         name={`Your Channel: ${channel.name}`}
       />
       <MainContainer>
-        <ChannelTitleElement channel={channel} />
-        <p className="channel-page__description">{channel.description}</p>
-        {channel.topics && (
-          <ChannelTopicsElement
-            topics={channel.topics}
-            name="Topics"
-            channel={channel}
-          />
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <ChannelTitleElement channel={channel} />
+            <p className="channel-page__description">{channel.description}</p>
+            {channel.topicsEnabled && (
+              <ChannelTopicsElement
+                topics={channel.topics}
+                name="Topics"
+                channel={channel}
+              />
+            )}
+            <ChannelLatestArticles channel={channel} name="Latest Articles" />
+          </>
         )}
-        <ChannelLatestArticles channel={channel} name='Latest Articles' />
       </MainContainer>
     </MainSection>
   );

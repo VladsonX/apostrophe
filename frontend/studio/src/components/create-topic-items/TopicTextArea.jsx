@@ -24,6 +24,7 @@ const TopicTextArea = ({ maxcharCount, topicDescription, updateTopicDescription 
         value={value}
         name=""
         id=""
+        maxLength={maxcharCount}
       ></textarea>
       <span className="topic-input__counter">
         {charCount ? charCount : 0}/{maxcharCount}

@@ -1,7 +1,14 @@
 import { useState } from "react";
 import "./CreateChannelInput.scss";
 
-const ChannelSettingsInput = ({ channel, placeholder, maxCharCount, type, name, descr }) => {
+const CreateChannelInput = ({
+  channel = {},
+  placeholder,
+  maxCharCount,
+  type,
+  name,
+  descr,
+}) => {
   const [areaValue, setAreaValue] = useState("");
   const [descriptionValue, setDescriptionValue] = useState(
     channel.description || ""
@@ -42,9 +49,11 @@ const ChannelSettingsInput = ({ channel, placeholder, maxCharCount, type, name, 
           className="channel-settings__input"
           type="text"
           value={descriptionValue}
+
         ></textarea>
       ) : (
         <input
+
           onChange={(e) => setCharCount(e.target.value.length)}
           onInput={(e) => handleInput(e)}
           maxLength={maxCharCount}
@@ -61,4 +70,4 @@ const ChannelSettingsInput = ({ channel, placeholder, maxCharCount, type, name, 
   );
 };
 
-export default ChannelSettingsInput;
+export default CreateChannelInput;

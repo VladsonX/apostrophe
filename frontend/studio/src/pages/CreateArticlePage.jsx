@@ -6,18 +6,18 @@ import { FaHome } from "react-icons/fa";
 import MainContainer from "../components/main-components/MainContainer";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router";
+import { NavLink, useNavigate, useParams } from "react-router";
 import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
 import { serverURL } from "../server";
 import ArticleImgDescrWrapper from "../components/create-article/ArticleImgDescrWrapper";
 import ArticleInput from "../components/create-article/ArticleInput";
 import ArticleSnippet from "../components/create-article/ArticleSnippet";
 import "./CustomQuillTheme.scss";
-// import ArticleText from "../components/create-article/ArticleText";
 import "../components/create-article/ArticleText.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Loader from "../components/main-components/Loader";
+import Footer from "../components/main-components/Footer";
 
 const CreateArticlePage = () => {
   const { channelId, topicId } = useParams();
@@ -25,10 +25,12 @@ const CreateArticlePage = () => {
   const [loading, setLoading] = useState(true);
   const [channel, setChannel] = useState({});
   const [articleImgDescr, setArticleImgDescr] = useState();
-  const [artilceName, setArticleName] = useState();
+  const [articleName, setArticleName] = useState();
   const [articleSnippet, setArticleSnippet] = useState();
-
+  const [articleImg, setArticleImg] = useState();
   const [editorContent, setEditorContent] = useState("");
+  const [updatedPost, setUpdatedPost] = useState({});
+  const [postPublished, setPostPublished] = useState(false);
   const quillRef = useRef(null);
 
   const navigate = useNavigate();
@@ -41,34 +43,65 @@ const CreateArticlePage = () => {
 
     input.onchange = async () => {
       const file = input.files[0];
+      if (!file) {
+        console.error("Файл не выбран.");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("file", file);
 
       try {
+        // Загрузка файла на сервер
         const response = await fetch(`${serverURL}/api/v1/media`, {
           method: "POST",
           body: formData,
         });
 
         if (!response.ok) {
-          throw new Error("Failed to upload image");
+          throw new Error("Не удалось загрузить изображение на сервер.");
         }
 
         const uuid = await response.text();
         const imageUrl = `${serverURL}/api/v1/media/${uuid}`;
+        console.log("Сгенерированный URL изображения:", imageUrl);
 
-        // Insert image URL in the editor
-        const quill = quillRef.current.getEditor();
-        const range = quill.getSelection();
-        quill.insertEmbed(range.index, "image", imageUrl);
+        // Проверка редактора Quill и вставка изображения
+        if (quillRef.current) {
+          const quill = quillRef.current.getEditor();
+          const range = quill.getSelection();
 
-        // Access the inserted image and set the alt attribute
-        const image = quill.root.querySelector(`img[src="${imageUrl}"]`);
-        if (image) {
-          image.setAttribute("alt", uuid);
+          if (imageUrl && range) {
+            console.log("Вставка изображения с URL:", imageUrl);
+
+            // Вставка изображения
+            quill.insertEmbed(range.index, "image", imageUrl);
+
+            // Проверка, что изображение вставлено корректно
+            const insertedImage = quill.root.querySelector(
+              `img[src="${imageUrl}"]`
+            );
+            if (!insertedImage) {
+              console.warn(
+                "Изображение не вставилось корректно. Пробуем снова."
+              );
+              quill.clipboard.dangerouslyPasteHTML(
+                range.index,
+                `<img src="${imageUrl}" alt="${uuid}" />`
+              );
+            } else {
+              console.log("Изображение успешно вставлено.");
+            }
+          } else {
+            console.error(
+              "Ошибка вставки: отсутствует URL или диапазон для вставки."
+            );
+          }
+        } else {
+          console.error("Quill редактор недоступен.");
         }
       } catch (error) {
-        console.error(error);
+        console.error("Ошибка при загрузке или вставке изображения:", error);
       }
     };
   };
@@ -127,9 +160,44 @@ const CreateArticlePage = () => {
     }
   }, []);
 
-  const handleSubmitButton = () => {
-    console.log("SUBMIT");
-    console.log(editorContent);
+  const handleSubmitButton = async () => {
+    const token = getCurrentJwtToken();
+    if (!token) {
+      setError("User is not authenticated");
+      setLoading(false);
+      navigate("welcome");
+      return;
+    }
+    const newArticle = {
+      content: editorContent,
+      postSnippet: articleSnippet,
+      title: articleName,
+      thumbnail: articleImg,
+      thumbnailAltText: articleImgDescr,
+      channel: {
+        channelId: channelId,
+      },
+      topic: topicId ? { topicId: topicId } : {},
+    };
+
+    console.log(newArticle);
+
+    try {
+      const response = await fetch(`${serverURL}/api/v1/posts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(newArticle),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+      const newPost = await response.text();
+      setUpdatedPost(newPost);
+      setPostPublished(true);
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -149,19 +217,21 @@ const CreateArticlePage = () => {
       }
 
       try {
-        const response = await fetch(`${serverURL}/api/v1/channels/${channelId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${serverURL}/api/v1/channels/${channelId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch channels");
         }
 
         const channel = await response.json();
-        // enrichChannelsWithLogoPlaceholderBackground([channel]);
         setChannel(channel);
       } catch (err) {
         setError(err.message);
@@ -174,60 +244,83 @@ const CreateArticlePage = () => {
 
   return (
     <MainSection>
-      <TopNavigationBar
-        button={
-          <SmalSubmitButton
-            // onClick={handleSubmitButton}
-            text="Edit"
-            position="absolute"
-          />
-        }
-        icon={<FaHome />}
-        name={`Your Channel: ${channel.name}`}
-      />
-      <MainContainer>
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            <CreateChannelElement name="Article Image">
-              <span className="create-article-page__context">
-                The image of your article will be shown to readers in preview
-                mode
-              </span>
-              <ArticleImgDescrWrapper
-                setValue={setArticleImgDescr}
-                maxCharCount="155"
-              />
-            </CreateChannelElement>
-            <CreateChannelElement name="Article Name">
-              <div className="create-article-name__wrapper">
-                <ArticleInput setValue={setArticleName} maxCharCount="90" />
-              </div>
-            </CreateChannelElement>
-            <CreateChannelElement name="Article Snippet">
-              <span className="create-article-page__context">
-                Article Snippet will be shown to readers as a preview text{" "}
-              </span>
-              <ArticleSnippet maxCharCount="255" setValue={setArticleSnippet} />
-            </CreateChannelElement>
-            <CreateChannelElement id="articleToolbar" name="Article Text">
-              <ReactQuill
-                value={editorContent}
-                onChange={setEditorContent}
-                ref={quillRef}
-                modules={modules}
-                formats={formats}
-              />
+      {postPublished ? (
+        <div className="create-article-page__post-published">
+          <p className="create-article-page__post-published-text_big">
+            Congratulations!
+          </p>
+          <p className="create-article-page__post-published-text">
+            Your article has been published
+          </p>
+          <p className="create-article-page__post-published-text">
+            Go to{" "}
+            <NavLink to={'/'} className="create-article-page__post-published-link">Main Page</NavLink>
+          </p>
+        </div>
+      ) : (
+        <>
+          {" "}
+          <TopNavigationBar
+            button={
               <SmalSubmitButton
-                align="flex-end"
-                text="Save"
                 onClick={handleSubmitButton}
+                text="Publish"
+                position="absolute"
               />
-            </CreateChannelElement>
-          </>
-        )}
-      </MainContainer>
+            }
+            icon={<FaHome />}
+            name={
+              loading
+                ? "Loading"
+                : `Your Channel: ${channel?.name || "Unnamed"}`
+            }
+          />
+          <MainContainer>
+            {loading ? (
+              <Loader />
+            ) : (
+              <>
+                <CreateChannelElement name="Article Image">
+                  <span className="create-article-page__context">
+                    The image of your article will be shown to readers in
+                    preview mode
+                  </span>
+                  <ArticleImgDescrWrapper
+                    setArticleImg={setArticleImg}
+                    setValue={setArticleImgDescr}
+                    maxCharCount="155"
+                  />
+                </CreateChannelElement>
+                <CreateChannelElement name="Article Name">
+                  <div className="create-article-name__wrapper">
+                    <ArticleInput setValue={setArticleName} maxCharCount="90" />
+                  </div>
+                </CreateChannelElement>
+                <CreateChannelElement name="Article Snippet">
+                  <span className="create-article-page__context">
+                    Article Snippet will be shown to readers as a preview text{" "}
+                  </span>
+                  <ArticleSnippet
+                    maxCharCount="255"
+                    setValue={setArticleSnippet}
+                  />
+                </CreateChannelElement>
+                <CreateChannelElement id="articleToolbar" name="Article Text">
+                  <ReactQuill
+                    value={editorContent}
+                    onChange={setEditorContent}
+                    ref={quillRef}
+                    modules={modules}
+                    formats={formats}
+                  />
+                </CreateChannelElement>
+              </>
+            )}
+          </MainContainer>
+        </>
+      )}
+
+      <Footer />
     </MainSection>
   );
 };

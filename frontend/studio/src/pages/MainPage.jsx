@@ -12,6 +12,7 @@ import MainSection from "../components/main-components/MainSection";
 import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
 import Loader from "../components/main-components/Loader";
+import Footer from "../components/main-components/Footer";
 
 function MainPage() {
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ function MainPage() {
           </CreateChannelElement>
         )}
       </MainContainer>
+      <Footer />
     </MainSection>
   );
 }

@@ -15,6 +15,7 @@ import { serverURL } from "../server";
 import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 import Loader from "../components/main-components/Loader";
 import TopicModeToggle from "../components/create-channel-items/TopicModeToggle";
+import Footer from "../components/main-components/Footer";
 
 const CreateChannelPage = () => {
   const { id } = useParams();
@@ -26,9 +27,7 @@ const CreateChannelPage = () => {
   const [customChannelDescr, setCustomChannelDescr] = useState("");
   const [customTopics, setCustomTopics] = useState(channel.topics || []);
   const [customChannel, setCustomChannel] = useState({});
-  const [enableTopicMode, setEnableTopicMode] = useState(
-    channel?.topicsEnabled
-  );
+  const [enableTopicMode, setEnableTopicMode] = useState();
   const [customImg, setCustomImg] = useState(null);
 
   const navigate = useNavigate();
@@ -74,9 +73,9 @@ const CreateChannelPage = () => {
       setCustomTopics(channel.topics || []);
       // setCustomImg(`${serverURL}/api/v1/media/${channel.avatar}`);
       setCustomImg(channel.avatar);
+      setEnableTopicMode(channel.topicsEnabled);
     }
   }, [channel]);
-
 
   const handleSaveButton = async () => {
     const token = getCurrentJwtToken();
@@ -98,14 +97,17 @@ const CreateChannelPage = () => {
     console.log(newCustomChannel);
     console.log("Update channel:", JSON.stringify(newCustomChannel));
     try {
-      const res = await fetch(`${serverURL}/api/v1/channels/${channel.channelId}`, {
-        method: "PATCH",
+      const res = await fetch(
+        `${serverURL}/api/v1/channels/${channel.channelId}`,
+        {
+          method: "PATCH",
           body: JSON.stringify(newCustomChannel),
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-      });
+        }
+      );
       if (!res.ok) {
         throw new Error("Failed to fetch channels");
       }
@@ -161,6 +163,7 @@ const CreateChannelPage = () => {
             <CreateChannelElement name="Topic Mode">
               <div className="topic-mode-wrapper">
                 <TopicModeToggle
+                  topicMode={enableTopicMode}
                   topics={setCustomTopics}
                   setTopicMode={setEnableTopicMode}
                 />
@@ -199,6 +202,7 @@ const CreateChannelPage = () => {
           </>
         )}
       </MainContainer>
+      <Footer />
     </MainSection>
   );
 };

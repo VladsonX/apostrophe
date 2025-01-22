@@ -3,8 +3,8 @@ import "./TopicModeToggle.scss";
 import { v4 as uuidv4 } from 'uuid';
 
 
-const TopicModeToggle = ({ setTopicMode, topics }) => {
-  const [enableTopicMode, setEnableTopicMode] = useState(false);
+const TopicModeToggle = ({ setTopicMode, topics, topicMode }) => {
+  const [enableTopicMode, setEnableTopicMode] = useState(topicMode);
   const toggleTopicMode = () => {
     const topicMode = enableTopicMode;
     setEnableTopicMode(!topicMode);
@@ -20,12 +20,16 @@ const TopicModeToggle = ({ setTopicMode, topics }) => {
     <button
       onClick={toggleTopicMode}
       className={
-        enableTopicMode
+        topicMode
           ? "topic-mode-toggle topic-mode-toggle_active"
           : "topic-mode-toggle"
       }
     >
-      <div className="topic-mode-toggle__toggler"></div>
+      <div className={
+        topicMode
+        ? "topic-mode-toggle__toggler topic-mode-toggle__toggler_active"
+        : "topic-mode-toggle__toggler"
+      }></div>
     </button>
   );
 };

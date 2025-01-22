@@ -33,7 +33,7 @@ const ArticleImg = ({ customImg }) => {
         const uuid = await response.text();
         const imageUrl = `${serverURL}/api/v1/media/${uuid}`;
         setImage(imageUrl);
-        customImg(imageUrl);
+        customImg(uuid);
       } catch (error) {
         console.error(error);
       } finally {

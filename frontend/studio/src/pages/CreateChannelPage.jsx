@@ -9,12 +9,13 @@ import CreateChannelInput from "../components/create-channel-items/CreateChannel
 import CreateChannelTopics from "../components/create-topic-items/CreateChannelTopics";
 import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
 import CreateChannelLogo from "../components/create-channel-items/CreateChannelLogo";
-import { v4 as uuidv4 } from "uuid";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useNavigate } from "react-router";
 import Loader from "../components/main-components/Loader";
 import TopicModeToggle from "../components/create-channel-items/TopicModeToggle";
 import { serverURL } from "../server";
+import Footer from "../components/main-components/Footer";
+import { NavLink } from "react-router";
 
 const CreateChannelPage = () => {
   const [customImg, setCustomImg] = useState(null);
@@ -25,6 +26,7 @@ const CreateChannelPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
   const [enableTopicMode, setEnableTopicMode] = useState(false);
+  const [confirmationForm, setConfirmationForm] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,94 +61,127 @@ const CreateChannelPage = () => {
     try {
       const res = await fetch(`${serverURL}/api/v1/channels`, {
         method: "POST",
-          body: JSON.stringify(newCustomChannel),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+        body: JSON.stringify(newCustomChannel),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (!res.ok) {
         throw new Error("Failed to fetch channels");
       }
+      setConfirmationForm(true);
     } catch (error) {}
-
   };
 
   return (
     <MainSection>
-      <TopNavigationBar
-        button={
-          <SmallSubmitButton
-            onClick={handleSaveButton}
-            text="Save"
-            position="absolute"
+      {confirmationForm ? (
+        <div className="create-channel-page__confirmation">
+          <p className="create-channel-page__confirmation-text">
+            <span className="create-channel-page__confirmation-text_big">
+              Congratulations!
+            </span>
+          </p>
+          <p className="create-channel-page__confirmation-text">
+            Your channel called{" "}
+            <span className="create-channel-page__confirmation-text_color">
+              {customChannelName}
+            </span>
+            {" "}has just been created.
+          </p>
+          <p className="create-channel-page__confirmation-text">
+            Go to{" "}
+            <NavLink
+              to={`/`}
+              className="create-channel-page__confirmation-text_gradient"
+            >
+              Main Page
+            </NavLink>
+          </p>
+        </div>
+      ) : (
+        <>
+          <TopNavigationBar
+            button={
+              <SmallSubmitButton
+                onClick={handleSaveButton}
+                text="Save"
+                position="absolute"
+              />
+            }
+            icon={<FaHome />}
+            name={`Create new channel: `}
           />
-        }
-        icon={<FaHome />}
-        name={`Create new channel: `}
-      />
-      <MainContainer>
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            <CreateChannelElement name="Channel Logo">
-              <CreateChannelLogo customImg={setCustomImg} />
-            </CreateChannelElement>
-            <CreateChannelElement name="Channel Name">
-              <CreateChannelInput
-                name={setCustomChannelName}
-                descr={setCustomChannelDescr}
-                type="name"
-                placeholder="My Lovely Channel"
-                maxCharCount="64"
-              />
-            </CreateChannelElement>
-            <CreateChannelElement name="Channel Description">
-              <CreateChannelInput
-                name={setCustomChannelName}
-                descr={setCustomChannelDescr}
-                type="description"
-                placeholder="I really love my lovely channel"
-                maxCharCount="500"
-              />
-            </CreateChannelElement>
-
-            <CreateChannelElement name="Topic Mode">
-              <div className="topic-mode-wrapper">
-                <TopicModeToggle topics={setCustomTopics} setTopicMode={setEnableTopicMode} />
-                <p className="topic-mode-description">
-                  Choose if you want to enable{" "}
-                  <span className="topic-mode-description_mode">
-                    Topic Mode
-                  </span>{" "}
-                  for your channel. Once{" "}
-                  <span className="topic-mode-description_mode">
-                    Topic Mode
-                  </span>{" "}
-                  is enabled -{" "}
-                  <span className="topic-mode-description_bold">
-                    at least one topic should be created. All the articles you
-                    create further should be added to certain topic.
-                  </span>
-                </p>
-              </div>
-            </CreateChannelElement>
-            {enableTopicMode ? (
-              <CreateChannelElement name="Channel Topics">
-                <CreateChannelTopics
-                  newTopics={customTopics}
-                  updateTopics={setCustomTopics}
-                  customImg={customImg}
-                  channel={customChannel}
-                />
-              </CreateChannelElement>
+          <MainContainer>
+            {loading ? (
+              <Loader />
             ) : (
-              <></>
+              <>
+                <CreateChannelElement name="Channel Logo">
+                  <CreateChannelLogo customImg={setCustomImg} />
+                </CreateChannelElement>
+                <CreateChannelElement name="Channel Name">
+                  <CreateChannelInput
+                    name={setCustomChannelName}
+                    descr={setCustomChannelDescr}
+                    type="name"
+                    placeholder="My Lovely Channel"
+                    maxCharCount="64"
+                  />
+                </CreateChannelElement>
+                <CreateChannelElement name="Channel Description">
+                  <CreateChannelInput
+                    name={setCustomChannelName}
+                    descr={setCustomChannelDescr}
+                    type="description"
+                    placeholder="I really love my lovely channel"
+                    maxCharCount="500"
+                  />
+                </CreateChannelElement>
+
+                <CreateChannelElement name="Topic Mode">
+                  <div className="topic-mode-wrapper">
+                    <TopicModeToggle
+                      topics={setCustomTopics}
+                      setTopicMode={setEnableTopicMode}
+                      topicMode={enableTopicMode}
+                    />
+                    <p className="topic-mode-description">
+                      Choose if you want to enable{" "}
+                      <span className="topic-mode-description_mode">
+                        Topic Mode
+                      </span>{" "}
+                      for your channel. Once{" "}
+                      <span className="topic-mode-description_mode">
+                        Topic Mode
+                      </span>{" "}
+                      is enabled -{" "}
+                      <span className="topic-mode-description_bold">
+                        at least one topic should be created. All the articles
+                        you create further should be added to certain topic.
+                      </span>
+                    </p>
+                  </div>
+                </CreateChannelElement>
+                {enableTopicMode ? (
+                  <CreateChannelElement name="Channel Topics">
+                    <CreateChannelTopics
+                      newTopics={customTopics}
+                      updateTopics={setCustomTopics}
+                      customImg={customImg}
+                      channel={customChannel}
+                    />
+                  </CreateChannelElement>
+                ) : (
+                  <></>
+                )}
+              </>
             )}
-          </>
-        )}
-      </MainContainer>
+          </MainContainer>
+          <Footer />
+        </>
+      )}
     </MainSection>
   );
 };

@@ -11,10 +11,10 @@
     justify-content: flex-start;
     &_active {
         background-color: var(--soft-purple);
-        .topic-mode-toggle__toggler {
-            transform: translateX(70%);
+        // .topic-mode-toggle__toggler {
+        //     transform: translateX(70%);
             
-        }
+        // }
 
     }
     &__toggler {
@@ -22,5 +22,8 @@
         height: 90%;
         border-radius: var(--radius);
         background-color: var(--white);
+        &_active {
+            transform: translateX(70%);
+        }
     }
 }

@@ -12,10 +12,12 @@ import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPl
 import MainContainer from "../components/main-components/MainContainer";
 import ChannelTitleElement from "../components/channel/ChannelTitleElement";
 import ChannelLatestArticles from "../components/channel/ChannelLatestArticles";
-import Loader from '../components/main-components/Loader'
+import Loader from "../components/main-components/Loader";
+import Footer from "../components/main-components/Footer";
 
 const ChannelPage = () => {
   const { channelId, topicId } = useParams();
+  const [posts, setPosts] = useState([]);
   const [channel, setChannel] = useState({});
   const [topic, setTopic] = useState({});
   const [error, setError] = useState();
@@ -66,6 +68,42 @@ const ChannelPage = () => {
     fetchChannels();
   }, [topicId, channelId, navigate]);
 
+  useEffect(() => {
+    console.log(channel);
+    const fetchPosts = async () => {
+      const token = getCurrentJwtToken();
+      if (!token) {
+        setError("User is not authenticated");
+        setLoading(false);
+        navigate("welcome");
+        return;
+      }
+      try {
+        const response = await fetch(
+          `${serverURL}/api/v1/posts?channelId=${channelId}&from=1&to=100`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch channels");
+        }
+        const posts = await response.json();
+        setPosts(posts);
+        console.log(posts);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
+  }, [channel, navigate]);
+
   const handleSubmitButton = () => {
     navigate(`edit`);
   };
@@ -89,10 +127,17 @@ const ChannelPage = () => {
           <>
             <ChannelTitleElement channel={channel} topic={topic} />
             <p className="channel-page__description">{topic.description}</p>
-            <ChannelLatestArticles channel={channel} name="Latest Articles" />
+            <ChannelLatestArticles
+              channel={channel}
+              name="Latest Articles"
+              type="Topic"
+              posts={posts}
+              topicId={topicId}
+            />
           </>
         )}
       </MainContainer>
+      <Footer />
     </MainSection>
   );
 };

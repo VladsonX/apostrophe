@@ -27,14 +27,11 @@ div.quill div.ql-container.ql-snow {
   border: none;
   .ql-editor {
     padding: 2rem;
-    color: var(--soft-gray);
+    color: var(--white);
     width: 100%;
     border-radius: var(--radius);
     background-color: var(--transparent);
     border: 2px solid var(--project-black);
-    &:focus {
-      color: var(--white);
-    }
     h1 {
       font-size: 2rem;
       font-weight: 700;

@@ -1,10 +1,11 @@
+import { NavLink } from "react-router";
 import "./ReadMoreButton.scss";
 
-const ReadMoreButton = ({onClick}) => {
+const ReadMoreButton = ({onClick, post}) => {
   return (
-    <button onClick={onClick} className="channel-latest-articles__article-read-more">
+    <NavLink to={`readarticle/${post.postId}`} onClick={onClick} className="channel-latest-articles__article-read-more">
       Read more
-    </button>
+    </NavLink>
   );
 };
 

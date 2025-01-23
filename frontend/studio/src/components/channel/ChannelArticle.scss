@@ -9,18 +9,19 @@
     border: 1px solid var(--project-black);
     background: var(--article);
     border-radius: var(--radius);
-    transition: box-shadow 0.3s ease !important;
-    &:hover {
-      box-shadow: 0 0 14px 2px var(--soft-purple) !important;
-    }
-    &[data-aos="fade-up"] {
-      opacity: 0;
-      transition: opacity 1s ease-in-out !important;
-    }
+    transition: .3s all ease;
 
-    &.aos-animate {
-      opacity: 1;
-    }
+    // &:hover {
+    //   box-shadow: 0 0 14px 2px var(--soft-purple);
+    // }
+    // &[data-aos="fade-up"] {
+    //   opacity: 0;
+    //   transition: opacity 1s ease-in-out, transform 1s ease-out !important;
+    // }
+
+    // &.aos-animate {
+    //   opacity: 1;
+    // }
   }
   &__logo {
     width: 40px;

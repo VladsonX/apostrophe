@@ -10,38 +10,67 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import Footer from "../components/main-components/Footer";
+import { serverURL } from "../server";
+import Loader from "../components/main-components/Loader";
 
 const MainPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
+  const [posts, setPosts] = useState({});
   const navigate = useNavigate();
   useEffect(() => {
-    const token = getCurrentJwtToken();
-    if (!token) {
-      setError("User is not authenticated");
-      setLoading(false);
-      navigate("welcome");
-      return;
-    }
+    const fetchPosts = async () => {
+      const token = getCurrentJwtToken();
+      if (!token) {
+        setError("User is not authenticated");
+        setLoading(false);
+        navigate("welcome");
+        return;
+      }
+      try {
+        const response = await fetch(
+          `${serverURL}/api/v1/posts/latest?from=0&to=999999`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch channels");
+        }
+
+        const data = await response.json();
+        console.log(data);
+        setPosts(data);
+      } catch (error) {
+        setError("An error occurred while fetching posts", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
   }, [navigate]);
 
-  const channelExample = {
-    name: "Aboba INC",
-    description: "Aboba abuba",
-    avatar: null,
-  };
   return (
     <MainSection>
-      <TopNavigationBar icon={<FaHome />} name={`Home`} />
-      <MainContainer>
-        <HotTopicsElement title="Hot Topics" />
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {" "}
+          <TopNavigationBar icon={<FaHome />} name={`Home`} />
+          <MainContainer>
+            <HotTopicsElement title="Hot Topics" />
 
-        <ChannelLatestArticles
-          channel={channelExample}
-          name="Latest Articles"
-        />
-      </MainContainer>
-      <Footer />
+            <ChannelLatestArticles posts={posts} name="Latest Articles" />
+          </MainContainer>
+          <Footer />
+        </>
+      )}
     </MainSection>
   );
 };

@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { serverURL } from "../../server";
 
-const CreateChannelTopics = ({ channel, customImg, updateTopics, newTopics }) => {
+const CreateChannelTopics = ({ channel, customImg, updateTopics, newTopics, setTopicClicked}) => {
   console.log(customImg);
   const [topicChosen, setTopicChosen] = useState();
   const [updatedTopics, setUpdatedTopics] = useState(newTopics);
@@ -43,6 +43,7 @@ const CreateChannelTopics = ({ channel, customImg, updateTopics, newTopics }) =>
   };
   const handleTopicClick = (topic) => {
     setTopicChosen(topic);
+    setTopicClicked && setTopicClicked(topic);
     console.log('Topic chosen: ', topic);
   };
   return (

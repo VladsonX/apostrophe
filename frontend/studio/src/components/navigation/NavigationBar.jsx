@@ -19,15 +19,9 @@ function NavigationBar() {
           <PageButton icon={<FaHome />} title="My channels" path="/" />
         </div>
         <div className="utilities">
-          <PageButton
-            icon={<IoSettingsOutline />}
-            title="Settings"
-            path="/settings"
-          />
+          <LogOutButton icon={<MdLogout />} title="Log Out" />
         </div>
       </div>
-      <LogOutButton icon={<MdLogout />}
-      title='Log Out' />
     </nav>
   );
 }

@@ -4,8 +4,20 @@ import "./ChannelArticle.scss";
 import ReadMoreButton from "./ReadMoreButton";
 import { serverURL } from "../../server";
 import { CiImageOn } from "react-icons/ci";
+import convertEstimatedReadingTime from "../../script/EstimatedReadingTImeConverter";
+import reformateDate from "../../script/reformateDate";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 const ChannelArticle = ({ channel, post }) => {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-out",
+      once: true,
+    });
+  }, []);
   const imageURL = post.thumbnail
     ? `${serverURL}/api/v1/media/${post.thumbnail}`
     : "";
@@ -13,21 +25,25 @@ const ChannelArticle = ({ channel, post }) => {
     ? `${serverURL}/api/v1/media/${channel.avatar}`
     : "";
   return (
-    <div className="channel-latest-articles__article">
+    <div data-aos="fade-up" className="channel-latest-articles__article">
       <div className="channel-latest-articles__article-header">
         <div className="channel-latest-articles__logo-title-wrapper">
           {channel.avatar ? (
             <img
+              data-aos="fade-zoom-in"
               class="channel-latest-articles__logo"
               src={logoURL}
               alt={channel.name}
             />
           ) : (
             <div
+              data-aos="fade-zoom-in"
               className="channel-list-item__logo channel-list-item__logo-placeholder channel-list-item__logo-placeholder_article"
               style={{ backgroundColor: channel.logoPlaceholderColor }}
             >
-              <span>{channel?.name?.charAt(0).toUpperCase()}</span>
+              <span data-aos="fade-zoom-in">
+                {channel?.name?.charAt(0).toUpperCase()}
+              </span>
             </div>
           )}
           <div className="channel-latest-articles__title-wrapper">
@@ -52,12 +68,12 @@ const ChannelArticle = ({ channel, post }) => {
               <CiTimer />
             </IconContext.Provider>
             <p className="channel-latest-articles__time-to-read">
-              {post.estimatedReadingTime} minutes read
+              {convertEstimatedReadingTime(post.estimatedReadingTime)}
             </p>
           </div>
           <div className="channel-latest-articles__published-wrapper">
             <p className="channel-latest-articles__published">
-              Published {post.createdAt}
+              Published {reformateDate(post.createdAt)}
             </p>
           </div>
         </div>

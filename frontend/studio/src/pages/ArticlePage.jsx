@@ -15,8 +15,17 @@ import "react-quill/dist/quill.snow.css";
 import Loader from "../components/main-components/Loader";
 import ArticleHeader from "../components/article/ArticleHeader";
 import Footer from "../components/main-components/Footer";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const CreateArticlePage = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-out",
+      once: true,
+    });
+  }, []);
   const { channelId, topicId, postId } = useParams();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
@@ -75,8 +84,7 @@ const CreateArticlePage = () => {
   }, []);
 
   const handleSubmitButton = () => {
-    console.log("SUBMIT");
-    console.log(editorContent);
+    navigate(`editarticle/${postId}`);
   };
 
   useEffect(() => {
@@ -110,7 +118,7 @@ const CreateArticlePage = () => {
         const post = await response.json();
         setPost(post);
         setChannel(post.channel);
-        setTopic(post.topic);
+        setTopic(post.topic ? post.topic : null);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -123,6 +131,7 @@ const CreateArticlePage = () => {
   return (
     <MainSection>
       <TopNavigationBar
+        aosEffect="zoom-fade-in"
         button={
           <SmalSubmitButton
             onClick={handleSubmitButton}
@@ -131,22 +140,24 @@ const CreateArticlePage = () => {
           />
         }
         icon={<FaHome />}
-        name={
-          loading
-            ? "Loading"
-            : `Your Channel: ${channel?.name || "Unnamed"}${
-                topic?.name ? "/" : ""
-              }${topic?.name ? topic.name : ""}/${post.title}`
-        }
+        channel={loading ? "Loading..." : channel ? channel : null}
+        topic={loading ? "Loading..." : topic ? topic : null}
+        post={loading ? "Loading..." : post ? post : null}
       />
       <MainContainer>
         {loading ? (
           <Loader />
         ) : (
           <>
-            <ArticleHeader post={post} />
-            <img className="article-page-thumbnail" src={`${serverURL}/api/v1/media/${post.thumbnail}`}  alt={post.thumbnailAltText} />
-            <CreateChannelElement id="articleToolbar">
+            <ArticleHeader aosEffect="zoom-fade-in" post={post} />
+
+            <img
+              data-aos="fade-up"
+              className="article-page-thumbnail"
+              src={`${serverURL}/api/v1/media/${post.thumbnail}`}
+              alt={post.thumbnailAltText}
+            />
+            <CreateChannelElement aosEffect="fade-up" id="articleToolbar">
               <ReactQuill
                 value={post.content}
                 ref={quillRef}

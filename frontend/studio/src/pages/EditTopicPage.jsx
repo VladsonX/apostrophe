@@ -114,7 +114,9 @@ const EditTopicPage = () => {
           />
         }
         icon={<FaHome />}
-        name={`Edit your channel's topic: ${channel.name}/${topic.name}`}
+        name={`Edit your channel's topic: `}
+        channel={channel}
+        topic={topic}
       />
       <MainContainer>
         {loading ? (

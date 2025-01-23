@@ -46,7 +46,6 @@ const CreateChannelPage = () => {
       navigate("welcome");
       return;
     }
-    setLoading(false);
     const newCustomChannel = {
       // channelId: uuidv4(),
       name: customChannelName,

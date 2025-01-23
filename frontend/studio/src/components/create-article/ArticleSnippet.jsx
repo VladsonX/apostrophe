@@ -1,8 +1,8 @@
 import { useState } from "react";
 import "./ArticleSnippet.scss";
 
-const ArticleSnippet = ({ maxCharCount, setValue }) => {
-  const [charCount, setCharCount] = useState();
+const ArticleSnippet = ({ maxCharCount, setValue, postCharCount, value }) => {
+  const [charCount, setCharCount] = useState(postCharCount && postCharCount);
   return (
     <>
       <textarea
@@ -14,6 +14,7 @@ const ArticleSnippet = ({ maxCharCount, setValue }) => {
         className="article-snippet"
         name=""
         id=""
+        value={value && value}
       ></textarea>
       <span className="article-img-descr__counter">
         {charCount ? charCount : 0}/{maxCharCount}

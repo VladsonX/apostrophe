@@ -6,8 +6,18 @@ import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { serverURL } from "../server";
 
 import "./WelcomePage.scss";
+import AOS from "aos";
+import "aos/dist/aos.css";
+
 
 const WelcomePage = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-out",
+      once: true,
+    });
+  }, []);
   const [emailInput, setEmalInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const navigate = useNavigate();
@@ -63,10 +73,10 @@ const WelcomePage = () => {
   };
 
   return (
-    <section className="welcome">
+    <section  className="welcome">
       <div className="welcome__wrapper">
-        <h1 className="logo">Apostrophe</h1>
-        <div className="welcome__card">
+        <h1  className="logo">Apostrophe</h1>
+        <div data-aos='zoom-fade-in' className="welcome__card">
           <form onSubmit={handleLogin} id="logInForm" className="welcome__form">
             <label className="welcome__form-label" htmlFor="emailInput">
               Your email:
@@ -94,7 +104,7 @@ const WelcomePage = () => {
             />
           </form>
         </div>
-        <div className="welcome__buttons-wrapper">
+        <div data-aos='zoom-fade-in' className="welcome__buttons-wrapper">
           <button
             type="submit"
             form="logInForm"

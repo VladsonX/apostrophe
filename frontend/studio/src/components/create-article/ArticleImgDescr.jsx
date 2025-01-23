@@ -1,7 +1,7 @@
 
 import "./ArticleImgDescr.scss";
 
-const ArticleImgDescr = ({setCharactersCount, setValue}) => {
+const ArticleImgDescr = ({setCharactersCount, setValue, postImgDescr}) => {
   return (
     <>
       <textarea
@@ -14,6 +14,7 @@ const ArticleImgDescr = ({setCharactersCount, setValue}) => {
         className="article-img-descr"
         name=""
         id=""
+        value={postImgDescr && postImgDescr}
       ></textarea>
     </>
   );

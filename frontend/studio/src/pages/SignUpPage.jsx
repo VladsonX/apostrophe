@@ -5,8 +5,18 @@ import SubmitButton from "../components/main-components/SubmitButton";
 import "./SignUpPage.scss";
 
 import { serverURL } from "../server";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from "react";
 
 const SignUpPage = () => {
+        useEffect(() => {
+          AOS.init({
+            duration: 800,  
+            easing: 'ease-out',  
+            once: true, 
+          });
+        }, []);
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -49,8 +59,8 @@ const SignUpPage = () => {
   return (
     
     <section className="signUp">
-      <h1 className="logo signUp__logo">Sign up!</h1>
-      <div className="signUp__card">
+      <h1 data-aos='zoom-fade-in' className="logo signUp__logo">Sign up!</h1>
+      <div data-aos='fade-left' className="signUp__card">
         <form id="signUpForm" onSubmit={handleSubmit} className="signUp__form">
           <label htmlFor="emailInput" className="signUp__label">
             Your email:

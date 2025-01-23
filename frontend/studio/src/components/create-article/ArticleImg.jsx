@@ -1,9 +1,15 @@
 import "./ArticleImg.scss";
 import { useState } from "react";
 import { serverURL } from "../../server";
+import { useEffect } from "react";
 
-const ArticleImg = ({ customImg }) => {
-  const [image, setImage] = useState(null);
+const ArticleImg = ({ customImg, postImg }) => {
+  const [image, setImage] = useState(postImg ? `${serverURL}/api/v1/media/${postImg}` : null);
+  useEffect(() => {
+    if (postImg) {
+      setImage(`${serverURL}/api/v1/media/${postImg}`);
+    }
+  }, [postImg]);
 
   const handleAddImage = async () => {
     const input = document.createElement("input");

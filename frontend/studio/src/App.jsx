@@ -16,6 +16,7 @@ import CreateArticlePage from "./pages/CreateArticlePage";
 import TopicPage from './pages/TopicPage'
 import EditTopicPage from "./pages/EditTopicPage";
 import ArticlePage from './pages/ArticlePage'
+import EditArticlePage from "./pages/EditArticlePage";
 
 function App() {
   const router = createBrowserRouter(
@@ -29,8 +30,10 @@ function App() {
           <Route path="channel/:id" element={<ChannelPage />}></Route>
           <Route path="channel/:channelId/createarticle" element={<CreateArticlePage />}></Route>
           <Route path="channel/:channelId/topic/:topicId/createarticle" element={<CreateArticlePage />}></Route>
-          <Route path="channel/:id/readarticle/:postId" element={<ArticlePage />}/>
-          <Route path="channel/:channelid/topic/:topicId/readarticle/:postId" element={<ArticlePage />}/>
+          <Route path="channel/:channelId/readarticle/:postId" element={<ArticlePage />}/>
+          <Route path="channel/:channelId/readarticle/:postId/editarticle/:postId" element={<EditArticlePage />}/>
+          <Route path="channel/:channelId/topic/:topicId/readarticle/:postId" element={<ArticlePage />}/>
+          <Route path="channel/:channelId/topic/:topicId/readarticle/:postId/editarticle/:postId" element={<ArticlePage />}/>
           <Route path="channel/:channelId/topic/:topicId" element={<TopicPage />}></Route>
           <Route path="channel/:channelId/topic/:topicId/edit" element={<EditTopicPage />}></Route>
         </Route>

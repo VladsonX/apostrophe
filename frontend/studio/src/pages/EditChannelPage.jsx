@@ -29,6 +29,7 @@ const CreateChannelPage = () => {
   const [customChannel, setCustomChannel] = useState({});
   const [enableTopicMode, setEnableTopicMode] = useState();
   const [customImg, setCustomImg] = useState(null);
+  const [topicClicked, setTopicClicked] = useState();
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -84,7 +85,7 @@ const CreateChannelPage = () => {
       navigate("welcome");
       return;
     }
-    setLoading(false);
+    // setLoading(false);
     const newCustomChannel = {
       channelId: channel.channelId,
       name: customChannelName,
@@ -96,6 +97,32 @@ const CreateChannelPage = () => {
     setCustomChannel(newCustomChannel);
     console.log(newCustomChannel);
     console.log("Update channel:", JSON.stringify(newCustomChannel));
+    if (channel.topicsEnabled !== newCustomChannel.topicsEnabled) {
+      const newTopic = {
+        name: topicClicked.name,
+        description: topicClicked.description,
+      };
+      console.log(newTopic);
+      try {
+        const response = await fetch(
+          `${serverURL}/api/v1/channels/${channel.channelId}/topics/enable`,
+          {
+            method: "PUT",
+            body: JSON.stringify(newTopic),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log("Topic mode enabled for this channel!");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch channels");
+        }
+      } catch (error) {}
+    }
+    await new Promise((resolve) => setTimeout(resolve, 50));
     try {
       const res = await fetch(
         `${serverURL}/api/v1/channels/${channel.channelId}`,
@@ -108,8 +135,10 @@ const CreateChannelPage = () => {
           },
         }
       );
+      console.log("Channel is updated!");
+
       if (!res.ok) {
-        throw new Error("Failed to fetch channels");
+        throw new Error("Failed to patch channels");
       }
     } catch (error) {}
   };
@@ -124,7 +153,8 @@ const CreateChannelPage = () => {
           />
         }
         icon={<FaHome />}
-        name={`Edit your channel: ${channel.name}`}
+        name={`Edit your channel: `}
+        channel={channel}
       />
       <MainContainer>
         {loading ? (
@@ -160,36 +190,54 @@ const CreateChannelPage = () => {
                 maxCharCount="500"
               />
             </CreateChannelElement>
-            <CreateChannelElement name="Topic Mode">
-              <div className="topic-mode-wrapper">
-                <TopicModeToggle
-                  topicMode={enableTopicMode}
-                  topics={setCustomTopics}
-                  setTopicMode={setEnableTopicMode}
-                />
-                <p className="topic-mode-description">
-                  Choose if you want to enable{" "}
-                  <span className="topic-mode-description_mode">
-                    Topic Mode
-                  </span>{" "}
-                  for your channel. Once{" "}
-                  <span className="topic-mode-description_mode">
-                    Topic Mode
-                  </span>{" "}
-                  is enabled -{" "}
-                  <span className="topic-mode-description_bold">
-                    at least one topic should be created. All the articles you
-                    create further should be added to certain topic.
-                  </span>
-                </p>
-              </div>
-            </CreateChannelElement>
+            {channel.topicsEnabled ? (
+              <></>
+            ) : (
+              <CreateChannelElement name="Topic Mode">
+                <div className="topic-mode-wrapper">
+                  <TopicModeToggle
+                    topicMode={enableTopicMode}
+                    topics={setCustomTopics}
+                    setTopicMode={setEnableTopicMode}
+                  />
+                  <p className="topic-mode-description">
+                    Choose if you want to enable{" "}
+                    <span className="topic-mode-description_mode">
+                      Topic Mode
+                    </span>{" "}
+                    for your channel. Once{" "}
+                    <span className="topic-mode-description_mode">
+                      Topic Mode
+                    </span>{" "}
+                    is enabled -{" "}
+                    <span className="topic-mode-description_bold">
+                      at least one topic should be created. All the articles you
+                      create further should be added to certain topic.
+                    </span>
+                  </p>
+                </div>
+              </CreateChannelElement>
+            )}
+
             {enableTopicMode ? (
               <CreateChannelElement
                 name="Channel Topics"
                 number={customTopics.length}
               >
+                {channel.topicsEnabled ? (
+                  <></>
+                ) : (
+                  <p className="topic-mode-description topic-mode-description_topics-mode">
+                    Please click on the{" "}
+                    <span className="topic-mode-description_mode">
+                      topic you want to transfer all your articles to
+                    </span>{" "}
+                    before sumbiting this form
+                  </p>
+                )}
+
                 <CreateChannelTopics
+                  setTopicClicked={setTopicClicked}
                   newTopics={customTopics}
                   updateTopics={setCustomTopics}
                   customImg={customImg}

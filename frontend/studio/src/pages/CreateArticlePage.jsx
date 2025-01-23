@@ -31,6 +31,7 @@ const CreateArticlePage = () => {
   const [editorContent, setEditorContent] = useState("");
   const [updatedPost, setUpdatedPost] = useState({});
   const [postPublished, setPostPublished] = useState(false);
+  const [topic, setTopic] = useState();
   const quillRef = useRef(null);
 
   const navigate = useNavigate();
@@ -66,40 +67,17 @@ const CreateArticlePage = () => {
         const imageUrl = `${serverURL}/api/v1/media/${uuid}`;
         console.log("Сгенерированный URL изображения:", imageUrl);
 
-        // Проверка редактора Quill и вставка изображения
-        if (quillRef.current) {
-          const quill = quillRef.current.getEditor();
-          const range = quill.getSelection();
+        const quill = quillRef.current.getEditor();
+        const range = quill.getSelection();
+        quill.insertEmbed(range.index, "image", imageUrl);
+        // quill.dangerouslyPasteHTML(
+        //   range.index,
+        //   `<img src="${imageUrl}" alt="${uuid}" />`
+        // );
 
-          if (imageUrl && range) {
-            console.log("Вставка изображения с URL:", imageUrl);
-
-            // Вставка изображения
-            quill.insertEmbed(range.index, "image", imageUrl);
-
-            // Проверка, что изображение вставлено корректно
-            const insertedImage = quill.root.querySelector(
-              `img[src="${imageUrl}"]`
-            );
-            if (!insertedImage) {
-              console.warn(
-                "Изображение не вставилось корректно. Пробуем снова."
-              );
-              quill.clipboard.dangerouslyPasteHTML(
-                range.index,
-                `<img src="${imageUrl}" alt="${uuid}" />`
-              );
-            } else {
-              console.log("Изображение успешно вставлено.");
-            }
-          } else {
-            console.error(
-              "Ошибка вставки: отсутствует URL или диапазон для вставки."
-            );
-          }
-        } else {
-          console.error("Quill редактор недоступен.");
-        }
+        // const insertedImage = quill.root.querySelector(
+        //   `img[src="${imageUrl}"]`
+        // );
       } catch (error) {
         console.error("Ошибка при загрузке или вставке изображения:", error);
       }
@@ -149,15 +127,17 @@ const CreateArticlePage = () => {
   ];
 
   useEffect(() => {
-    if (quillRef.current) {
-      const quill = quillRef.current.getEditor();
-      const toolbar = quill.getModule("toolbar");
+    setTimeout(() => {
+      if (quillRef.current) {
+        const quillEditor = quillRef.current.getEditor();
+        const quill = quillRef.current.getEditor();
+        const toolbar = quill.getModule("toolbar");
 
-      if (toolbar) {
+        console.log("Toolbar", toolbar);
         toolbar.addHandler("image", imageHandler);
         toolbar.addHandler("blockquote", blockQuoteHandler);
       }
-    }
+    }, 500);
   }, []);
 
   const handleSubmitButton = async () => {
@@ -233,6 +213,12 @@ const CreateArticlePage = () => {
 
         const channel = await response.json();
         setChannel(channel);
+        setTopic(
+          topicId
+            ? channel.topics.find((elem) => elem.topicId === topicId)
+            : null
+        );
+
       } catch (err) {
         setError(err.message);
       } finally {
@@ -240,7 +226,7 @@ const CreateArticlePage = () => {
       }
     };
     fetchChannels();
-  }, [channelId, navigate, token]);
+  }, [topicId, channelId, navigate, token]);
 
   return (
     <MainSection>
@@ -254,13 +240,20 @@ const CreateArticlePage = () => {
           </p>
           <p className="create-article-page__post-published-text">
             Go to{" "}
-            <NavLink to={'/'} className="create-article-page__post-published-link">Main Page</NavLink>
+            <NavLink
+              to={"/"}
+              className="create-article-page__post-published-link"
+            >
+              Main Page
+            </NavLink>
           </p>
         </div>
       ) : (
         <>
           {" "}
           <TopNavigationBar
+            channel={channel ? channel : null}
+            topic={topic ? topic : null}
             button={
               <SmalSubmitButton
                 onClick={handleSubmitButton}
@@ -269,11 +262,7 @@ const CreateArticlePage = () => {
               />
             }
             icon={<FaHome />}
-            name={
-              loading
-                ? "Loading"
-                : `Your Channel: ${channel?.name || "Unnamed"}`
-            }
+            name='Create your article for: '
           />
           <MainContainer>
             {loading ? (

@@ -4,9 +4,9 @@ import { IconContext } from "react-icons";
 
 import "./CreateChannelListItem.scss";
 
-const CreateChannelListItem = ({ type }) => {
+const CreateChannelListItem = ({ type, aosEffect }) => {
   return (
-    <li className="channel-list-item">
+    <li data-aos={aosEffect} className="channel-list-item">
       <NavLink
         to="channel/createchannel"
         className={({ isActive }) =>

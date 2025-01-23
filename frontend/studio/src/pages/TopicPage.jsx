@@ -14,8 +14,17 @@ import ChannelTitleElement from "../components/channel/ChannelTitleElement";
 import ChannelLatestArticles from "../components/channel/ChannelLatestArticles";
 import Loader from "../components/main-components/Loader";
 import Footer from "../components/main-components/Footer";
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const ChannelPage = () => {
+          useEffect(() => {
+            AOS.init({
+              duration: 800,  
+              easing: 'ease-out',  
+              once: true, 
+            });
+          }, []);
   const { channelId, topicId } = useParams();
   const [posts, setPosts] = useState([]);
   const [channel, setChannel] = useState({});
@@ -118,7 +127,9 @@ const ChannelPage = () => {
           />
         }
         icon={<FaHome />}
-        name={`Your Channel: ${channel.name}/${topic.name}`}
+        name={`Your Channel's topic: `}
+        channel={channel}
+        topic={topic}
       />
       <MainContainer>
         {loading ? (
@@ -126,8 +137,9 @@ const ChannelPage = () => {
         ) : (
           <>
             <ChannelTitleElement channel={channel} topic={topic} />
-            <p className="channel-page__description">{topic.description}</p>
+            <p data-aos='zoom-fade-in' className="channel-page__description">{topic.description}</p>
             <ChannelLatestArticles
+            aosEffect='zoom-fade-in'
               channel={channel}
               name="Latest Articles"
               type="Topic"

@@ -30,13 +30,23 @@
   }
   &__title {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     width: 100%;
     font-size: 3rem;
     color: var(--white);
-    height: 70%;
+    height: 60%;
     line-height: 3rem;
     font-weight: 700;
+    &_no-topic {
+      display: flex;
+      align-items: flex-end;
+      width: 100%;
+      font-size: 3rem;
+      color: var(--white);
+      height: 85%;
+      line-height: 3rem;
+      font-weight: 700;
+    }
   }
   &__subtitle {
     display: flex;

@@ -4,9 +4,9 @@ import { IconContext } from "react-icons";
 import { NavLink } from "react-router";
 import { serverURL } from "../../server";
 
-const ChannelListItem = ({ channel }) => {
+const ChannelListItem = ({ channel, aosEffect, aosDelay }) => {
   return (
-    <li className="channel-list-item">
+    <li data-aos={aosEffect} data-aos-delay={aosDelay} className="channel-list-item">
       <NavLink
         className={({ isActive }) =>
           isActive

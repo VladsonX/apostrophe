@@ -13,8 +13,17 @@ import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPl
 import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
 import Loader from "../components/main-components/Loader";
 import Footer from "../components/main-components/Footer";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; 
 
 function MainPage() {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,  
+      easing: 'ease-out',  
+      once: true, 
+    });
+  }, []);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [channels, setChannels] = useState([]);
@@ -64,9 +73,9 @@ function MainPage() {
           <CreateChannelElement name="My channels" number={channels.length}>
             <ChannelsList>
               {channels.map((channel) => (
-                <ChannelListItem channel={channel} key={channel.channelId} />
+                <ChannelListItem aosEffect='fade-up'channel={channel} key={channel.channelId} />
               ))}
-              <CreateChannelListItem />
+              <CreateChannelListItem aosEffect='fade-up'/>
             </ChannelsList>
           </CreateChannelElement>
         )}

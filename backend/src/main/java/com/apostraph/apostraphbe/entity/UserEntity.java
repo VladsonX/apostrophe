@@ -28,4 +28,7 @@ public class UserEntity {
     private String surname;
     private LocalDateTime registrationTimestamp;
 
+    public UserEntity(UUID userId) {
+        this.userId = userId;
+    }
 }

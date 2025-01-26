@@ -2,7 +2,6 @@ package com.apostraph.apostraphbe.service;
 
 import com.apostraph.apostraphbe.dto.LoginTargetSystem;
 import com.apostraph.apostraphbe.dto.Subscription;
-import com.apostraph.apostraphbe.dto.Topic;
 import com.apostraph.apostraphbe.entity.ChannelEntity;
 import com.apostraph.apostraphbe.entity.SubscriptionEntity;
 import com.apostraph.apostraphbe.entity.TopicEntity;
@@ -18,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -35,7 +33,6 @@ public class SubscriptionService {
 
         TargetSystemUtils.validateTargetSystem(properties, LoginTargetSystem.READER);
         validateSubscription(subscription);
-        validateNotAlreadyCreated(subscription, properties.getUserId());
 
         ChannelEntity channelEntity = channelRepository.findById(subscription.getChannel().getChannelId())
                 .orElseThrow(() -> new NotFoundException("Could not find channel."));
@@ -46,10 +43,10 @@ public class SubscriptionService {
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Topic not found."));
 
+        validateNotAlreadySubscribed(channelEntity, topicEntity, properties.getUserId());
+
         SubscriptionEntity subscriptionEntity = SubscriptionEntity.builder()
-                .userEntity(UserEntity.builder()
-                        .userId(properties.getUserId())
-                        .build())
+                .userEntity(new UserEntity(properties.getUserId()))
                 .channelEntity(channelEntity)
                 .topicEntity(topicEntity)
                 .build();
@@ -121,18 +118,24 @@ public class SubscriptionService {
         }
     }
 
-    private void validateNotAlreadyCreated(Subscription subscription, UUID currentUser) {
+    private void validateNotAlreadySubscribed(ChannelEntity channelEntity, TopicEntity topicEntity, UUID currentUser) {
 
-        Topic topic = subscription.getTopic();
+        List<SubscriptionEntity> existingSubscriptions = subscriptionRepository.findByUserEntity(new UserEntity(currentUser))
+                .stream()
+                .filter(s -> channelEntity.equals(s.getChannelEntity()))
+                .toList();
 
-        Optional<SubscriptionEntity> subscriptionEntity =
-                subscriptionRepository.findByChannelEntityAndTopicEntityAndUserEntity(
-                        ChannelEntity.builder().channelId(subscription.getChannel().getChannelId()).build(),
-                        topic == null ? null : TopicEntity.builder().topicId(topic.getTopicId()).build(),
-                        UserEntity.builder().userId(currentUser).build()
-                );
+        if (existingSubscriptions.isEmpty()) {
+            return;
+        }
 
-        if (subscriptionEntity.isPresent()) {
+        // is channel-level sub exists
+        if (existingSubscriptions.size() == 1 && existingSubscriptions.get(0).getTopicEntity() == null) {
+            throw new IllegalArgumentException("Subscription already exists.");
+        }
+
+        if (topicEntity != null && existingSubscriptions.stream()
+                .anyMatch(s -> topicEntity.equals(s.getTopicEntity()))) {
             throw new IllegalArgumentException("Subscription already exists.");
         }
     }

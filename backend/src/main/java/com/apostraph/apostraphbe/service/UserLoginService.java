@@ -69,7 +69,7 @@ public class UserLoginService {
                 .setSubject(userEntity.getUserId().toString()) // Subject
                 .setIssuer("SERVER") // Issuer of the token
                 .setIssuedAt(new Date()) // Issue time
-                .setExpiration(new Date(System.currentTimeMillis() + 3600000 * 12)) // Expiry time (1 hour)
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000 * 168))
                 .claim("system", loginRequest.getTargetSystem().toString())
                 .signWith(jwtKey) // Signing the token
                 .compact();

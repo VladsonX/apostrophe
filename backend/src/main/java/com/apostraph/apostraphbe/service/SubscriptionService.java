@@ -134,6 +134,10 @@ public class SubscriptionService {
             throw new IllegalArgumentException("Subscription already exists.");
         }
 
+        if (existingSubscriptions.stream().anyMatch(s -> s.getTopicEntity() != null) && topicEntity == null) {
+            throw new IllegalArgumentException("Unable to create channel-level sub on top of topic-level.");
+        }
+
         if (topicEntity != null && existingSubscriptions.stream()
                 .anyMatch(s -> topicEntity.equals(s.getTopicEntity()))) {
             throw new IllegalArgumentException("Subscription already exists.");

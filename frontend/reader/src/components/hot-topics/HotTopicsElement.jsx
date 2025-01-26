@@ -3,14 +3,15 @@ import "./HotTopicsElement.scss";
 import HotTopicsSlider from "./HotTopicsSlider";
 import HotTopicsTitle from "./HotTopicsTitle";
 
-const HotTopicsElement = ({ title }) => {
+const HotTopicsElement = ({ title, posts}) => {
+  if (!posts) return null;
   return (
     <div className="hot-topics">
       <HotTopicsTitle title={title} />
       <HotTopicsSlider>
-        <HotTopicsCard />
-        <HotTopicsCard />
-        <HotTopicsCard />
+        {posts.map(post => (
+          <HotTopicsCard post={post} key={post.postId}/>
+        ))}
       </HotTopicsSlider>
     </div>
   );

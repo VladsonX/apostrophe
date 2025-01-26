@@ -1,17 +1,36 @@
 import { NavLink } from "react-router";
 import "./ChannelRecommended.scss";
+import { serverURL } from "../../server";
 
-const ChannelRecommended = ({ channel }) => {
+const ChannelRecommended = ({ channel, aosEffect }) => {
+  const logoUrl = channel.avatar
+    ? `${serverURL}/api/v1/media/${channel.avatar}`
+    : null;
   return (
-    <NavLink className='channel-recommended__navlink' to={'channel'}>
-      <div className="channel-recommended__card">
+    <NavLink 
+    aria-label={channel.name}
+      data-aos={aosEffect}
+      className="channel-recommended__navlink"
+      to={`/channel/${channel.channelId}`}
+    >
+      <div data-aos={aosEffect} className="channel-recommended__card">
         <div className="channel-recommended__header">
           <div className="channel-recommended__header-wrapper">
-            <img
-              src={channel.avatar}
-              alt={channel.name}
-              className="channel-recommended__logo"
-            />
+            {channel.avatar ? (
+              <img
+                src={logoUrl}
+                alt={channel.name}
+                className="channel-recommended__logo"
+              />
+            ) : (
+              <div
+                style={{ backgroundColor: channel.logoPlaceholderColor }}
+                className="channel-recommended__logo-placeholder"
+              >
+                <span>{channel?.name?.charAt(0).toUpperCase()}</span>
+              </div>
+            )}
+
             <span className="channel-recommended__name">{channel.name}</span>
           </div>
         </div>

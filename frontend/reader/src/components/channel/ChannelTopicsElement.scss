@@ -1,4 +1,5 @@
 @use "../../index.scss";
+@use '../../variables';
 
 .channel-topics-element {
   width: 100%;
@@ -16,6 +17,10 @@
     & > li {
       display: flex;
       align-items: center;
+    }
+    @media (max-width: variables.$mediaSM) {
+    grid-template-columns: 1fr 1fr;
+      
     }
   }
 }

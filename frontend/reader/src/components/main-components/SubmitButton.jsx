@@ -2,7 +2,7 @@ import "./SubmitButton.scss";
 
 const SubmitButton = ({ onClick, text }) => {
   return (
-    <button onClick={onClick} className="SubmitButton">
+    <button aria-label='Submit' onClick={onClick} className="SubmitButton">
       {text}
     </button>
   );

@@ -3,7 +3,7 @@ import { resetCurrentJwtToken } from "../../script/LocalStorageUtils";
 import "./PageButton.scss";
 import { IconContext } from "react-icons";
 
-const LogOutButton = ({ icon, title }) => {
+const LogOutButton = ({ icon, title, id, mobile }) => {
   const navigate = useNavigate();
 
   const logOutHook = () => {
@@ -12,11 +12,13 @@ const LogOutButton = ({ icon, title }) => {
   };
 
   return (
-    <button className="page-button log-out-button" onClick={logOutHook}>
-      <IconContext.Provider value={{ color: "white" }}>
+    <button aria-label='Log out' id={id} className="page-button log-out-button" onClick={logOutHook}>
+
+        <IconContext.Provider value={{ color: "white" }}>
         <div className="page-button-icon">{icon}</div>
       </IconContext.Provider>
-      <span className="page-button-title log-out-button__title">{title}</span>
+      
+      <span className="page-button-title log-out-button__title">{!mobile ? title : ""}</span>
     </button>
   );
 };

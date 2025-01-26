@@ -1,9 +1,7 @@
-import './MainSection.scss'
+import "./MainSection.scss";
 
-const MainSection = ( {children}) => {
-  return (
-    <section className='main-section'>{children}</section>
-  )
-}
+const MainSection = ({ children }) => {
+  return <section className="main-section">{children}</section>;
+};
 
-export default MainSection
+export default MainSection;

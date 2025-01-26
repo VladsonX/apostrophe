@@ -1,21 +1,21 @@
 import "./ArticleHeader.scss";
 import { CiTimer } from "react-icons/ci";
 import { IconContext } from "react-icons";
+import convertEstimatedReadingTime from "../../script/EstimatedReadingTImeConverter";
+import reformateDate from "../../script/reformateDate";
 
-const ArticleHeader = () => {
+const ArticleHeader = ({ post, aosEffect }) => {
   return (
     <>
-      <h1 className="article-header__title">
-        The archaeological mystery of Stonehenge's long-lost megaliths
-      </h1>
+      <h1 data-aos={aosEffect} className="article-header__title">{post.title}</h1>
       <hr className="article-header__divider" />
       <div className="article-header__meta-wrapper">
         <div className="article-header__published">
-          Published 7:51 AM EST, Thu December 19, 2024
+          Published {reformateDate(post.createdAt)}
         </div>
-        <div className="article-header__time-to-read">
+        <div data-aos={aosEffect} className="article-header__time-to-read">
           <span className="article-header__time-to-read-text">
-            5 minute read
+            {convertEstimatedReadingTime(post.estimatedReadingTime)}
           </span>
           <IconContext.Provider
             value={{ size: "1rem", className: "article-header__icon" }}

@@ -1,13 +1,31 @@
-import './SearchInput.scss';
-import SmalSubmitButton from '../main-components/SmallSubmitButton';
+import "./SearchInput.scss";
+import SmalSubmitButton from "../main-components/SmallSubmitButton";
+import { useState } from "react";
 
-const SearchInput = () => {
+const SearchInput = ({ setQuery, setSearch }) => {
+  const [typedValue, setTypedValue] = useState("");
+  const handleSearchButton = () => {
+    setSearch(true);
+    setQuery(typedValue);
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleSearchButton();
+    }
+  };
   return (
     <div className="search__input-wrapper">
-    <input placeholder='Search...' type="text" className="search__input" />
-    <SmalSubmitButton text='Search'/>
+      <input
+        value={typedValue}
+        onChange={(e) => setTypedValue(e.target.value)}
+        placeholder="Search..."
+        type="text"
+        className="search__input"
+        onKeyDown={handleKeyDown}
+      />
+      <SmalSubmitButton onClick={handleSearchButton} text="Search" />
     </div>
-  )
-}
+  );
+};
 
-export default SearchInput
+export default SearchInput;

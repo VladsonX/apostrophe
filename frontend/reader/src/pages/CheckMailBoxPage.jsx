@@ -14,7 +14,7 @@ const CheckMailBoxPage = () => {
         {email ? (
           <p className="checkMailBox__descr">
             Confirmation link was sent to your email:{" "}
-            <a href={`mailto: ${email}`} className="checkMailBox__link">{email}</a>
+            <a aria-label='Check email' href={`mailto: ${email}`} className="checkMailBox__link">{email}</a>
           </p>
         ) : (
           <p className="checkMailBox__descr">Error: Email wasn't provided</p>

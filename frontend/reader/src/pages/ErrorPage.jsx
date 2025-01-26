@@ -13,10 +13,9 @@ const ErrorPage = () => {
         >
           <MdErrorOutline />
         </IconContext.Provider>
-        {/* <h1 className="error-page__logo">Apostrophe</h1> */}
         <p className="error-page__text error-page__text_large">404 Not Found</p>
         <p className="error-page__text">
-          Sorry we couldn`t find requested page. From here you can return to <NavLink to="/welcome">Main Page</NavLink>
+          Sorry we couldn`t find requested page. From here you can return to <NavLink aria-label='Welcome Page'to="/welcome">Main Page</NavLink>
         </p>
       </div>
     </div>

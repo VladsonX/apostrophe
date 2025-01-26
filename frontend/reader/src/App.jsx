@@ -23,9 +23,13 @@ function App() {
       <Route>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<MainPage />} />
-          <Route path="channel/:id" element={<ChannelPage />} />
+          <Route path="channel/:channelId" element={<ChannelPage />} />
           <Route
-            path="channel/:id/article/:articleId"
+            path="channel/:channelId/article/:postId"
+            element={<ArticlePage />}
+          />
+          <Route
+            path="channel/:channelId/topic/:topicId/article/:postId"
             element={<ArticlePage />}
           />
           <Route

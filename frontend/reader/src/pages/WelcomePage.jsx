@@ -32,7 +32,7 @@ const WelcomePage = () => {
     const formData = {
       email: emailInput,
       password: passwordInput,
-      targetSystem: "STUDIO",
+      targetSystem: "READER",
     };
 
     try {
@@ -95,7 +95,7 @@ const WelcomePage = () => {
           </form>
         </div>
         <div className="welcome__buttons-wrapper">
-          <button
+          <button aria-label='Log In'
             type="submit"
             form="logInForm"
             value="Submit"
@@ -103,7 +103,7 @@ const WelcomePage = () => {
           >
             Log In
           </button>
-          <button
+          <button aria-label="Sign up"
             onClick={() => navigate("/signup")}
             className="welcome__signUp"
           >

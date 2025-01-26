@@ -1,15 +1,28 @@
 import "./SmallSubmitButton.scss";
 
-const SmalSubmitButton = ({ align, onClick, text, position, color }) => {
+const SmalSubmitButton = ({
+  align,
+  onClick,
+  text,
+  position,
+  color,
+  followed,
+}) => {
   return (
     <button
       className={
-        color === "red"
-          ? "small-submit-button small-submit-button_red"
-          : "small-submit-button"
+        color
+          ? `small-submit-button small-submit-button_${color}`
+          : `small-submit-button`
       }
       onClick={onClick}
-      style={position ? { position: position } : align ? {alignSelf: align} : undefined}
+      style={
+        position
+          ? { position: position }
+          : align
+          ? { alignSelf: align }
+          : undefined
+      }
     >
       {text}
     </button>

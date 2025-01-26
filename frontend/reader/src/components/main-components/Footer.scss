@@ -7,6 +7,10 @@
     height: 5rem;
     justify-content: center;
     align-items: center;
+    margin-top: 2rem;
+    &_mb {
+        margin-bottom: 7vh;
+    }
 }
 .footer__text {
     color: var(--settings);

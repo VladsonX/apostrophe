@@ -2,7 +2,6 @@ import "./ArticlePage.scss";
 import MainSection from "../components/main-components/MainSection";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
 import SmalSubmitButton from "../components/main-components/SmallSubmitButton";
-import { FaHome } from "react-icons/fa";
 import MainContainer from "../components/main-components/MainContainer";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useState, useEffect, useRef } from "react";
@@ -15,49 +14,31 @@ import "react-quill/dist/quill.snow.css";
 import Loader from "../components/main-components/Loader";
 import ArticleHeader from "../components/article/ArticleHeader";
 import Footer from "../components/main-components/Footer";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const CreateArticlePage = () => {
-  const { id } = useParams();
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-out",
+      once: true,
+    });
+  }, []);
+  const { channelId, topicId, postId } = useParams();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
   const [channel, setChannel] = useState({});
-  const [articleImgDescr, setArticleImgDescr] = useState();
-  const [artilceName, setArticleName] = useState();
-  const [articleSnippet, setArticleSnippet] = useState();
-
-  const [editorContent, setEditorContent] = useState("");
+  const [topic, setTopic] = useState({});
+  const [post, setPost] = useState({});
   const quillRef = useRef(null);
 
   const navigate = useNavigate();
   const token = getCurrentJwtToken();
 
-  const blockQuoteHandler = () => {
-    const quill = quillRef.current.getEditor();
-    const range = quill.getSelection();
-    const quote = `
-    <blockquote> 
-    </blockquote>
-    <p class='ql-align-right'>Author</p>`;
-    quill.clipboard.dangerouslyPasteHTML(range.index, quote);
-    quill.setSelection(range.index + 10);
-  };
-
   const modules = {
-    toolbar: [
-      [
-        { header: "1" },
-        { header: "2" },
-        "bold",
-        "italic",
-        "underline",
-        "strike",
-        "blockquote",
-      ],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image"], // Image button
-    ],
+    toolbar: false,
   };
-
 
   const formats = [
     "header",
@@ -73,30 +54,13 @@ const CreateArticlePage = () => {
   ];
 
   useEffect(() => {
-    if (quillRef.current) {
-      const quill = quillRef.current.getEditor();
-      const toolbar = quill.getModule("toolbar");
-
-      if (toolbar) {
-        // toolbar.addHandler("image", imageHandler);
-        toolbar.addHandler("blockquote", blockQuoteHandler);
-      }
-    }
-  }, []);
-
-  const handleSubmitButton = () => {
-    console.log("SUBMIT");
-    console.log(editorContent);
-  };
-
-  useEffect(() => {
     if (!token) {
       setError("User is not authenticated");
       setLoading(false);
       navigate("welcome");
       return;
     }
-    const fetchChannels = async () => {
+    const fetchPost = async () => {
       const token = getCurrentJwtToken();
       if (!token) {
         setError("User is not authenticated");
@@ -106,7 +70,7 @@ const CreateArticlePage = () => {
       }
 
       try {
-        const response = await fetch(`${serverURL}/api/v1/channels/${id}`, {
+        const response = await fetch(`${serverURL}/api/v1/posts/${postId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -114,52 +78,57 @@ const CreateArticlePage = () => {
           },
         });
         if (!response.ok) {
-          throw new Error("Failed to fetch channels");
+          throw new Error("Failed to fetch posts");
         }
 
-        const channel = await response.json();
-        // enrichChannelsWithLogoPlaceholderBackground([channel]);
-        setChannel(channel);
+        const post = await response.json();
+        setPost(post);
+        setChannel(post.channel);
+        setTopic(post.topic ? post.topic : null);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-    fetchChannels();
-  }, [id, navigate, token]);
+    fetchPost();
+  }, [postId, navigate, token]);
 
   return (
     <MainSection>
-      <TopNavigationBar
-        button={
-          <SmalSubmitButton
-            onClick={handleSubmitButton}
-            text="Edit"
-            position="absolute"
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <TopNavigationBar
+            noButton={true}
+            aosEffect="zoom-fade-in"
+            channel={loading ? "Loading..." : channel ? channel : null}
+            topic={loading ? "Loading..." : topic ? topic : null}
+            post={loading ? "Loading..." : post ? post : null}
           />
-        }
-        icon={<FaHome />}
-        name={`${channel.name}/`}
-      />
-      <MainContainer>
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-          <ArticleHeader />
-            <CreateChannelElement id="articleToolbar">
+          <MainContainer>
+            <ArticleHeader aosEffect="zoom-fade-in" post={post} />
+
+            <img
+              data-aos="fade-up"
+              className="article-page-thumbnail"
+              src={`${serverURL}/api/v1/media/${post.thumbnail}`}
+              alt={post.thumbnailAltText}
+            />
+            <CreateChannelElement aosEffect="fade-up" id="articleToolbar">
               <ReactQuill
-                value={editorContent}
-                onChange={setEditorContent}
+                value={post.content}
                 ref={quillRef}
                 modules={modules}
                 formats={formats}
+                readOnly={true}
               />
             </CreateChannelElement>
-          </>
-        )}
-      </MainContainer>
+          </MainContainer>
+        </>
+      )}
+
       <Footer />
     </MainSection>
   );

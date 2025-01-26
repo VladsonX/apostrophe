@@ -1,3 +1,4 @@
+@use '../../variables';
 .channel-recommended {
   &__card {
     padding: 1rem;
@@ -11,9 +12,7 @@
         color: var(--white);
         border-left: 1px solid var(--soft-purple);
         padding-left: 1rem;
-    
       }
-
     }
   }
   &__header {
@@ -35,11 +34,31 @@
     width: 3rem;
     height: 3rem;
     object-fit: fill;
+    border-radius: var(--radius);
+    &-placeholder {
+      width: 3rem;
+      height: 3rem;
+      border-radius: var(--radius);
+      color: var(--white);
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
   &__name {
     font-size: 1rem;
     color: var(--white);
     font-weight: 600;
+    display: -webkit-box;        
+    -webkit-box-orient: vertical; 
+    overflow: hidden;            
+    text-overflow: ellipsis;     
+    -webkit-line-clamp: 2;  
+    @media (max-width: variables.$mediaLG) {
+      font-size: .75rem;
+    }
   }
   &__description {
     font-size: 0.85rem;

@@ -2,36 +2,53 @@ import "./ChannelListItem.scss";
 import { NavLink } from "react-router";
 import { serverURL } from "../../server";
 
-const ChannelListItem = ({ channel }) => {
-
+const ChannelListItem = ({ subscription, aosEffect }) => {
   return (
-    <li className="channel-list-item">
-      <NavLink
+    <li data-aos={aosEffect} className="channel-list-item">
+      <NavLink aria-label={subscription.channel.name}
         className={({ isActive }) =>
           isActive
             ? "channel-list-item__link active"
             : "channel-list-item__link"
         }
-        key={channel.name}
-        to={"/channel/" + channel.channelId}
+        to={
+          `/channel/${subscription.channel.channelId}` +
+          (subscription.topic ? `/topic/${subscription.topic.topicId}` : "")
+        }
       >
-        {channel.avatar ? (
+        {subscription.channel.avatar ? (
           <img
             className="channel-list-item__logo"
-            src={serverURL + "/api/v1/media/" + channel.avatar}
-            alt={channel.name}
+            src={serverURL + "/api/v1/media/" + subscription.channel.avatar}
+            alt={subscription.channel.name}
           />
         ) : (
           <div
             className="channel-list-item__logo channel-list-item__logo-placeholder"
-            style={{ backgroundColor: channel.logoPlaceholderColor }}
+            style={{
+              backgroundColor: subscription.channel.logoPlaceholderColor,
+            }}
           >
-            <span>{channel.name.charAt(0).toUpperCase()}</span>
+            <span>{subscription.channel.name.charAt(0).toUpperCase()}</span>
           </div>
         )}
-        <span className="channel-list-item__name">{channel.name}</span>
-      </NavLink>
+        <div className="channel-list-item__name-wrapper">
+          {subscription.topic ? (
+<> <span className="channel-list-item__name-channel">
+          {subscription.channel.name}
+        </span>
 
+          <span className="channel-list-item__name-topic">
+            {subscription.topic.name}
+          </span></>
+          ) : <span className="channel-list-item__name-channel channel-list-item__name-channel-no-topic">
+          {subscription.channel.name}
+        </span>}
+       
+
+        </div>
+
+      </NavLink>
     </li>
   );
 };

@@ -1,18 +1,26 @@
+@use "../../variables";
+
 .hot-topics-card {
+  transition: 0.5s all ease;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
   min-width: 100%;
   width: 100%;
-  height: 36rem;
+  max-height: 36rem;
   background: var(--article);
   border-radius: var(--radius);
-  padding: 1.5rem;
+  padding: 1rem 1.5rem 2rem;
+  aspect-ratio: 6/3;
   &:hover {
+    box-shadow: -2px 5px 14px 0 var(--soft-purple);
     .hot-topics-card__title {
       border-bottom: 2px solid var(--placeholder);
     }
+  }
+  @media (max-width: variables.$mediaMD) {
+    gap: 1rem;
   }
   &__header {
     width: 100%;
@@ -20,27 +28,86 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    @media (max-width: variables.$mediaXXL) {
+      height: 3.5rem;
+    }
+    @media (max-width: variables.$mediaXL) {
+      height: 3.25rem;
+    }
+    @media (max-width: variables.$mediaLG) {
+      height: 3rem;
+    }
+    @media (max-width: variables.$mediaMD) {
+      height: 2.75rem;
+    }
+    @media (max-width: variables.$mediaSM) {
+      height: 2.5rem;
+    }
   }
   &__channel-wrapper {
-    width: 33%;
+    min-width: 33%;
     height: 100%;
     display: flex;
     gap: 1rem;
     align-items: center;
+    max-width: 50%;
   }
   &__channel-logo {
-    width: 4rem;
-    height: 4rem;
+    aspect-ratio: 1/1;
+    height: 100%;
     object-fit: fill;
     border-radius: var(--radius);
+    &-placeholder {
+      aspect-ratio: 1/1;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: var(--radius);
+      font-size: 1.5rem;
+      color: var(--white);
+    }
+  }
+  &__full-channel-name-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
   }
   &__channel-name {
     color: var(--white);
     font-size: 1rem;
+    font-weight: 700;
+    height: 65%;
+    display: -webkit-box;        
+    -webkit-box-orient: vertical; 
+    overflow: hidden;            
+    text-overflow: ellipsis;     
+    -webkit-line-clamp: 2; 
+    @media (max-width: variables.$mediaSM) {
+      font-size: 0.75rem;
+    }
+
+    &-no-topic {
+      line-height: 100%;
+      height: 100%;
+    }
+  }
+  &__topic-name {
+    color: var(--soft-purple);
+    font-size: 1rem;
+    font-weight: 500;
+    height: 35%;
+    @media (max-width: variables.$mediaSM) {
+      font-size: 0.5rem;
+    }
   }
   &__published {
     color: var(--soft-gray);
     font-size: 0.75rem;
+    @media (max-width: variables.$mediaSM) {
+      font-size: 0.5rem;
+    }
   }
   &__time-to-read-wrapper {
     display: flex;
@@ -49,6 +116,9 @@
   &__time-to-read-text {
     color: var(--soft-gray);
     font-size: 0.75rem;
+    @media (max-width: variables.$mediaSM) {
+      font-size: 0.5rem;
+    }
   }
   &__icon {
     fill: var(--soft-gray);
@@ -57,10 +127,22 @@
     width: 33%;
   }
   &__img {
-    width: 21.875rem;
-    height: 21.875rem;
+    width: 100%;
+    aspect-ratio: 4/3;
     border-radius: var(--radius);
     object-fit: fill;
+    &-placeholder {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      aspect-ratio: 4/3;
+
+      border-radius: var(--radius);
+      &-icon {
+        fill: var(--settings);
+      }
+    }
   }
   &__img-descr {
     font-size: 0.75rem;
@@ -71,17 +153,39 @@
     justify-content: space-between;
     gap: 2rem;
     width: 100%;
+    &_mobile {
+      flex-direction: column;
+      .hot-topics-card__title {
+        margin-bottom: 1rem;
+        line-height: 2rem;
+      }
+      .hot-topics-card__img-wrapper {
+        float: left;
+        margin: 0 1rem 0 0;
+        width: 40%;
+      }
+      .hot-topics-card__snippet {
+        width: 100%;
+      }
+      .hot-topics-card__button {
+        width: 100%;
+      }
+    }
   }
   &__text-wrapper {
     width: 66%;
     height: 100%;
   }
   &__title {
+    padding-bottom: .5rem;
     font-size: 2rem;
     color: var(--white);
     font-weight: 700;
     border-bottom: 2px solid var(--project-black);
     margin-bottom: 2rem;
+    @media (max-width: variables.$mediaXXL) {
+      line-height: 2.25rem;
+    }
   }
   &__snippet {
     font-size: 1rem;
@@ -91,18 +195,28 @@
     line-height: 1.5rem;
   }
   &__button {
-    width: 100%;
+    width: 20rem;
     height: 3rem;
     background-color: var(--transparent);
     border-radius: var(--radius);
     border: 1px solid var(--white);
-    color: var(--white);
+    color: var(--soft-gray);
     font-size: 1rem;
     cursor: pointer;
-    font-weight: 700;
+    font-weight: 500;
     &:hover {
       background-color: var(--soft-purple);
       border: 2px solid var(--soft-purple);
+      color: var(--white);
     }
+    @media (max-width: variables.$mediaSM) {
+      width: 100%;
+      height: 2.5rem;
+    }
+  }
+  &__button-link {
+    display: flex;
+    justify-content: center;
+    align-content: center;
   }
 }

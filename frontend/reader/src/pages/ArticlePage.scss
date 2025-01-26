@@ -1,9 +1,16 @@
 .create-article-page {
     &__context {
-        width: 100%;
-        display: block;
-        font-size: 1rem;
-        color: var(--settings);
-        margin-bottom: 1rem;
+      width: 100%;
+      display: block;
+      font-size: 1rem;
+      color: var(--settings);
+      margin-bottom: 1rem;
     }
-}
+  }
+  .article-page-thumbnail {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    margin-top: 1rem;
+  }
+  

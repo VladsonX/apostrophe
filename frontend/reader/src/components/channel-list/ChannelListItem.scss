@@ -47,26 +47,47 @@
     font-size: 1rem;
     color: var(--white);
     &_big {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      height: 100%;
       font-size: 3rem;
     }
     &_xxl {
-      width: 135px;
-      height: 135px;
+      width: 100%;
+      height: 100%;
       font-size: 5rem;
       margin-right: 0;
     }
     &_article {
-      width: 40px;
-      height: 40px;
+      height: 100%;
       margin-right: 0;
+
+      width: 100%;
     }
   }
   &__name {
-    font-weight: 300;
-    font-size: 1.25rem;
-    color: var(--white);
+    &-channel {
+      font-weight: 500;
+      font-size: 1.25rem;
+      color: var(--white);
+      height: 60%;
+      &-no-topic {
+        height: 100%;
+      }
+    }
+    &-topic {
+      height: 40%;
+      font-weight: 300;
+      color: var(--soft-purple);
+      font-size: 1rem;
+    }
+
+    &-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
   }
   &__edit {
     cursor: pointer;

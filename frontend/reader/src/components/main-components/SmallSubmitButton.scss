@@ -1,24 +1,37 @@
-@use '../../index.scss';
+@use "../../variables";
+@use "../../index.scss";
 
 .small-submit-button {
-    right: .5rem;
-    max-width: 5rem;
-    min-width: 4.25rem; 
-    min-height: 1.5rem;
-    cursor: pointer;
-    font-weight: 500;
-    border-radius: var(--radius);
-    background-color: var(--soft-purple);
-    color: var(--white);
-    font-size: 1rem;
-    transition: border .1s, background-color .3s ;
-    padding: .3rem .5rem;
+  right: 0.5rem;
+  min-width: 4.25rem;
+  min-height: 1.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: var(--radius);
+  background-color: var(--soft-purple);
+  color: var(--white);
+  font-size: 1rem;
+  transition: border 0.1s, background-color 0.3s;
+  padding: 0.3rem 0.5rem;
+  @media (max-width: variables.$mediaXXL) {
+    aspect-ratio: 3/1;
+    bottom: 0.25rem;
+  }
+  @media (max-width: variables.$mediaXL) {
 
-    &:hover {
-      background-color: var(--project-black);
-      border: 1px solid var(--white);
-    }
-    &_red {
-      background-color: var(--discard);
-    }
+    bottom: 0.25rem;
+    padding: 0;
+  }
+  &_followed {
+    background-color: var(--transparent);
+    color: var(--soft-purple);
+  }
+
+  &:hover {
+    background-color: var(--project-black);
+    border: 1px solid var(--white);
+  }
+  &_red {
+    background-color: var(--discard);
+  }
 }

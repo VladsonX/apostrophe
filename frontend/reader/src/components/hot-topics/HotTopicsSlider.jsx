@@ -37,14 +37,14 @@ const HotTopicsSlider = ({ children }) => {
         <IconContext.Provider
           value={{ size: "1rem", className: "hot-topics-slider__chevron" }}
         >
-          <button id="hotSliderLeft" className="hot-topics-slider__button" onClick={handlePrev}>
+          <button aria-label="slider-left" id="hotSliderLeft" className="hot-topics-slider__button" onClick={handlePrev}>
             <FaChevronLeft />
           </button>
         </IconContext.Provider>
         <IconContext.Provider
           value={{ size: "1rem", className: "hot-topics-slider__chevron" }}
         >
-          <button id="hotSliderRight" className="hot-topics-slider__button" onClick={handleNext}>
+          <button aria-label='slider-right' id="hotSliderRight" className="hot-topics-slider__button" onClick={handleNext}>
             <FaChevronRight />
           </button>
         </IconContext.Provider>

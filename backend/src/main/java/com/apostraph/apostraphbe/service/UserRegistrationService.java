@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static java.lang.String.format;
-import static org.apache.commons.codec.digest.DigestUtils.sha256Hex;
 
 @Service
 @RequiredArgsConstructor
@@ -87,11 +86,18 @@ public class UserRegistrationService {
 
     private void storeEmailVerificationRequest(UUID userId) {
 
+//        EmailVerificationRequestEntity request = EmailVerificationRequestEntity.builder()
+//                .userId(userId)
+//                .accepted(false)
+//                .validUntil(LocalDateTime.now(javaClock).plusDays(1))
+//                .hash(sha256Hex(UUID.randomUUID().toString()))
+//                .build();
+
         EmailVerificationRequestEntity request = EmailVerificationRequestEntity.builder()
                 .userId(userId)
-                .accepted(false)
+                .accepted(true)
                 .validUntil(LocalDateTime.now(javaClock).plusDays(1))
-                .hash(sha256Hex(UUID.randomUUID().toString()))
+                .hash(null)
                 .build();
 
         emailVerificationRequestRepository.save(request);

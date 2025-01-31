@@ -28,6 +28,9 @@
       aspect-ratio: 1/1;
       border-radius: var(--radius);
       display: inline-block;
+      &.active {
+        background: var(--transparent);
+      }
     }
   }
   &__article-content-placeholder {

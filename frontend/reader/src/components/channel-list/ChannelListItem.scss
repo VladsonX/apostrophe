@@ -53,9 +53,11 @@
     }
     &_xxl {
       width: 100%;
-      height: 100%;
+      height: auto;
       font-size: 5rem;
       margin-right: 0;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius);
     }
     &_article {
       height: 100%;

@@ -1,3 +1,4 @@
+@use "../variables";
 div.ql-toolbar.ql-snow {
   position: sticky;
   z-index: 10;
@@ -32,13 +33,25 @@ div.quill div.ql-container.ql-snow {
     border-radius: var(--radius);
     background-color: var(--transparent);
     border: 2px solid var(--project-black);
+    @media (max-width: variables.$mediaMD) {
+      padding: 1rem;
+    }
     h1 {
       font-size: 2rem;
       font-weight: 700;
+      @media (max-width: variables.$mediaXL) {
+        line-height: 2.5rem;
+      }
+      @media (max-width: variables.$mediaLG) {
+        line-height: 2rem;
+      }
     }
     h2 {
       font-size: 1.5rem;
       font-weight: 700;
+      @media (max-width: variables.$mediaLG) {
+        line-height: 2rem;
+      }
     }
     a {
       color: var(--link);
@@ -90,23 +103,27 @@ div.quill div.ql-container.ql-snow {
       max-width: 50%;
       min-height: 18.75rem;
       float: left;
+      border-radius: var(--radius);
       &::after {
         content: "This is a paragraph.";
-        display: block; /* Make it a block element */
-        width: auto; /* Adjust width as needed */
-        padding: 10px; /* Add padding */
-        margin: 10px; /* Add margin */
-        background-color: #f0f0f0; /* Add background color */
+        display: block; 
+        width: auto; 
+        padding: 10px; 
+        margin: 10px; 
+        background-color: #f0f0f0; 
+      }
+      @media (max-width: variables.$mediaLG) {
+        min-width: 100%;
+        max-width: 100%;
       }
     }
   }
   blockquote {
-    // font-style: italic;
     width: 50%;
     font-size: 1.25rem;
     border-left: 2px solid var(--soft-purple);
     display: block;
     justify-self: center;
-    margin: 2rem 0 0;
+    margin: 2rem auto 0;
   }
 }

@@ -139,7 +139,7 @@ const CreateArticlePage = () => {
             position="absolute"
           />
         }
-        icon={<FaHome />}
+        // icon={<FaHome />}
         channel={loading ? "Loading..." : channel ? channel : null}
         topic={loading ? "Loading..." : topic ? topic : null}
         post={loading ? "Loading..." : post ? post : null}

@@ -5,7 +5,6 @@ import "./RootLayout.scss";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 
 const RootLayout = () => {
-
   const [isAuthenticated, setIsAuthenticated] = useState();
   const navigate = useNavigate();
 
@@ -15,19 +14,21 @@ const RootLayout = () => {
   }, []);
 
   if (isAuthenticated === null) {
-    // TODO: return loading page instead
+    navigate('welcome');
     return null;
   }
-
 
   if (!isAuthenticated) {
     navigate("/welcome");
   }
 
   return (
+    
     <main className="root-layout">
-      <NavigationBar />
-      <div style={{width: '20%'}}></div>
+      <div className="root-layout__nav-wrapper">
+        <NavigationBar />
+      </div>
+
       <Outlet />
     </main>
   );

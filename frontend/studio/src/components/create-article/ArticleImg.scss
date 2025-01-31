@@ -1,3 +1,4 @@
+@use '../../variables';
 .article-img {
   cursor: pointer;
   position: relative;
@@ -9,6 +10,10 @@
   border-radius: var(--radius);
   background: var(--main-gradient);
   padding: 2px;
+  @media (max-width: variables.$mediaMD) {
+    width: 100%;
+    height: auto;
+  }
   &:hover {
     box-shadow: 0px 0px 1rem 0 var(--soft-purple);
   }

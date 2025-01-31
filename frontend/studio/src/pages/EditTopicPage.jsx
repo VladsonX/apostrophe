@@ -113,8 +113,6 @@ const EditTopicPage = () => {
             position="absolute"
           />
         }
-        icon={<FaHome />}
-        name={`Edit your channel's topic: `}
         channel={channel}
         topic={topic}
       />

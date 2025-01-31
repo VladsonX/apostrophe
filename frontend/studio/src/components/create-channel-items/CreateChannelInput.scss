@@ -4,7 +4,7 @@
   &__input {
     transition: 0.1s all ease;
     font-size: 1rem;
-    padding: .75rem;
+    padding: 0.75rem;
     color: var(--white);
     width: 100%;
     min-width: 100%;
@@ -27,10 +27,12 @@
       display: flex;
       color: var(--settings);
       font-size: 1rem;
-      justify-self: flex-end;
     }
     &-wrapper {
       gap: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
     }
   }
 }

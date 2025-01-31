@@ -9,7 +9,6 @@ import "./WelcomePage.scss";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-
 const WelcomePage = () => {
   useEffect(() => {
     AOS.init({
@@ -73,10 +72,11 @@ const WelcomePage = () => {
   };
 
   return (
-    <section  className="welcome">
+    <section className="welcome">
       <div className="welcome__wrapper">
-        <h1  className="logo">Apostrophe</h1>
-        <div data-aos='zoom-fade-in' className="welcome__card">
+        <h1 className="logo">Apostrophe</h1>
+        <h2 className="logo_studio">[Studio]</h2>
+        <div data-aos="zoom-fade-in" className="welcome__card">
           <form onSubmit={handleLogin} id="logInForm" className="welcome__form">
             <label className="welcome__form-label" htmlFor="emailInput">
               Your email:
@@ -104,7 +104,7 @@ const WelcomePage = () => {
             />
           </form>
         </div>
-        <div data-aos='zoom-fade-in' className="welcome__buttons-wrapper">
+        <div data-aos="zoom-fade-in" className="welcome__buttons-wrapper">
           <button
             type="submit"
             form="logInForm"

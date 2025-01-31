@@ -1,4 +1,6 @@
 @use '../../index.scss';
+@use '../../variables';
+
 
 .main-section {
     overflow: visible;
@@ -7,4 +9,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    @media (max-width: variables.$mediaLG) {
+        width: 100%;
+        min-height: 90vh;
+        order: 0;
+    }
 }

@@ -261,8 +261,8 @@ const CreateArticlePage = () => {
                 position="absolute"
               />
             }
-            icon={<FaHome />}
-            name='Create your article for: '
+            // icon={<FaHome />}
+            // name='Create your article for: '
           />
           <MainContainer>
             {loading ? (

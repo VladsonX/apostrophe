@@ -152,8 +152,6 @@ const CreateChannelPage = () => {
             position="absolute"
           />
         }
-        icon={<FaHome />}
-        name={`Edit your channel: `}
         channel={channel}
       />
       <MainContainer>

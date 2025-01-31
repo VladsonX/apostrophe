@@ -308,7 +308,7 @@ const EditArticlePage = () => {
                 position="absolute"
               />
             }
-            icon={<FaHome />}
+            // icon={<FaHome />}
             channel={channel}
             topic={topic}
             post={post}

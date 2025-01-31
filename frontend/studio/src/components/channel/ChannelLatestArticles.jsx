@@ -26,18 +26,24 @@ const ChannelLatestArticles = ({
               <ChannelArticle channel={channel} post={post} key={post.postId} />
             ))
           ) : (
-            <div data-aos='fade-up' className="channel-latest-articles__no-articles">
+            <div
+              data-aos="fade-up"
+              className="channel-latest-articles__no-articles"
+            >
               There's no articles for now :(
             </div>
           )
-        ) : posts && posts.length > 0 ? (
+        ) : (posts && posts.length > 0) ? (
           posts
-            .filter((post) => post.topic.topicId === topicId)
+            .filter((post) => post.topic?.topicId === topicId)
             .map((post) => (
               <ChannelArticle channel={channel} post={post} key={post.postId} />
             ))
         ) : (
-          <div data-aos='fade-up' className="channel-latest-articles__no-articles">
+          <div
+            data-aos="fade-up"
+            className="channel-latest-articles__no-articles"
+          >
             There's no articles for now :(
           </div>
         )}

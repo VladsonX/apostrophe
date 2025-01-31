@@ -114,7 +114,7 @@ const ChannelPage = () => {
             position="absolute"
           />
         }
-        icon={<FaHome />}
+        // icon={<FaHome />}
         channel={channel}
       />
       <MainContainer>

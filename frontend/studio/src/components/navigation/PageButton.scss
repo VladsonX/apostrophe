@@ -1,7 +1,13 @@
+@use "../../variables";
+
 .utilities{
   .page-button {
     color: var(--settings);
+
   }
+  @media (max-width: #{variables.$mediaLG}) {
+    display: none;
+   }
 }
 
 .page-button {
@@ -19,6 +25,14 @@
   font-weight: 400;
   font-style: normal;
   margin-bottom: 2px;
+  @media (max-width: variables.$mediaLG) {
+    font-size: 1.5rem;
+    justify-content: center;
+  }
+  @media (max-width: variables.$mediaSM) {
+    padding: .25rem .5rem;
+    font-size: 1.5rem;
+  }
   &:hover {
     color: var(--soft-purple);
     .page-button-icon {
@@ -34,6 +48,9 @@
     align-items: center;
     margin-right: 5px;
     height: 100%;
+    @media (max-width: variables.$mediaLG) {
+      margin-right: 0;
+    }
   }
   &-title {
     display: inline-block;
@@ -48,5 +65,9 @@
 .log-out-button {
   &__title {
     color: var(--settings);
+    @media (max-width: variables.$mediaLG) {
+      color: var(--soft-gray);
+    }
   }
+
 }

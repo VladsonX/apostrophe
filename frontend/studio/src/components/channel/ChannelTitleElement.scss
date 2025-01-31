@@ -1,21 +1,35 @@
+@use "../../variables";
 @use "../../index.scss";
 
 .channel-title-element {
   display: flex;
   gap: 2rem;
   align-items: center;
-  height: 135px;
+  height: 8.4375rem;
   margin-bottom: 2rem;
+  @media (max-width: variables.$mediaXL) {
+    height: 7.5rem;
+  }
+  @media (max-width: variables.$mediaLG) {
+    height: 6.5rem;
+  }
+  @media (max-width: variables.$mediaMD) {
+    height: 5.5rem;
+  }
   &__img {
-    width: 135px;
-    height: 135px;
+    height: 100%;
+    aspect-ratio: 1/1;
     object-fit: fill;
     border-radius: var(--radius);
+    @media (max-width: variables.$mediaSM) {
+      height: 80%;
+    }
   }
   &__wrapper {
     display: flex;
     align-items: center;
     height: inherit;
+    justify-content: center;
 
     &_small {
       width: 13%;
@@ -37,6 +51,22 @@
     height: 60%;
     line-height: 3rem;
     font-weight: 700;
+    @media (max-width: variables.$mediaXL) {
+      line-height: 2.75rem;
+    }
+    @media (max-width: variables.$mediaLG) {
+      font-size: 2.75rem;
+      line-height: 2.5rem;
+    }
+    @media (max-width: variables.$mediaMD) {
+      font-size: 2.5rem;
+      line-height: 2.25rem;
+    }
+    @media (max-width: variables.$mediaSM) {
+      font-weight: 500;
+      font-size: 2rem;
+      line-height: 2rem;
+    }
     &_no-topic {
       display: flex;
       align-items: flex-end;
@@ -46,6 +76,23 @@
       height: 85%;
       line-height: 3rem;
       font-weight: 700;
+      @media (max-width: variables.$mediaXL) {
+        line-height: 2.75rem;
+      }
+      @media (max-width: variables.$mediaLG) {
+        font-size: 2.75rem;
+        line-height: 2.5rem;
+      }
+      @media (max-width: variables.$mediaMD) {
+        font-size: 2.5rem;
+        line-height: 2.25rem;
+      }
+      @media (max-width: variables.$mediaSM) {
+        font-weight: 500;
+        font-size: 2rem;
+        line-height: 2rem;
+      }
+
     }
   }
   &__subtitle {
@@ -57,6 +104,10 @@
     height: 30%;
     line-height: 2rem;
     font-weight: 700;
+    @media (max-width: variables.$mediaSM) {
+      font-size: 1.5rem;
+      line-height: 2rem;
+      height: 20%;
+    }
   }
 }
-

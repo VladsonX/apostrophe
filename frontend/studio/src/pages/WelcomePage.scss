@@ -15,8 +15,6 @@
     flex-direction: column;
   }
   &__card {
-    // width: 38.75rem;
-    // height: 15.625rem;
     width: 30rem;
     min-height: 12.5rem;
     background: var(--glassy-gray);
@@ -41,8 +39,6 @@
   &__form-input {
     color: var(--project-black);
     padding: 5px;
-    // width: 560px;
-    // height: 50px;
     width: 100%;
     height: 40px;
     background-color: var(--white);
@@ -56,13 +52,11 @@
       color: var(--placeholder);
     }
     &:focus {
-        outline: 2px solid var(--soft-purple);
+      outline: 2px solid var(--soft-purple);
     }
   }
   &__buttons-wrapper {
     display: flex;
-    // width: 38.75rem; //620px
-    // height: 3.75rem; //60px
     width: 30rem;
     height: 3rem;
     gap: 1.5rem;
@@ -101,5 +95,12 @@
   font-weight: bold;
   font-size: 3.5rem;
   text-align-last: center;
-  margin-bottom: 2.5rem;
+  // margin-bottom: 2.5rem;
+  &_studio {
+    color: var(--soft-purple);
+    font-weight: 500;
+    font-size: 2rem;
+    text-align-last: center;
+    margin-bottom: 2.5rem;
+  }
 }

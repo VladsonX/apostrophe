@@ -37,4 +37,12 @@ $fading: linear-gradient(
 
 // Size variables:
 
-$radius: 10px;
+$radius: .75rem;
+
+// Media variables:
+$mediaFullHD: 1920px;
+$mediaXXL: 1400px;
+$mediaXL: 1200px; 
+$mediaLG: 992px;
+$mediaMD: 768px;
+$mediaSM: 576px;

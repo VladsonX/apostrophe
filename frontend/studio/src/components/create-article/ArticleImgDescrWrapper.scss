@@ -1,8 +1,12 @@
+@use '../../variables';
 .article-img-descr {
   &__wrapper {
     display: flex;
     align-items: center;
     gap: 1rem;
+    @media (max-width: variables.$mediaMD) {
+      flex-direction: column;
+    }
   }
   &__counter {
     width: 100%;

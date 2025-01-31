@@ -109,7 +109,7 @@ const CreateChannelPage = () => {
                 position="absolute"
               />
             }
-            icon={<FaHome />}
+            // icon={<FaHome />}
             name={`Create new channel: `}
           />
           <MainContainer>
@@ -164,7 +164,7 @@ const CreateChannelPage = () => {
                   </div>
                 </CreateChannelElement>
                 {enableTopicMode ? (
-                  <CreateChannelElement name="Channel Topics">
+                  <CreateChannelElement aosEffect='zoom-fade-out' name="Channel Topics">
                     <CreateChannelTopics
                       newTopics={customTopics}
                       updateTopics={setCustomTopics}

@@ -1,9 +1,9 @@
+@use "../../variables";
 .channel-latest-articles {
   &__article-read-more {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-decoration: none;
     width: 100%;
     height: 2rem;
     background-color: var(--transparent);
@@ -17,6 +17,12 @@
       background-color: var(--soft-purple);
       color: var(--white);
       border: 1px solid var(--project-black);
+    }
+    @media (max-width: variables.$mediaSM) {
+      height: 2.5rem;
+    }
+    &-link {
+      width: 100%;
     }
   }
 }

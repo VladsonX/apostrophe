@@ -1,9 +1,10 @@
 @use "../../index.scss";
+@use "../../variables";
 
 .top-nav {
-  // padding: 0.5rem 1rem;
+  flex-shrink: 0;
   padding: 0.5rem 3%;
-  height: 70px;
+  height: 55px;
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -18,6 +19,9 @@
     white-space: normal;
     text-overflow: clip;
   }
+  @media (max-width: variables.$mediaXL) {
+    height: 40px;
+  }
   &-icon {
     width: 1rem;
     display: flex;
@@ -26,9 +30,6 @@
     height: 100%;
   }
   &-title {
-    display: inline-block;
-    height: 100%;
-    width: 90%;
     font-size: 1rem;
     color: var(--white);
     overflow: hidden;
@@ -36,21 +37,32 @@
     white-space: nowrap;
     position: relative;
     scrollbar-width: none;
+    align-items: center;
+    display: inline-flex;
+    height: 100%;
     &::-webkit-scrollbar {
       display: none;
     }
     &:hover {
       overflow-x: auto;
-      // white-space: normal;
       text-overflow: clip;
+    }
+    &_no-button {
+      width: 100%;
     }
   }
   &-path {
     position: relative;
-
+    height: 100%;
     display: inline-flex;
     align-items: center;
-    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--project-black);
+    &__logo {
+      height: 85%;
+      aspect-ratio: 1 / 1;
+      border-radius: var(--radius);
+      object-fit: fill;
+    }
   }
   &-divider {
     width: 100%;
@@ -58,8 +70,14 @@
     background: var(--glassy-gray);
   }
   &-link {
+    display: inline-flex;
     text-decoration: none;
     color: var(--link);
+    height: 100%;
+    line-height: 100%;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 1rem;
     &.active {
       background: none;
     }
@@ -69,5 +87,6 @@
   }
   &-slash {
     color: var(--white);
+    margin: 0 0.15rem;
   }
 }

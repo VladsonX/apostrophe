@@ -1,4 +1,4 @@
-
+@use '../../variables';
 .topics-list {
     list-style-type: none;
     width: 30%;
@@ -8,5 +8,7 @@
     justify-content: flex-start;
     border-right: 1px solid var(--settings);
     padding-right: 1rem;
-
+    @media (max-width: variables.$mediaMD) {
+        width: 40%;
+    }
 }

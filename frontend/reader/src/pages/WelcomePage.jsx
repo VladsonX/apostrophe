@@ -3,7 +3,7 @@ import { putCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useState, useEffect } from "react";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 
 import "./WelcomePage.scss";
 

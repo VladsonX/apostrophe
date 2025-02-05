@@ -1,4 +1,3 @@
-import ChannelHeading2 from "../components/channel/ChannelHeading2";
 import MainContainer from "../components/main-components/MainContainer";
 import MainSection from "../components/main-components/MainSection";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
@@ -9,11 +8,9 @@ import { useState, useEffect } from "react";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useNavigate } from "react-router";
 import Footer from "../components/main-components/Footer";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import Loader from "../components/main-components/Loader";
-import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 import enrichPostsWithChannelLogoPlaceholderBackground from "../script/PostChannelLogoPlaceholderBackground";
-
 
 const Explore = () => {
   const [loading, setLoading] = useState(true);

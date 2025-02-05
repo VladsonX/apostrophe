@@ -9,7 +9,7 @@ import ChannelRecommended from "../components/create-channel-items/ChannelRecomm
 import ChannelHeading2 from "../components/channel/ChannelHeading2";
 import Footer from "../components/main-components/Footer";
 import { useEffect, useState } from "react";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useNavigate } from "react-router";
 import Loader from "../components/main-components/Loader";

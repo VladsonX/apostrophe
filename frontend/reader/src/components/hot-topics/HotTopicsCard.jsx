@@ -4,7 +4,7 @@ import { IconContext } from "react-icons";
 import { NavLink } from "react-router";
 import convertEstimatedReadingTime from "../../script/EstimatedReadingTImeConverter";
 import reformateDate from "../../script/reformateDate";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 import { CiImageOn } from "react-icons/ci";
 import { useMediaQuery } from "react-responsive";
 

@@ -5,7 +5,7 @@ import SmalSubmitButton from "../components/main-components/SmallSubmitButton";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import { useParams } from "react-router";
 import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 import MainContainer from "../components/main-components/MainContainer";

@@ -2,6 +2,7 @@
 @use "../../variables";
 .channel-latest-articles {
   &__article {
+    position: relative;
     display: flex;
     flex-direction: column;
     padding: 0 0.5rem;
@@ -13,9 +14,7 @@
     transition: 0.3s all ease;
     @media (max-width: variables.$mediaMD) {
       padding: 1.5rem 1rem;
-
     }
-
   }
 
   &__logo {
@@ -61,7 +60,6 @@
     align-items: flex-start;
     justify-content: center;
     width: 40%;
-
   }
   &__article-content-img-descr {
     color: var(--placeholder);
@@ -78,7 +76,6 @@
 
     aspect-ratio: 6/4;
     object-fit: fill;
-
   }
   &__article-name {
     font-size: 1.25rem;

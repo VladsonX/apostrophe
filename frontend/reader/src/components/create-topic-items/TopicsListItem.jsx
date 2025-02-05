@@ -1,7 +1,7 @@
 import "./TopicsListItem.scss";
 import { CiImageOn } from "react-icons/ci";
 import { IconContext } from "react-icons";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 import { FaCheck } from "react-icons/fa6";
 
 const TopicsListItem = ({

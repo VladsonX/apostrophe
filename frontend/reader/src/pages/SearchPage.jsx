@@ -10,7 +10,7 @@ import MainContainer from "../components/main-components/MainContainer";
 import SearchInput from "../components/search/SearchInput";
 import SearchOutput from "../components/search/SearchOutput";
 import Footer from "../components/main-components/Footer";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 
 const SearchPage = () => {
   const navigate = useNavigate();

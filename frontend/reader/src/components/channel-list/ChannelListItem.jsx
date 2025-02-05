@@ -1,6 +1,6 @@
 import "./ChannelListItem.scss";
 import { NavLink } from "react-router";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 
 const ChannelListItem = ({ subscription, aosEffect }) => {
   return (

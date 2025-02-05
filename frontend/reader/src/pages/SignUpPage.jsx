@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import SubmitButton from "../components/main-components/SubmitButton";
-
 import "./SignUpPage.scss";
-
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 
 const SignUpPage = () => {
   const [userFirstName, setUserFirstName] = useState("");
@@ -31,7 +29,6 @@ const SignUpPage = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-
       });
 
       if (response.ok) {

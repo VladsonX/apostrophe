@@ -1,13 +1,12 @@
 import "./ArticlePage.scss";
 import MainSection from "../components/main-components/MainSection";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
-import SmalSubmitButton from "../components/main-components/SmallSubmitButton";
 import MainContainer from "../components/main-components/MainContainer";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router";
 import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import "./CustomQuillTheme.scss";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";

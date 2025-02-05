@@ -9,9 +9,8 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import Footer from "../components/main-components/Footer";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import Loader from "../components/main-components/Loader";
-import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 import enrichPostsWithChannelLogoPlaceholderBackground from "../script/PostChannelLogoPlaceholderBackground";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -31,7 +30,6 @@ const MainPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchPosts = async () => {
-      console.log('fetching posts...')
       const token = getCurrentJwtToken();
       if (!token) {
         setError("User is not authenticated");
@@ -56,7 +54,6 @@ const MainPage = () => {
 
         const data = await response.json();
         enrichPostsWithChannelLogoPlaceholderBackground(data);
-        console.log(data);
         setPosts(data);
       } catch (error) {
         setError("An error occurred while fetching posts", error);
@@ -90,7 +87,6 @@ const MainPage = () => {
 
         const hotTopics = await response.json();
         enrichPostsWithChannelLogoPlaceholderBackground(hotTopics);
-        console.log(hotTopics);
         setHotPosts(hotTopics);
       } catch (error) {
         setError("An error occurred while fetching posts", error);
@@ -101,7 +97,6 @@ const MainPage = () => {
 
     fetchHotTopics();
   }, [navigate]);
-
   return (
     <MainSection>
       {loading ? (

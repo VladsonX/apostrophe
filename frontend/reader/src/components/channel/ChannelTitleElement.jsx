@@ -1,6 +1,6 @@
 import Divider from "../main-components/Divider";
 import "./ChannelTitleElement.scss";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import AOS from "aos";

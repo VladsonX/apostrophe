@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 import "./ChannelRecommended.scss";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 
 const ChannelRecommended = ({ channel, aosEffect }) => {
   const logoUrl = channel.avatar

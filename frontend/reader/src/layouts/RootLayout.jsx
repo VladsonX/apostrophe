@@ -7,21 +7,14 @@ import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 const RootLayout = () => {
   const [isAuthenticated, setIsAuthenticated] = useState();
   const navigate = useNavigate();
-
   useEffect(() => {
     const token = getCurrentJwtToken();
     setIsAuthenticated(!!token);
   }, []);
 
-  if (isAuthenticated === null) {
-    navigate('welcome');
-    return null;
-  }
-
   if (!isAuthenticated) {
-    navigate("/welcome");
+    navigate('welcome');
   }
-
   return (
     
     <main className="root-layout">

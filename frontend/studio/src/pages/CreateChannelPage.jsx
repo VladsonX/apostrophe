@@ -13,7 +13,7 @@ import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useNavigate } from "react-router";
 import Loader from "../components/main-components/Loader";
 import TopicModeToggle from "../components/create-channel-items/TopicModeToggle";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import Footer from "../components/main-components/Footer";
 import { NavLink } from "react-router";
 

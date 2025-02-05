@@ -2,7 +2,7 @@ import { CiTimer } from "react-icons/ci";
 import { IconContext } from "react-icons";
 import "./ChannelArticle.scss";
 import ReadMoreButton from "./ReadMoreButton";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 import { CiImageOn } from "react-icons/ci";
 import convertEstimatedReadingTime from "../../script/EstimatedReadingTImeConverter";
 import reformateDate from "../../script/reformateDate";

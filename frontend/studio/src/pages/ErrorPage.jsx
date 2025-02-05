@@ -9,9 +9,8 @@ import { useState, useEffect } from "react";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useNavigate } from "react-router";
 import Footer from "../components/main-components/Footer";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import Loader from "../components/main-components/Loader";
-import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 import enrichPostsWithChannelLogoPlaceholderBackground from "../script/PostChannelLogoPlaceholderBackground";
 
 

@@ -11,7 +11,7 @@ import CreateChannelElement from "../components/create-channel-items/CreateChann
 import CreateChannelLogo from "../components/create-channel-items/CreateChannelLogo";
 import { useParams, useNavigate } from "react-router";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
 import Loader from "../components/main-components/Loader";
 import TopicModeToggle from "../components/create-channel-items/TopicModeToggle";
@@ -72,7 +72,6 @@ const CreateChannelPage = () => {
       setCustomChannelName(channel.name || "");
       setCustomChannelDescr(channel.description || "");
       setCustomTopics(channel.topics || []);
-      // setCustomImg(`${serverURL}/api/v1/media/${channel.avatar}`);
       setCustomImg(channel.avatar);
       setEnableTopicMode(channel.topicsEnabled);
     }

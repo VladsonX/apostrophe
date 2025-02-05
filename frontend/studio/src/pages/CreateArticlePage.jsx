@@ -8,7 +8,7 @@ import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate, useParams } from "react-router";
 import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import ArticleImgDescrWrapper from "../components/create-article/ArticleImgDescrWrapper";
 import ArticleInput from "../components/create-article/ArticleInput";
 import ArticleSnippet from "../components/create-article/ArticleSnippet";

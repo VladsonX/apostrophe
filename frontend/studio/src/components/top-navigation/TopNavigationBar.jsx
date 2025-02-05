@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import "./TopNavigationBar.scss";
 import { IconContext } from "react-icons";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 
 const TopNavigationBar = ({
   button,
@@ -64,7 +64,7 @@ const TopNavigationBar = ({
           {post && topic ? (
             <NavLink
             aria-label={post.title}
-              to={`/channel/${channel.channelId}/topic/${topic.topicId}/article/${post.postId}`}
+              to={`/channel/${channel.channelId}/topic/${topic.topicId}/readarticle/${post.postId}`}
               className="top-nav-link"
             >
               <span className="top-nav-slash"> / </span>
@@ -74,7 +74,7 @@ const TopNavigationBar = ({
             post && (
               <NavLink
               aria-label={post.title}
-                to={`/channel/${channel.channelId}/article/${post.postId}`}
+                to={`/channel/${channel.channelId}/readarticle/${post.postId}`}
                 className="top-nav-link"
               >
                 <span className="top-nav-slash"> / </span>

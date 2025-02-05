@@ -3,7 +3,7 @@ import ChannelsList from "../components/channel-list/ChannelsList";
 import MainContainer from "../components/main-components/MainContainer";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
 import { FaHome } from "react-icons/fa";
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import { useEffect, useState } from "react";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import CreateChannelListItem from "../components/channel-list/CreateChannelListItem";

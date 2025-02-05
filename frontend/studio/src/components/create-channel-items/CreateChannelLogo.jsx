@@ -2,7 +2,7 @@ import "./CreateChannelLogo.scss";
 import SmallSubmitButton from "../main-components/SmallSubmitButton";
 import { CiImageOn } from "react-icons/ci";
 import { useState } from "react";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 
 import { IconContext } from "react-icons";
 

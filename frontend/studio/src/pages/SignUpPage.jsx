@@ -4,7 +4,7 @@ import SubmitButton from "../components/main-components/SubmitButton";
 
 import "./SignUpPage.scss";
 
-import { serverURL } from "../server";
+import { serverURL } from "../script/server";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEffect } from "react";

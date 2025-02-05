@@ -2,7 +2,7 @@ import "./ChannelListItem.scss";
 import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { NavLink } from "react-router";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 
 const ChannelListItem = ({ channel, aosEffect, aosDelay }) => {
   return (

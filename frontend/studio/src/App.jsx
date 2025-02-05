@@ -33,7 +33,7 @@ function App() {
           <Route path="channel/:channelId/readarticle/:postId" element={<ArticlePage />}/>
           <Route path="channel/:channelId/readarticle/:postId/editarticle/:postId" element={<EditArticlePage />}/>
           <Route path="channel/:channelId/topic/:topicId/readarticle/:postId" element={<ArticlePage />}/>
-          <Route path="channel/:channelId/topic/:topicId/readarticle/:postId/editarticle/:postId" element={<ArticlePage />}/>
+          <Route path="channel/:channelId/topic/:topicId/readarticle/:postId/editarticle/:postId" element={<EditArticlePage />}/>
           <Route path="channel/:channelId/topic/:topicId" element={<TopicPage />}></Route>
           <Route path="channel/:channelId/topic/:topicId/edit" element={<EditTopicPage />}></Route>
         </Route>

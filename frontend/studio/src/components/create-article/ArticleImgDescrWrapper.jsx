@@ -2,7 +2,6 @@ import "./ArticleImgDescrWrapper.scss";
 import ArticleImg from "./ArticleImg";
 import ArticleImgDescr from "./ArticleImgDescr";
 import { useState } from "react";
-import { serverURL } from "../../server";
 
 const ArticleImgDescrWrapper = ({maxCharCount, setValue, setArticleImg, value, imgValue, postCharCount}) => {
     const [charCount, setCharCount] = useState(postCharCount && postCharCount);

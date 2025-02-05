@@ -1,6 +1,6 @@
 import "./ArticleImg.scss";
 import { useState } from "react";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 import { useEffect } from "react";
 
 const ArticleImg = ({ customImg, postImg }) => {

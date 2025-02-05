@@ -1,7 +1,7 @@
 import "./TopicsListItem.scss";
 import { CiImageOn } from "react-icons/ci";
 import { IconContext } from "react-icons";
-import { serverURL } from "../../server";
+import { serverURL } from "../../script/server";
 
 const AddTopicListItem = ({ channel, name, onClick, userImg }) => {
   const imageUrl = `${serverURL}/api/v1/media/${userImg}`;

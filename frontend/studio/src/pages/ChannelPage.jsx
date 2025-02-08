@@ -77,7 +77,7 @@ const ChannelPage = () => {
       }
       try {
         const response = await fetch(
-          `${serverURL}/api/v1/posts?channelId=${id}&from=1&to=100`,
+          `${serverURL}/api/v1/posts?channelId=${id}&from=0&to=100`,
           {
             method: "GET",
             headers: {
@@ -90,8 +90,8 @@ const ChannelPage = () => {
           throw new Error("Failed to fetch channels");
         }
         const posts = await response.json();
-        setPosts(posts);
         console.log(posts);
+        setPosts(posts);
       } catch (error) {
         setError(error.message);
       } finally {

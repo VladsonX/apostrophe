@@ -2,7 +2,6 @@ import "./CreateArticlePage.scss";
 import MainSection from "../components/main-components/MainSection";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
 import SmalSubmitButton from "../components/main-components/SmallSubmitButton";
-import { FaHome } from "react-icons/fa";
 import MainContainer from "../components/main-components/MainContainer";
 import { getCurrentJwtToken } from "../script/LocalStorageUtils";
 import { useState, useEffect, useRef } from "react";
@@ -28,10 +27,10 @@ const CreateArticlePage = () => {
   const [articleName, setArticleName] = useState();
   const [articleSnippet, setArticleSnippet] = useState();
   const [articleImg, setArticleImg] = useState();
-  const [editorContent, setEditorContent] = useState("");
   const [updatedPost, setUpdatedPost] = useState({});
   const [postPublished, setPostPublished] = useState(false);
   const [topic, setTopic] = useState();
+  const [editorContent, setEditorContent] = useState("");
   const quillRef = useRef(null);
 
   const navigate = useNavigate();
@@ -41,45 +40,28 @@ const CreateArticlePage = () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.click();
-
     input.onchange = async () => {
       const file = input.files[0];
       if (!file) {
-        console.error("Файл не выбран.");
         return;
       }
-
       const formData = new FormData();
       formData.append("file", file);
-
       try {
-        // Загрузка файла на сервер
         const response = await fetch(`${serverURL}/api/v1/media`, {
           method: "POST",
           body: formData,
         });
-
         if (!response.ok) {
-          throw new Error("Не удалось загрузить изображение на сервер.");
+          throw new Error("Failed to upload the image to the server.");
         }
-
         const uuid = await response.text();
         const imageUrl = `${serverURL}/api/v1/media/${uuid}`;
-        console.log("Сгенерированный URL изображения:", imageUrl);
 
         const quill = quillRef.current.getEditor();
         const range = quill.getSelection();
         quill.insertEmbed(range.index, "image", imageUrl);
-        // quill.dangerouslyPasteHTML(
-        //   range.index,
-        //   `<img src="${imageUrl}" alt="${uuid}" />`
-        // );
-
-        // const insertedImage = quill.root.querySelector(
-        //   `img[src="${imageUrl}"]`
-        // );
       } catch (error) {
-        console.error("Ошибка при загрузке или вставке изображения:", error);
       }
     };
   };
@@ -109,7 +91,7 @@ const CreateArticlePage = () => {
         "blockquote",
       ],
       [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image"], // Image button
+      ["link", "image"], 
     ],
   };
 
@@ -181,12 +163,6 @@ const CreateArticlePage = () => {
   };
 
   useEffect(() => {
-    if (!token) {
-      setError("User is not authenticated");
-      setLoading(false);
-      navigate("welcome");
-      return;
-    }
     const fetchChannels = async () => {
       const token = getCurrentJwtToken();
       if (!token) {
@@ -195,7 +171,6 @@ const CreateArticlePage = () => {
         navigate("welcome");
         return;
       }
-
       try {
         const response = await fetch(
           `${serverURL}/api/v1/channels/${channelId}`,
@@ -210,7 +185,6 @@ const CreateArticlePage = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch channels");
         }
-
         const channel = await response.json();
         setChannel(channel);
         setTopic(
@@ -218,7 +192,6 @@ const CreateArticlePage = () => {
             ? channel.topics.find((elem) => elem.topicId === topicId)
             : null
         );
-
       } catch (err) {
         setError(err.message);
       } finally {
@@ -261,8 +234,6 @@ const CreateArticlePage = () => {
                 position="absolute"
               />
             }
-            // icon={<FaHome />}
-            // name='Create your article for: '
           />
           <MainContainer>
             {loading ? (

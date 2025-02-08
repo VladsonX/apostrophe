@@ -81,7 +81,7 @@ const ChannelPage = () => {
       }
       try {
         const response = await fetch(
-          `${serverURL}/api/v1/posts?channelId=${channelId}&from=1&to=100`,
+          `${serverURL}/api/v1/posts?channelId=${channelId}&from=0&to=100`,
           {
             method: "GET",
             headers: {

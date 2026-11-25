@@ -1,86 +1,44 @@
-import "./SearchPage.scss";
-import { useNavigate } from "react-router";
-import { getCurrentJwtToken } from "../script/LocalStorageUtils";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
+import { IoSearch } from "react-icons/io5";
 import Loader from "../components/main-components/Loader";
 import MainSection from "../components/main-components/MainSection";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
-import { IoSearch } from "react-icons/io5";
 import MainContainer from "../components/main-components/MainContainer";
 import SearchInput from "../components/search/SearchInput";
 import SearchOutput from "../components/search/SearchOutput";
 import Footer from "../components/main-components/Footer";
-import { serverURL } from "../script/server";
+import ErrorMessage from "../components/main-components/ErrorMessage";
+import { channelsApi } from "../api";
+import { useApi } from "../hooks/useApi";
+import enrichChannelsWithLogoPlaceholderBackground from "../script/ChannelLogoPlaceholderBackgroundColorEnricher";
+import "./SearchPage.scss";
+
+const searchChannels = async (query) => {
+  if (!query) return null;
+  const channels = await channelsApi.search(query);
+  enrichChannelsWithLogoPlaceholderBackground(channels);
+  return channels;
+};
 
 const SearchPage = () => {
-  const navigate = useNavigate();
-  const token = getCurrentJwtToken();
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState(null);
-  const [search, setSearch] = useState(false);
-  const [foundChannels, setFoundChannels] = useState(null);
-  const [foundStatus, setFoundStatus] = useState(null);
-  useEffect(() => {
-    const searchChannels = async () => {
-      if (!token) {
-        setError("User is not authenticated");
-        setLoading(false);
-        navigate("welcome");
-        return;
-      }
-      if (query && search) {
-        try {
-          setLoading(true);
-          const response = await fetch(
-            `${serverURL}/api/v1/channels/search?query=${query}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          const fetchedChannels = await response.json();
-          fetchedChannels && fetchedChannels.length !== 0
-            ? console.log("Channel found: ", fetchedChannels)
-            : console.log("No channel was found :(");
-          fetchedChannels && fetchedChannels.length !== 0
-            ? setFoundStatus(true)
-            : setFoundStatus(false);
-          setFoundChannels(fetchedChannels);
-        } catch (error) {
-          setError(error);
-          setFoundStatus(false);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-    searchChannels();
-  }, [navigate, token, query, search]);
+  // The query lives in the URL (?q=...), so searches can be shared and survive reloads.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("q") ?? "";
+  const { data: channels, loading, error } = useApi(() => searchChannels(query), [query]);
 
   return (
     <MainSection>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <TopNavigationBar icon={<IoSearch />} name={`Search`} />
-          <MainContainer>
-            <div className="search__wrapper">
-              <SearchInput setQuery={setQuery} setSearch={setSearch} />
-              <SearchOutput
-                channels={foundChannels}
-                foundStatus={foundStatus}
-                search={search}
-              />
-            </div>
-          </MainContainer>
-        </>
-      )}
-
+      <TopNavigationBar icon={<IoSearch />} name="Search" />
+      <MainContainer>
+        <div className="search__wrapper">
+          <SearchInput
+            initialValue={query}
+            onSearch={(value) => setSearchParams(value ? { q: value } : {})}
+          />
+          <ErrorMessage error={error} />
+          {loading ? <Loader /> : <SearchOutput channels={channels} />}
+        </div>
+      </MainContainer>
       <Footer />
     </MainSection>
   );

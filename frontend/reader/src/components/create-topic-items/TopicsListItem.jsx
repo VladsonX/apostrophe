@@ -1,43 +1,21 @@
 import "./TopicsListItem.scss";
 import { CiImageOn } from "react-icons/ci";
 import { IconContext } from "react-icons";
-import { serverURL } from "../../script/server";
+import { mediaUrl } from "../../api/client";
 import { FaCheck } from "react-icons/fa6";
 
-const TopicsListItem = ({
-  channel,
-  name,
-  onClick,
-  userImg,
-  className,
-  aosEffect,
-  followed,
-}) => {
-  const logoUrl = channel.avatar
-    ? `${serverURL}/api/v1/media/${channel.avatar}`
-    : null;
+const TopicsListItem = ({ channel, name, onClick, userImg, className, aosEffect, followed }) => {
+  const logoUrl = channel.avatar ? mediaUrl(channel.avatar) : null;
   return (
     <li
       data-aos={aosEffect}
       onClick={onClick}
-      className={
-        followed
-          ? className + " topics-list-item_channel-view_followed"
-          : className
-      }
+      className={followed ? className + " topics-list-item_channel-view_followed" : className}
     >
       {channel.avatar ? (
-        <img
-          className="topics-list-item__img"
-          src={logoUrl}
-          alt={channel.name}
-        />
+        <img className="topics-list-item__img" src={logoUrl} alt={channel.name} />
       ) : userImg ? (
-        <img
-          className="topics-list-item__img"
-          src={userImg}
-          alt={channel.name}
-        />
+        <img className="topics-list-item__img" src={userImg} alt={channel.name} />
       ) : channel.name ? (
         <div
           className="channel-list-item__logo channel-list-item__logo-placeholder"
@@ -62,7 +40,9 @@ const TopicsListItem = ({
       <span className="topics-list-item__divider"> / </span>
       <span className="topics-list-item__text">{name}</span>
       {followed ? (
-        <IconContext.Provider value={{size: '1rem', className: 'topics-list-item__followed-icon'}}>
+        <IconContext.Provider
+          value={{ size: "1rem", className: "topics-list-item__followed-icon" }}
+        >
           <FaCheck />
         </IconContext.Provider>
       ) : (

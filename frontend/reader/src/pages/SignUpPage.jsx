@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import SubmitButton from "../components/main-components/SubmitButton";
 import "./SignUpPage.scss";
-import { serverURL } from "../script/server";
+import { authApi } from "../api";
+import { useAuth } from "../auth/AuthContext";
+import ErrorMessage from "../components/main-components/ErrorMessage";
 
 const SignUpPage = () => {
   const [userFirstName, setUserFirstName] = useState("");
@@ -10,37 +12,25 @@ const SignUpPage = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = {
-      email: userEmail,
-      password: userPassword,
-      name: userFirstName,
-      surname: userLastName,
-    };
-
+    setError(null);
     try {
-      const response = await fetch(`${serverURL}/auth/registration`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      await authApi.register({
+        email: userEmail,
+        password: userPassword,
+        name: userFirstName,
+        surname: userLastName,
       });
-
-      if (response.ok) {
-        navigate("/checkMailBox", { state: { email: userEmail } });
-      } else {
-        const errorData = await response.json();
-        console.error("Registration failed:", errorData);
-        alert(errorData.message || "Registration failed");
-      }
-    } catch (error) {
-      console.error("Error occurred while sending data:", error);
-      alert("An error occurred. Please try again later.");
+      // Email verification is disabled on the backend, so we can log in right away.
+      await login(userEmail, userPassword);
+      navigate("/");
+    } catch (err) {
+      setError(err);
     }
   };
 
@@ -88,11 +78,13 @@ const SignUpPage = () => {
           </label>
           <input
             onChange={(e) => setUserLastName(e.target.value)}
+            required
             type="text"
             id="lastNameInput"
             className="signUp__input"
             placeholder="Johnson"
           />
+          <ErrorMessage error={error} />
           <SubmitButton type="submit" form="signUpForm" text="Sign up" />
         </form>
       </div>

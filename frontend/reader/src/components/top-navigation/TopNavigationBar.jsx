@@ -1,7 +1,7 @@
 import { NavLink } from "react-router";
 import "./TopNavigationBar.scss";
 import { IconContext } from "react-icons";
-import { serverURL } from "../../script/server";
+import { mediaUrl } from "../../api/client";
 
 const TopNavigationBar = ({
   button,
@@ -13,9 +13,7 @@ const TopNavigationBar = ({
   aosEffect,
   noButton,
 }) => {
-  const logoUrl = channel.avatar
-    ? `${serverURL}/api/v1/media/${channel.avatar}`
-    : null;
+  const logoUrl = channel.avatar ? mediaUrl(channel.avatar) : null;
   return (
     <section data-aos={aosEffect} className="top-nav">
       <div className="top-nav-path">
@@ -25,11 +23,7 @@ const TopNavigationBar = ({
           </IconContext.Provider>
         )}
 
-        <span
-          className={
-            noButton ? "top-nav-title top-nav-title_no-button" : "top-nav-title"
-          }
-        >
+        <span className={noButton ? "top-nav-title top-nav-title_no-button" : "top-nav-title"}>
           {name ? name : ""}
           {channel && (
             <NavLink
@@ -38,11 +32,7 @@ const TopNavigationBar = ({
               className="top-nav-link"
             >
               {channel.avatar ? (
-                <img
-                  src={logoUrl}
-                  alt={channel.name}
-                  className="top-nav-path__logo"
-                />
+                <img src={logoUrl} alt={channel.name} className="top-nav-path__logo" />
               ) : (
                 <></>
               )}

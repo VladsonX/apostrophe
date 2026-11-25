@@ -4,21 +4,21 @@ import { IconContext } from "react-icons";
 import { NavLink } from "react-router";
 import convertEstimatedReadingTime from "../../script/EstimatedReadingTImeConverter";
 import reformateDate from "../../script/reformateDate";
-import { serverURL } from "../../script/server";
+import { mediaUrl } from "../../api/client";
 import { CiImageOn } from "react-icons/ci";
 import { useMediaQuery } from "react-responsive";
 
 const HotTopicsCard = ({ post }) => {
   const isMobile = useMediaQuery({ maxWidth: 992 });
 
-  const logoUrl = `${serverURL}/api/v1/media/${post.channel.avatar}`;
-  const imageUrl = `${serverURL}/api/v1/media/${post.thumbnail}`;
+  const logoUrl = mediaUrl(post.channel.avatar);
+  const imageUrl = mediaUrl(post.thumbnail);
   return (
     <div className="hot-topics-card">
       <div className="hot-topics-card__header">
         <div className="hot-topics-card__channel-wrapper">
           <NavLink
-            aria-label={post.title}
+            aria-label={post.channel.name}
             className="channel-latest-articles__logo-link"
             to={
               `/channel/${post.channel.channelId}` +
@@ -44,17 +44,13 @@ const HotTopicsCard = ({ post }) => {
           <div className="hot-topics-card__full-channel-name-wrapper">
             {post.topic ? (
               <>
-                <h4 className="hot-topics-card__channel-name">
-                  {post.channel.name}
-                </h4>
+                <h4 className="hot-topics-card__channel-name">{post.channel.name}</h4>
                 <h3 className="hot-topics-card__topic-name hot-topics-card__topic-name-no-topic">
                   {post.topic.name}
                 </h3>
               </>
             ) : (
-              <h3 className="hot-topics-card__channel-name">
-                {post.channel.name}
-              </h3>
+              <h3 className="hot-topics-card__channel-name">{post.channel.name}</h3>
             )}
           </div>
         </div>
@@ -101,27 +97,22 @@ const HotTopicsCard = ({ post }) => {
                     </div>
                   )}
 
-                  <span className="hot-topics-card__img-descr">
-                    {post.thumbnailAltText}
-                  </span>
+                  <span className="hot-topics-card__img-descr">{post.thumbnailAltText}</span>
                 </div>
                 {post.postSnippet}
               </div>
             </div>
             <NavLink
-          aria-label={post.title}
+              aria-label={post.title}
               className="hot-topics-card__button-link"
               to={
-                `channel/${post.channel.channelId}/` +
+                `/channel/${post.channel.channelId}/` +
                 (post.topic
                   ? `topic/${post.topic.topicId}/article/${post.postId}`
                   : `article/${post.postId}`)
               }
             >
-              <button
-                aria-label="Read More"
-                className="hot-topics-card__button"
-              >
+              <button aria-label="Read More" className="hot-topics-card__button">
                 Read more
               </button>
             </NavLink>
@@ -131,11 +122,7 @@ const HotTopicsCard = ({ post }) => {
         <div className="hot-topics-card__content-wrapper">
           <div className="hot-topics-card__img-wrapper">
             {post.thumbnail ? (
-              <img
-                className="hot-topics-card__img"
-                src={imageUrl}
-                alt={post.thumbnailAltText}
-              />
+              <img className="hot-topics-card__img" src={imageUrl} alt={post.thumbnailAltText} />
             ) : (
               <div className="hot-topics-card__img-placeholder">
                 <IconContext.Provider
@@ -149,27 +136,22 @@ const HotTopicsCard = ({ post }) => {
               </div>
             )}
 
-            <span className="hot-topics-card__img-descr">
-              {post.thumbnailAltText}
-            </span>
+            <span className="hot-topics-card__img-descr">{post.thumbnailAltText}</span>
           </div>
           <div className="hot-topics-card__text-wrapper">
             <h2 className="hot-topics-card__title">{post.title}</h2>
             <div className="hot-topics-card__snippet">{post.postSnippet}</div>
             <NavLink
-            aria-label={post.title}
+              aria-label={post.title}
               className="hot-topics-card__button-link"
               to={
-                `channel/${post.channel.channelId}/` +
+                `/channel/${post.channel.channelId}/` +
                 (post.topic
                   ? `topic/${post.topic.topicId}/article/${post.postId}`
                   : `article/${post.postId}`)
               }
             >
-              <button
-                aria-label="Read More"
-                className="hot-topics-card__button"
-              >
+              <button aria-label="Read More" className="hot-topics-card__button">
                 Read more
               </button>
             </NavLink>

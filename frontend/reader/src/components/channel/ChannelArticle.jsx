@@ -2,34 +2,21 @@ import { CiTimer } from "react-icons/ci";
 import { IconContext } from "react-icons";
 import "./ChannelArticle.scss";
 import ReadMoreButton from "./ReadMoreButton";
-import { serverURL } from "../../script/server";
+import { mediaUrl } from "../../api/client";
 import { CiImageOn } from "react-icons/ci";
 import convertEstimatedReadingTime from "../../script/EstimatedReadingTImeConverter";
 import reformateDate from "../../script/reformateDate";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
 import { NavLink } from "react-router";
 
 const ChannelArticle = ({ post }) => {
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      easing: "ease-out",
-      once: true,
-    });
-  }, []);
-  const imageURL = post.thumbnail
-    ? `${serverURL}/api/v1/media/${post.thumbnail}`
-    : "";
-  const logoURL = post.channel.avatar
-    ? `${serverURL}/api/v1/media/${post.channel.avatar}`
-    : "";
+  const imageURL = post.thumbnail ? mediaUrl(post.thumbnail) : "";
+  const logoURL = post.channel.avatar ? mediaUrl(post.channel.avatar) : "";
   return (
     <div data-aos="fade-up" className="channel-latest-articles__article">
       <div className="channel-latest-articles__article-header">
         <div className="channel-latest-articles__logo-title-wrapper">
-          <NavLink aria-label={post.channel.name}
+          <NavLink
+            aria-label={post.channel.name}
             className="channel-latest-articles__logo-link"
             to={
               `/channel/${post.channel.channelId}` +
@@ -49,21 +36,15 @@ const ChannelArticle = ({ post }) => {
                 className="channel-list-item__logo channel-list-item__logo-placeholder channel-list-item__logo-placeholder_article"
                 style={{ backgroundColor: post.channel.logoPlaceholderColor }}
               >
-                <span data-aos="fade-zoom-in">
-                  {post.channel?.name?.charAt(0).toUpperCase()}
-                </span>
+                <span data-aos="fade-zoom-in">{post.channel?.name?.charAt(0).toUpperCase()}</span>
               </div>
             )}
           </NavLink>
 
           <div className="channel-latest-articles__title-wrapper">
-            <h4 className="channel-latest-articles__title">
-              {post.channel.name}
-            </h4>
+            <h4 className="channel-latest-articles__title">{post.channel.name}</h4>
             {post.topic ? (
-              <h5 className="channel-latest-articles__title-topic">
-                {post.topic.name}
-              </h5>
+              <h5 className="channel-latest-articles__title-topic">{post.topic.name}</h5>
             ) : (
               <></>
             )}
@@ -103,8 +84,7 @@ const ChannelArticle = ({ post }) => {
             ) : (
               <IconContext.Provider
                 value={{
-                  className:
-                    "channel-latest-articles__article-content-placeholder",
+                  className: "channel-latest-articles__article-content-placeholder",
                 }}
               >
                 <CiImageOn />
@@ -116,10 +96,9 @@ const ChannelArticle = ({ post }) => {
             </span>
           </div>
           <div className="channel-latest-articles__article-content-text-wrapper">
-            <p className="channel-latest-articles__article-content-text">
-              {post.postSnippet}
-            </p>
-            <NavLink aria-label={post.title}
+            <p className="channel-latest-articles__article-content-text">{post.postSnippet}</p>
+            <NavLink
+              aria-label={post.title}
               className="channel-latest-articles__article-read-more-link"
               to={
                 `/channel/${post.channel.channelId}/` +

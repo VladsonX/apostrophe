@@ -3,15 +3,11 @@ import "./NavigationBar.scss";
 import PageButton from "./PageButton";
 import LogOutButton from "./LogOutButton";
 import { FaHome } from "react-icons/fa";
-import { IoSettingsOutline } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
-import { LiaMapSignsSolid } from "react-icons/lia";
-import { BsMailboxFlag } from "react-icons/bs";
-import { IoSearch } from "react-icons/io5";
 import { useMediaQuery } from "react-responsive";
 
 function NavigationBar() {
-  const isMobile = useMediaQuery({ maxWidth: 992});
+  const isMobile = useMediaQuery({ maxWidth: 992 });
   return (
     <nav className="navigation-bar nav">
       <Link to="/" className="logo-container">
@@ -30,12 +26,7 @@ function NavigationBar() {
           />
 
           {isMobile ? (
-            <LogOutButton
-              mobile={true}
-              id="log-out"
-              icon={<MdLogout />}
-              title="Log Out"
-            />
+            <LogOutButton mobile={true} id="log-out" icon={<MdLogout />} title="Log Out" />
           ) : (
             <></>
           )}

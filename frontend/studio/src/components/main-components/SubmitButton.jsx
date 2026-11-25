@@ -1,11 +1,10 @@
 import "./SubmitButton.scss";
 
-const SubmitButton = ({ onClick, text }) => {
-  return (
-    <button onClick={onClick} className="SubmitButton">
-      {text}
-    </button>
-  );
-};
+// Extra props (type, form, disabled...) go straight to the <button>.
+const SubmitButton = ({ text, type = "button", ...buttonProps }) => (
+  <button type={type} className="SubmitButton" {...buttonProps}>
+    {text}
+  </button>
+);
 
 export default SubmitButton;

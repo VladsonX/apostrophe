@@ -1,48 +1,48 @@
+import { useState } from "react";
 import CreateTopicElement from "./CreateTopicElement";
-import "./TopicCard.scss";
-import TopicInput from "./TopicInput";
-import TopicTextArea from "./TopicTextArea";
 import SmallSubmitButton from "../main-components/SmallSubmitButton";
-import { useEffect, useState } from "react";
+import CharCountField from "../main-components/CharCountField";
+import "./TopicCard.scss";
+import "./TopicInput.scss";
+import "./TopicTextArea.scss";
 
-const TopicCard = ({ topic, updateTopic }) => {
-  const [updatedTopicName, setUpdatedTopicName] = useState(topic.name);
-  const [updatedTopicDescr, setUpdatedTopicDescr] = useState(topic.description);
-
-  useEffect(() => {
-    setUpdatedTopicName(topic.name || "New topic");
-    setUpdatedTopicDescr(topic.description || "Description");
-  }, [topic])
-
-  const handleSaveButtonClick = () => {
-    const newTopic = {
-      topicId: topic.topicId,
-      name: updatedTopicName,
-      description: updatedTopicDescr,
-    };
-    updateTopic(newTopic);
-    console.log("Topic card:", newTopic);
-  };
+// Keeps a local draft so changes apply only after "Save".
+const TopicCard = ({ topic, onSave }) => {
+  const [name, setName] = useState(topic.name);
+  const [description, setDescription] = useState(topic.description);
 
   return (
     <div className="topic-card">
       <CreateTopicElement title="Topic name">
-        <TopicInput
-          updateTopicName={setUpdatedTopicName}
-          topicName={updatedTopicName}
-          maxcharCount="64"
+        <CharCountField
+          value={name}
+          onChange={setName}
+          maxCharCount={64}
+          placeholder="Topic of my lovely channel"
+          className="topic-input"
+          counterClassName="topic-input__counter"
+          wrapperClassName="topic-input__wrapper"
+          required
         />
       </CreateTopicElement>
       <CreateTopicElement title="Topic description">
-        <TopicTextArea
-          updateTopicDescription={setUpdatedTopicDescr}
-          topicDescription={updatedTopicDescr}
-          maxcharCount="500"
+        <CharCountField
+          multiline
+          autoGrow
+          value={description}
+          onChange={setDescription}
+          maxCharCount={500}
+          placeholder="I really like this topic of my lovely channel"
+          className="topic-text-area__textarea"
+          counterClassName="topic-input__counter"
+          wrapperClassName="topic-input__wrapper"
         />
       </CreateTopicElement>
       <div className="topic-card__buttons-wrapper">
-        {/* <SmallSubmitButton text="Discard" color="red" /> */}
-        <SmallSubmitButton onClick={handleSaveButtonClick} text="Save" />
+        <SmallSubmitButton
+          onClick={() => onSave({ topicId: topic.topicId, name, description })}
+          text="Save"
+        />
       </div>
     </div>
   );

@@ -2,16 +2,14 @@ import "./ChannelListItem.scss";
 import { MdModeEdit } from "react-icons/md";
 import { IconContext } from "react-icons";
 import { NavLink } from "react-router";
-import { serverURL } from "../../script/server";
+import { mediaUrl } from "../../api/client";
 
 const ChannelListItem = ({ channel, aosEffect, aosDelay }) => {
   return (
     <li data-aos={aosEffect} data-aos-delay={aosDelay} className="channel-list-item">
       <NavLink
         className={({ isActive }) =>
-          isActive
-            ? "channel-list-item__link active"
-            : "channel-list-item__link"
+          isActive ? "channel-list-item__link active" : "channel-list-item__link"
         }
         key={channel.name}
         to={"channel/" + channel.channelId}
@@ -19,7 +17,7 @@ const ChannelListItem = ({ channel, aosEffect, aosDelay }) => {
         {channel.avatar ? (
           <img
             className="channel-list-item__logo"
-            src={serverURL + "/api/v1/media/" + channel.avatar}
+            src={mediaUrl(channel.avatar)}
             alt={channel.name}
           />
         ) : (

@@ -1,84 +1,34 @@
-import { useState } from "react";
-import "./CreateChannelTopics.scss";
 import TopicCard from "./TopicCard";
 import TopicsList from "./TopicsList";
 import TopicsListItem from "./TopicsListItem";
-import AddTopicListItem from "./AddTopicListItem";
-import { useEffect } from "react";
-import { v4 as uuidv4 } from 'uuid';
+import { useChannelForm } from "../create-channel-items/ChannelFormContext";
+import "./CreateChannelTopics.scss";
 
-const CreateChannelTopics = ({ channel, customImg, updateTopics, newTopics, setTopicClicked}) => {
-  console.log(customImg);
-  const [topicChosen, setTopicChosen] = useState();
-  const [updatedTopics, setUpdatedTopics] = useState(newTopics);
-  useEffect(() => {
-    if (channel && channel.topicsEnabled) {
-      setUpdatedTopics(channel.topics);
-      console.log("Topics loaded:", channel.topics);
-    }
-  }, [channel]);
+const CreateChannelTopics = () => {
+  const { channel, addTopic, updateTopic, selectedTopicId, setSelectedTopicId } = useChannelForm();
+  const selectedTopic = channel.topics.find((topic) => topic.topicId === selectedTopicId);
 
-  const handleTopicChanges = (updatedTopic) => {
-    const newTopics = updatedTopics.map((topic) =>
-      topic.topicId === updatedTopic.topicId ? { ...updatedTopic } : { ...topic },
-    
-    );
-    setUpdatedTopics(newTopics);
-    console.log("Create Channel Topics: updated topics:", newTopics);
-    updateTopics(newTopics);
-  };
-
-  const handleAddNewTopicClick = () => {
-    const newTopic = {
-      topicId: uuidv4(),
-      name: "New topic",
-      description: "Description",
-    };
-    console.log("Created new topic: ", newTopic);
-    setTopicChosen(newTopic);
-    console.log("Topic chosen: ", newTopic);
-    setUpdatedTopics([...updatedTopics, newTopic]);
-    console.log('Updated topics: ', updatedTopics);
-  };
-  const handleTopicClick = (topic) => {
-    setTopicChosen(topic);
-    setTopicClicked && setTopicClicked(topic);
-    console.log('Topic chosen: ', topic);
-  };
   return (
     <div className="create-channel-topics__wrapper">
       <TopicsList>
-        {updatedTopics &&
-          updatedTopics.map((topic) => (
-            <TopicsListItem
-              userImg={customImg}
-              onClick={() => handleTopicClick(topic)}
-              key={topic.topicId}
-              name={topic.name}
-              channel={channel}
-              className={`topics-list-item ${topicChosen?.topicId === topic.topicId ? "topics-list-item_active" : ""}`}
-            />
-          ))}
-        <AddTopicListItem
-          userImg={customImg}
-          onClick={() => handleAddNewTopicClick()}
-          key="AddNewTopic"
-          name="Add new topic +"
-          channel={channel}
-        />
+        {channel.topics.map((topic) => (
+          <TopicsListItem
+            key={topic.topicId}
+            channel={channel}
+            name={topic.name}
+            active={topic.topicId === selectedTopicId}
+            onClick={() => setSelectedTopicId(topic.topicId)}
+          />
+        ))}
+        <TopicsListItem channel={channel} name="Add new topic +" isAddButton onClick={addTopic} />
       </TopicsList>
       <div className="topics-card-wrapper">
-        {topicChosen ? (
-          <TopicCard
-            updateTopic={handleTopicChanges}
-            topic={topicChosen}
-            key={topicChosen.topicId}
-          />
+        {selectedTopic ? (
+          // key resets the card's draft when another topic is selected
+          <TopicCard key={selectedTopic.topicId} topic={selectedTopic} onSave={updateTopic} />
         ) : (
           <div className="topic-card__placeholder">
-            <p className="topic-card__placeholder-text">
-              Choose your topic or create new one
-            </p>
+            <p className="topic-card__placeholder-text">Choose your topic or create new one</p>
           </div>
         )}
       </div>

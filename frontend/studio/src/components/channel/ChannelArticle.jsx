@@ -2,28 +2,14 @@ import { CiTimer } from "react-icons/ci";
 import { IconContext } from "react-icons";
 import "./ChannelArticle.scss";
 import ReadMoreButton from "./ReadMoreButton";
-import { serverURL } from "../../script/server";
+import { mediaUrl } from "../../api/client";
 import { CiImageOn } from "react-icons/ci";
 import convertEstimatedReadingTime from "../../script/EstimatedReadingTImeConverter";
 import reformateDate from "../../script/reformateDate";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
 
 const ChannelArticle = ({ channel, post }) => {
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      easing: "ease-out",
-      once: true,
-    });
-  }, []);
-  const imageURL = post.thumbnail
-    ? `${serverURL}/api/v1/media/${post.thumbnail}`
-    : "";
-  const logoURL = channel.avatar
-    ? `${serverURL}/api/v1/media/${channel.avatar}`
-    : "";
+  const imageURL = post.thumbnail ? mediaUrl(post.thumbnail) : "";
+  const logoURL = channel.avatar ? mediaUrl(channel.avatar) : "";
   return (
     <div data-aos="fade-up" className="channel-latest-articles__article">
       <div className="channel-latest-articles__article-header">
@@ -31,7 +17,7 @@ const ChannelArticle = ({ channel, post }) => {
           {channel.avatar ? (
             <img
               data-aos="fade-zoom-in"
-              class="channel-latest-articles__logo"
+              className="channel-latest-articles__logo"
               src={logoURL}
               alt={channel.name}
             />
@@ -41,17 +27,13 @@ const ChannelArticle = ({ channel, post }) => {
               className="channel-list-item__logo channel-list-item__logo-placeholder channel-list-item__logo-placeholder_article"
               style={{ backgroundColor: channel.logoPlaceholderColor }}
             >
-              <span data-aos="fade-zoom-in">
-                {channel?.name?.charAt(0).toUpperCase()}
-              </span>
+              <span data-aos="fade-zoom-in">{channel?.name?.charAt(0).toUpperCase()}</span>
             </div>
           )}
           <div className="channel-latest-articles__title-wrapper">
             <h4 className="channel-latest-articles__title">{channel.name}</h4>
             {post.topic ? (
-              <h5 className="channel-latest-articles__title-topic">
-                {post.topic.name}
-              </h5>
+              <h5 className="channel-latest-articles__title-topic">{post.topic.name}</h5>
             ) : (
               <></>
             )}
@@ -91,8 +73,7 @@ const ChannelArticle = ({ channel, post }) => {
             ) : (
               <IconContext.Provider
                 value={{
-                  className:
-                    "channel-latest-articles__article-content-placeholder",
+                  className: "channel-latest-articles__article-content-placeholder",
                 }}
               >
                 <CiImageOn />
@@ -104,9 +85,7 @@ const ChannelArticle = ({ channel, post }) => {
             </span>
           </div>
           <div className="channel-latest-articles__article-content-text-wrapper">
-            <p className="channel-latest-articles__article-content-text">
-              {post.postSnippet}
-            </p>
+            <p className="channel-latest-articles__article-content-text">{post.postSnippet}</p>
             <ReadMoreButton post={post} />
           </div>
         </div>

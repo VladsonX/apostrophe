@@ -38,7 +38,8 @@ export async function apiRequest(path, { method = "GET", body, auth = true } = {
   }
 
   const text = await response.text();
-  const data = text ? JSON.parse(text) : null;
+  const isJson = response.headers.get("Content-Type")?.includes("application/json");
+  const data = isJson && text ? JSON.parse(text) : text || null;
 
   if (!response.ok) {
     throw new ApiError(data?.message ?? `Request failed (${response.status})`, response.status);

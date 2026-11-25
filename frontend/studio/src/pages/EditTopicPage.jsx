@@ -1,145 +1,72 @@
-import "./EditTopicPage.scss";
-import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { getCurrentJwtToken } from "../script/LocalStorageUtils";
-import { serverURL } from "../script/server";
+import { useNavigate, useParams } from "react-router";
 import MainSection from "../components/main-components/MainSection";
 import TopNavigationBar from "../components/top-navigation/TopNavigationBar";
-import SmalSubmitButton from "../components/main-components/SmallSubmitButton";
+import SmallSubmitButton from "../components/main-components/SmallSubmitButton";
 import MainContainer from "../components/main-components/MainContainer";
 import CreateChannelElement from "../components/create-channel-items/CreateChannelElement";
-import ChannelSettingsInput from "../components/create-channel-items/CreateChannelInput";
+import CreateChannelInput from "../components/create-channel-items/CreateChannelInput";
 import Loader from "../components/main-components/Loader";
 import Footer from "../components/main-components/Footer";
+import ErrorMessage from "../components/main-components/ErrorMessage";
+import { channelsApi } from "../api";
+import { useApi } from "../hooks/useApi";
+import "./EditTopicPage.scss";
 
 const EditTopicPage = () => {
-  const [channel, setChannel] = useState({});
-  const [topic, setTopic] = useState({});
-  const [topicName, setTopicName] = useState();
-  const [topicDescr, setTopicDescr] = useState();
   const { channelId, topicId } = useParams();
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-
-  const handleSubmitButton = async () => {
-    const token = getCurrentJwtToken();
-    if (!token) {
-      setError("User is not authenticated");
-      setLoading(false);
-      navigate("welcome");
-      return;
-    }
-
-    const topicUpdated = {
-      topicId: topicId,
-      name: topicName,
-      description: topicDescr,
-    };
-    const topicsPatch = {
-      topics: [
-        topicUpdated
-      ]
-    }
-    console.log(topicsPatch);
-    try {
-      const response = await fetch(
-        `${serverURL}/api/v1/channels/${channelId}`,
-        {
-          method: "PATCH",
-          body: JSON.stringify(topicsPatch),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch channels");
-      }
-    } catch (error) {}
-  };
+  const { data: channel, loading, error } = useApi(() => channelsApi.get(channelId), [channelId]);
+  const topic = channel?.topics.find((t) => t.topicId === topicId);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [saveError, setSaveError] = useState(null);
 
   useEffect(() => {
-    const fetchChannels = async () => {
-      const token = getCurrentJwtToken();
-      if (!token) {
-        setError("User is not authenticated");
-        setLoading(false);
-        navigate("welcome");
-        return;
-      }
+    if (topic) {
+      setName(topic.name);
+      setDescription(topic.description);
+    }
+  }, [topic]);
 
-      try {
-        const response = await fetch(
-          `${serverURL}/api/v1/channels/${channelId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch channels");
-        }
-        const channel = await response.json();
-        setChannel(channel);
-        const topicChosen = channel.topics.find(
-          (element) => element.topicId === topicId
-        );
-        console.log("Topic Chosen: " + topicChosen);
-        setTopic(topicChosen);
-        setTopicName(topicChosen.name)
-        setTopicDescr(topicChosen.description)
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchChannels();
-  }, [channelId, topicId, navigate]);
+  const save = async () => {
+    setSaveError(null);
+    try {
+      await channelsApi.update(channelId, { topics: [{ topicId, name, description }] });
+      navigate(`/channel/${channelId}/topic/${topicId}`);
+    } catch (err) {
+      setSaveError(err);
+    }
+  };
 
   return (
     <MainSection>
       <TopNavigationBar
-        button={
-          <SmalSubmitButton
-            onClick={handleSubmitButton}
-            text="Save"
-            position="absolute"
-          />
-        }
+        button={<SmallSubmitButton onClick={save} text="Save" position="absolute" />}
         channel={channel}
         topic={topic}
       />
       <MainContainer>
+        <ErrorMessage error={error ?? saveError} />
         {loading ? (
           <Loader />
         ) : (
           <>
             <CreateChannelElement name="Topic Name">
-              <ChannelSettingsInput
-                name={setTopicName}
-                descr={setTopicDescr}
-                key={topic.name}
-                channel={topic}
-                type="name"
+              <CreateChannelInput
+                value={name}
+                onChange={setName}
                 placeholder="My Lovely Topic"
-                maxCharCount="64"
+                maxCharCount={64}
               />
             </CreateChannelElement>
             <CreateChannelElement name="Topic Description">
-              <ChannelSettingsInput
-                name={setTopicName}
-                descr={setTopicDescr}
-                key={channel.name}
-                channel={topic}
-                type="description"
+              <CreateChannelInput
+                multiline
+                value={description}
+                onChange={setDescription}
                 placeholder="I really love my lovely topic"
-                maxCharCount="500"
+                maxCharCount={500}
               />
             </CreateChannelElement>
           </>

@@ -1,21 +1,10 @@
 import { NavLink } from "react-router";
 import "./TopNavigationBar.scss";
 import { IconContext } from "react-icons";
-import { serverURL } from "../../script/server";
+import { mediaUrl } from "../../api/client";
 
-const TopNavigationBar = ({
-  button,
-  channel = {},
-  topic,
-  post,
-  icon,
-  name,
-  aosEffect,
-  noButton,
-}) => {
-  const logoUrl = channel.avatar
-    ? `${serverURL}/api/v1/media/${channel.avatar}`
-    : null;
+const TopNavigationBar = ({ button, channel, topic, post, icon, name, aosEffect, noButton }) => {
+  const logoUrl = channel?.avatar ? mediaUrl(channel.avatar) : null;
   return (
     <section data-aos={aosEffect} className="top-nav">
       <div className="top-nav-path">
@@ -25,25 +14,16 @@ const TopNavigationBar = ({
           </IconContext.Provider>
         )}
 
-        <span
-          className={
-            noButton ? "top-nav-title top-nav-title_no-button" : "top-nav-title"
-          }
-        >
+        <span className={noButton ? "top-nav-title top-nav-title_no-button" : "top-nav-title"}>
           {name ? name : ""}
-          {channel && (
+          {channel?.channelId && (
             <NavLink
-
-            aria-label={channel.name}
+              aria-label={channel.name}
               to={`/channel/${channel.channelId}`}
               className="top-nav-link"
             >
               {channel.avatar ? (
-                <img
-                  src={logoUrl}
-                  alt={channel.name}
-                  className="top-nav-path__logo"
-                />
+                <img src={logoUrl} alt={channel.name} className="top-nav-path__logo" />
               ) : (
                 <></>
               )}
@@ -51,9 +31,9 @@ const TopNavigationBar = ({
               {channel.name}
             </NavLink>
           )}
-          {topic && (
+          {channel?.channelId && topic?.topicId && (
             <NavLink
-            aria-label={topic.name}
+              aria-label={topic.name}
               to={`/channel/${channel.channelId}/topic/${topic.topicId}`}
               className="top-nav-link"
             >
@@ -63,7 +43,7 @@ const TopNavigationBar = ({
           )}
           {post && topic ? (
             <NavLink
-            aria-label={post.title}
+              aria-label={post.title}
               to={`/channel/${channel.channelId}/topic/${topic.topicId}/readarticle/${post.postId}`}
               className="top-nav-link"
             >
@@ -73,7 +53,7 @@ const TopNavigationBar = ({
           ) : (
             post && (
               <NavLink
-              aria-label={post.title}
+                aria-label={post.title}
                 to={`/channel/${channel.channelId}/readarticle/${post.postId}`}
                 className="top-nav-link"
               >

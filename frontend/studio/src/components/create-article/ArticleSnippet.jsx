@@ -1,25 +1,18 @@
-import { useState } from "react";
+import CharCountField from "../main-components/CharCountField";
+import { useArticleField } from "./ArticleFormContext";
 import "./ArticleSnippet.scss";
 
-const ArticleSnippet = ({ maxCharCount, setValue, postCharCount, value }) => {
-  const [charCount, setCharCount] = useState(postCharCount && postCharCount);
+const ArticleSnippet = ({ maxCharCount }) => {
+  const [snippet, setSnippet] = useArticleField("postSnippet");
   return (
-    <>
-      <textarea
-        onInput={(e) => {
-          setValue(e.target.value);
-          setCharCount(e.target.value.length);
-        }}
-        maxLength={maxCharCount}
-        className="article-snippet"
-        name=""
-        id=""
-        value={value && value}
-      ></textarea>
-      <span className="article-img-descr__counter">
-        {charCount ? charCount : 0}/{maxCharCount}
-      </span>
-    </>
+    <CharCountField
+      multiline
+      value={snippet}
+      onChange={setSnippet}
+      maxCharCount={maxCharCount}
+      className="article-snippet"
+      counterClassName="article-img-descr__counter"
+    />
   );
 };
 

@@ -1,72 +1,28 @@
-import { useNavigate } from "react-router";
-import { putCurrentJwtToken } from "../script/LocalStorageUtils";
-import { useState, useEffect } from "react";
-import { getCurrentJwtToken } from "../script/LocalStorageUtils";
-import { serverURL } from "../script/server";
-
+import { useState } from "react";
+import { Navigate, useNavigate } from "react-router";
+import { useAuth } from "../auth/AuthContext";
+import ErrorMessage from "../components/main-components/ErrorMessage";
 import "./WelcomePage.scss";
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 const WelcomePage = () => {
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      easing: "ease-out",
-      once: true,
-    });
-  }, []);
-  const [emailInput, setEmalInput] = useState("");
+  const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-
-  const [isAuthenticated, setIsAuthenticated] = useState();
-
-  useEffect(() => {
-    const token = getCurrentJwtToken();
-    setIsAuthenticated(!!token);
-  }, []);
-
-  if (isAuthenticated === null) {
-    return null;
-  }
+  const { isAuthenticated, login } = useAuth();
 
   if (isAuthenticated) {
-    navigate("/");
+    return <Navigate to="/" replace />;
   }
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const formData = {
-      email: emailInput,
-      password: passwordInput,
-      targetSystem: "STUDIO",
-    };
-
+    setError(null);
     try {
-      const response = await fetch(`${serverURL}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Login successful:", data);
-        if (data.jwt) {
-          putCurrentJwtToken(data.jwt);
-          navigate("/");
-        }
-      } else {
-        const errorData = await response.json();
-        console.error("Login failed:", errorData);
-        alert(errorData.message || "Login failed");
-      }
-    } catch (error) {
-      console.error("Error occurred during login:", error);
-      alert("An error occurred. Please try again later.");
+      await login(emailInput, passwordInput);
+      navigate("/");
+    } catch (err) {
+      setError(err);
     }
   };
 
@@ -82,7 +38,7 @@ const WelcomePage = () => {
             </label>
             <input
               required
-              onChange={(e) => setEmalInput(e.target.value)}
+              onChange={(e) => setEmailInput(e.target.value)}
               className="welcome__form-input"
               type="email"
               id="emailInput"
@@ -102,9 +58,11 @@ const WelcomePage = () => {
               value={passwordInput}
             />
           </form>
+          <ErrorMessage error={error} />
         </div>
         <div data-aos="zoom-fade-in" className="welcome__buttons-wrapper">
           <button
+            aria-label="Log In"
             type="submit"
             form="logInForm"
             value="Submit"
@@ -113,6 +71,7 @@ const WelcomePage = () => {
             Log In
           </button>
           <button
+            aria-label="Sign up"
             onClick={() => navigate("/signup")}
             className="welcome__signUp"
           >

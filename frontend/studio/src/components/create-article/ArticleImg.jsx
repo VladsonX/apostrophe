@@ -1,67 +1,41 @@
-import "./ArticleImg.scss";
 import { useState } from "react";
-import { serverURL } from "../../script/server";
-import { useEffect } from "react";
+import { mediaApi } from "../../api";
+import { mediaUrl } from "../../api/client";
+import pickFile from "../../script/pickFile";
+import ErrorMessage from "../main-components/ErrorMessage";
+import { useArticleField } from "./ArticleFormContext";
+import "./ArticleImg.scss";
 
-const ArticleImg = ({ customImg, postImg }) => {
-  const [image, setImage] = useState(postImg ? `${serverURL}/api/v1/media/${postImg}` : null);
-  useEffect(() => {
-    if (postImg) {
-      setImage(`${serverURL}/api/v1/media/${postImg}`);
-    }
-  }, [postImg]);
+const ArticleImg = () => {
+  const [thumbnail, setThumbnail] = useArticleField("thumbnail");
+  const [error, setError] = useState(null);
 
   const handleAddImage = async () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.style.display = "none";
-
-    document.body.appendChild(input); // Добавляем input в DOM
-    input.click();
-
-    input.onchange = async () => {
-      const file = input.files[0];
-      if (!file) return;
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        const response = await fetch(`${serverURL}/api/v1/media`, {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to upload image");
-        }
-
-        const uuid = await response.text();
-        const imageUrl = `${serverURL}/api/v1/media/${uuid}`;
-        setImage(imageUrl);
-        customImg(uuid);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        document.body.removeChild(input); // Удаляем input из DOM
-      }
-    };
+    const file = await pickFile();
+    if (!file) return;
+    try {
+      setError(null);
+      setThumbnail(await mediaApi.upload(file));
+    } catch (err) {
+      setError(err);
+    }
   };
 
   return (
     <>
-      {image ? (
+      {thumbnail ? (
         <img
           className="article-img"
-          src={image}
-          alt="Uploaded"
+          src={mediaUrl(thumbnail)}
+          alt="Article thumbnail"
           onClick={handleAddImage}
         />
       ) : (
-        <button className="article-img" onClick={handleAddImage}>
+        <button type="button" className="article-img" onClick={handleAddImage}>
           <p className="article-img__text">Add +</p>
         </button>
       )}
+      <ErrorMessage error={error} />
     </>
   );
 };

@@ -1,35 +1,34 @@
 .error-page {
-    width: 100vw;
-    height: 100vh;
-    background-color: var(--deep-brown);
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--deep-brown);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__text-wrapper {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    &__text-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    &__text {
-      font-size: 1rem;
-      color: var(--white);
-      &_large {
-          font-size: 3rem;
-          margin-bottom: 1rem;
-      }
-    }
-    &__logo {
+  }
+  &__text {
+    font-size: 1rem;
+    color: var(--white);
+    &_large {
       font-size: 3rem;
-      color: var(--white);
-      font-weight: bold; 
-      background: var(--main-gradient);
-      -webkit-background-clip: text; 
-      -webkit-text-fill-color: transparent; 
-      margin-bottom: 2rem;
-    }
-    &__icon {
-      color: var(--discard);
       margin-bottom: 1rem;
     }
   }
-  
+  &__logo {
+    font-size: 3rem;
+    color: var(--white);
+    font-weight: bold;
+    background: var(--main-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
+  }
+  &__icon {
+    color: var(--discard);
+    margin-bottom: 1rem;
+  }
+}

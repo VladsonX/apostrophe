@@ -6,6 +6,7 @@ A content-publishing platform in the spirit of Medium/Substack, split into two R
 - **Reader** (`frontend/reader`) — where readers get a feed, explore content, search channels and follow channels or individual topics.
 - **Backend** (`backend`) — Java 17 / Spring Boot REST API with PostgreSQL, JWT auth and S3-compatible media storage.
 
+
 Originally built in early 2025 as a two-person capstone project: **Uladzislau Navitski** (both frontends) and **Aliaksei Yatsevich** ([MarshallBaby](https://github.com/MarshallBaby), backend). Revived and refactored in November 2026.
 
 ## Architecture
@@ -75,8 +76,10 @@ Both frontends read the API address from `VITE_API_URL` (see `.env.example`, def
 | Reader    | Vercel (root `frontend/reader`) | `VITE_API_URL` = backend URL, `vercel.json` handles SPA routes |
 | Studio    | Vercel (root `frontend/studio`) | same                                          |
 | Backend   | Render (Docker, root `backend`) | env vars as above, `PORT` is provided by Render |
-| Database  | Neon (PostgreSQL)        | use the JDBC URL in `POSTGRES_URL`                  |
-| Images    | Cloudflare R2            | S3-compatible, set `S3_ENDPOINT`                    |
+| Database  | Supabase PostgreSQL      | use the session pooler JDBC URL in `POSTGRES_URL`   |
+| Images    | Supabase Storage (S3 API)| set `S3_ENDPOINT=https://<project>.supabase.co/storage/v1/s3` |
+
+All of these have free tiers that don't need a card. The free Render instance sleeps after 15 minutes, so the first request after a pause takes ~1 minute.
 
 Demo account (created by `scripts/seed-demo.mjs`): `demo@apostrophe.dev` / `Demo12345!`
 

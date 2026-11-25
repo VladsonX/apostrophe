@@ -34,9 +34,10 @@ public class S3Configuration {
                 .region(Region.of(region))
                 .credentialsProvider(StaticCredentialsProvider.create(credentials));
 
-        // Optional custom endpoint for S3-compatible storage (e.g. Cloudflare R2).
+        // Optional custom endpoint for S3-compatible storage (Supabase Storage, Cloudflare R2...).
+        // These providers expect path-style URLs: <endpoint>/<bucket>/<key>.
         if (!endpoint.isBlank()) {
-            builder.endpointOverride(URI.create(endpoint));
+            builder.endpointOverride(URI.create(endpoint)).forcePathStyle(true);
         }
 
         return builder.build();

@@ -1,0 +1,29 @@
+.topic-mode-toggle {
+    position: relative;
+    width: 5rem;
+    height: 2rem;
+    background-color: var(--transparent);
+    border: 1px solid var(--settings);
+    border-radius: var(--radius);
+    padding: .3rem .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    &_active {
+        background-color: var(--soft-purple);
+        // .topic-mode-toggle__toggler {
+        //     transform: translateX(70%);
+            
+        // }
+
+    }
+    &__toggler {
+        width: 60%;
+        height: 90%;
+        border-radius: var(--radius);
+        background-color: var(--white);
+        &_active {
+            transform: translateX(70%);
+        }
+    }
+}

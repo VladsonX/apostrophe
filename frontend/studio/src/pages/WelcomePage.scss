@@ -1,0 +1,106 @@
+@use "../index.scss";
+
+.welcome {
+  background: var(--main-gradient);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__wrapper {
+    width: 100%;
+    min-height: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  &__card {
+    width: 30rem;
+    min-height: 12.5rem;
+    background: var(--glassy-gray);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 1.5rem;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  &__form-label {
+    color: var(--white);
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.625rem;
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+  &__form-input {
+    color: var(--project-black);
+    padding: 5px;
+    width: 100%;
+    height: 40px;
+    background-color: var(--white);
+    border-radius: var(--radius);
+    border: none;
+    font-size: 1.25rem;
+    font-weight: normal;
+    margin-bottom: 0.625rem;
+    padding: 5px 10px;
+    &::placeholder {
+      color: var(--placeholder);
+    }
+    &:focus {
+      outline: 2px solid var(--soft-purple);
+    }
+  }
+  &__buttons-wrapper {
+    display: flex;
+    width: 30rem;
+    height: 3rem;
+    gap: 1.5rem;
+  }
+  &__logIn {
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: var(--radius);
+    flex: 2 0 auto;
+    background-color: var(--project-black);
+    color: var(--white);
+    font-size: 1.25rem;
+    &:hover {
+      background-color: var(--soft-purple);
+    }
+  }
+  &__signUp {
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: var(--radius);
+    flex: 1 0 auto;
+    border: 2px solid var(--project-black);
+    color: var(--project-black);
+    font-size: 1.25rem;
+    background-color: var(--transparent);
+    &:hover {
+      background-color: var(--soft-purple);
+      color: var(--white);
+      border: 2px solid var(--soft-purple);
+    }
+  }
+}
+
+.logo {
+  color: var(--white);
+  font-weight: bold;
+  font-size: 3.5rem;
+  text-align-last: center;
+  // margin-bottom: 2.5rem;
+  &_studio {
+    color: var(--soft-purple);
+    font-weight: 500;
+    font-size: 2rem;
+    text-align-last: center;
+    margin-bottom: 2.5rem;
+  }
+}

@@ -1,0 +1,10 @@
+@use '../../index.scss';
+
+.divider {
+    width: 100%;
+    background: var(--glassy-gray);
+    height: 1px;
+    &_large {
+        height: 2px;
+    }
+}

@@ -1,0 +1,23 @@
+@use '../../variables';
+.article-img-descr {
+
+    align-items: center;
+    width: 75%;
+    min-height: 10.75rem;
+    background-color: var(--transparent);
+    border-radius: var(--radius);
+    border: 2px solid var(--project-black);
+    resize: none;
+    font-size: 1rem;
+    padding: 1rem;
+    color: var(--soft-gray);
+    transition: .5s all ease;
+    @media (max-width: variables.$mediaMD) {
+        width: 100%;
+    }
+    &:focus {
+        outline: 2px solid var(--soft-purple);
+        color: var(--white);
+    }
+
+}

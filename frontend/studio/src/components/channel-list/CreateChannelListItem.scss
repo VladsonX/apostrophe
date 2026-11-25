@@ -1,0 +1,38 @@
+@use "../../index.scss";
+
+.channel-list-item_create {
+  height: 40px;
+  &-text {
+    font-weight: 300;
+    font-size: 1.25rem;
+    color: var(--white);
+  }
+  &-add {
+    margin-right: 0.5rem;
+    cursor: pointer;
+  }
+  &-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: var(--radius);
+    height: 40px;
+    background-color: var(--transparent);
+    &:hover {
+      .channel-list-item_create-add,
+      .channel-list-item_create-text {
+        fill: var(--soft-purple);
+        color: var(--soft-purple);
+      }
+    }
+  }
+  &_topic {
+    &-add {
+      font-size: 1rem;
+    }
+    &-text {
+      font-size: 1rem;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+@use '../../index.scss';
+@use '../../variables';
+
+.create-channel-topics{
+    &__wrapper{
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        gap: 2rem;
+    }
+}
+
+.topics-card-wrapper {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: inherit;
+    @media (max-width: variables.$mediaMD) {
+        width: 60%;
+    }
+}
+

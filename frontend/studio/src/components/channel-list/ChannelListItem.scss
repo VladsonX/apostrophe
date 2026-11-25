@@ -1,0 +1,112 @@
+@use "../../index.scss";
+
+.channel-list-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  justify-content: space-between;
+  height: 60px;
+  width: 100%;
+  border-bottom: 1px solid transparent;
+  border-image: var(--glassy-gray);
+  border-image-slice: 1;
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+  &:hover {
+    .channel-list-item__link {
+      padding-left: 1rem;
+    }
+  }
+
+  &__link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: var(--radius);
+    height: 40px;
+    background-color: var(--transparent);
+    &_icon {
+      width: 5%;
+      display: flex;
+      justify-content: center;
+      &:hover {
+        background-color: var(--transparent) !important;
+      }
+    }
+
+    &:hover {
+      background-color: var(--project-black);
+    }
+  }
+  &__logo {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    display: inline-block;
+    margin-right: 0.75rem;
+  }
+  &__logo-placeholder {
+    transition: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    color: var(--white);
+    width: auto;
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    &_big {
+      aspect-ratio: 1 / 1;
+      width: auto;
+      height: 100%;
+      font-size: 3rem;
+    }
+    &_xxl {
+      aspect-ratio: 1 / 1;
+      width: auto;
+      height: 100%;
+      font-size: 5rem;
+      margin-right: 0;
+    }
+    &_article {
+      height: 100%;
+      margin-right: 0;
+      aspect-ratio: 1 / 1;
+      width: auto;
+
+    }
+  }
+  &__name {
+    &-channel {
+      font-weight: 500;
+      font-size: 1.25rem;
+      color: var(--white);
+      height: 60%;
+      &-no-topic {
+        height: 100%;
+      }
+    }
+    &-topic {
+      height: 40%;
+      font-weight: 300;
+      color: var(--soft-purple);
+      font-size: 1rem;
+    }
+
+    &-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  }
+  &__edit {
+    cursor: pointer;
+    &:hover {
+      fill: var(--soft-purple);
+    }
+  }
+}

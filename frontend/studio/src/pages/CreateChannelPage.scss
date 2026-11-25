@@ -1,0 +1,58 @@
+@use "../index.scss";
+
+
+
+.create-channel-page {
+  width: 75%;
+  &__confirmation {
+    margin-top: 5rem;
+    padding: 2rem;
+    width: 80%;
+    height: 20rem;
+    border-radius: var(--radius);
+    background-color: var(--transparent);
+    border: 2px solid var(--project-black);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    &-text {
+      font-size: 1rem;
+      color: var(--white);
+      &_big {
+        font-size: 1.25rem;
+      }
+      &_color {
+        color: var(--soft-purple);
+      }
+      &_gradient {
+        color: var(--link);
+      }
+    }
+  }
+}
+
+.topic-mode-description {
+  width: 90%;
+  font-size: 1rem;
+  color: var(--settings);
+  font-weight: 400;
+  &_mode {
+    color: var(--soft-purple);
+    font-weight: 700;
+  }
+  &_bold {
+    color: var(--discard);
+
+  }
+  &_topics-mode {
+    margin: 0 0 2rem;
+    color: var(--discard);
+  }
+}
+
+.topic-mode-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+}

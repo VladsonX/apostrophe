@@ -1,0 +1,25 @@
+@use "../../variables";
+.channel-latest-articles {
+  &__article-read-more {
+    width: 100%;
+    height: 2rem;
+    background-color: var(--transparent);
+    border-radius: var(--radius);
+    border: 1px solid var(--soft-gray);
+    color: var(--soft-gray);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    &:hover {
+      background-color: var(--soft-purple);
+      color: var(--white);
+      border: 1px solid var(--project-black);
+    }
+    @media (max-width: variables.$mediaSM) {
+      height: 2.5rem;
+    }
+    &-link {
+      width: 100%;
+    }
+  }
+}

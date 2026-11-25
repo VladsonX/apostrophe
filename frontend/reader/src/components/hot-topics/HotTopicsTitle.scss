@@ -1,0 +1,9 @@
+.hot-topics__heading {
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 500;
+  background: var(--main-gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}

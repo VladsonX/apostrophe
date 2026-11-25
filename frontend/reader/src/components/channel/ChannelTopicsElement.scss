@@ -1,0 +1,26 @@
+@use "../../index.scss";
+@use '../../variables';
+
+.channel-topics-element {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  &__topics-wrapper {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: 3rem;
+    gap: 1rem;
+    width: 100%;
+    & > li {
+      display: flex;
+      align-items: center;
+    }
+    @media (max-width: variables.$mediaSM) {
+    grid-template-columns: 1fr 1fr;
+      
+    }
+  }
+}

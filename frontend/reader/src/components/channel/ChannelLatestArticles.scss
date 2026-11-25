@@ -1,0 +1,27 @@
+@use "../../index.scss";
+@use '../../variables';
+
+.channel-latest-articles {
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 6fr 6fr;
+    grid-auto-rows: 4fr;
+    gap: 2rem;
+    @media (max-width: variables.$mediaMD) {
+    grid-template-columns: 6fr;
+    }
+  }
+  &__no-articles {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 23.625rem;
+
+    border: 2px solid var(--project-black);
+    border-radius: var(--radius);
+    color: var(--settings);
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+}

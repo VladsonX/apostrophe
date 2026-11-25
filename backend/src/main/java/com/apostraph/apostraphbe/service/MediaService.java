@@ -83,6 +83,7 @@ public class MediaService {
     private Pair<byte[], String> findLocally(UUID key) throws IOException {
 
         File directory = new File(localMediaStoragePath);
+        directory.mkdirs();
 
         if (directory.exists() && directory.isDirectory()) {
 
